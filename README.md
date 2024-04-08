@@ -25,9 +25,9 @@ This script is designed to generate and send contact information to the EvaluAge
 The script can be executed from the command line with various arguments to perform different tasks:
 
 1. Initialize required files and directories: `node gen.js init`.
-2. Add a new API key: `node gen.js add [key_name] [key_value] [encryption_key]`.
+2. Add a new API key: `node gen.js add [contract_name] [api key:secret key] [encryption_key]`.
 3. List all keys in the keyfile: `node gen.js list [encryption_key]`.
-4. Delete a key from the keyfile: `node gen.js del [key_name] [encryption_key]`.
+4. Delete a key from the keyfile: `node gen.js del [contract_name] [encryption_key]`.
 5. Generate and send contacts: `node gen.js contacts [contract_name] [contact_type] [number_of_contacts] [interval] [decryption_key]`.
 
 ### Contact Generation
