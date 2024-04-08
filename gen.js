@@ -789,6 +789,25 @@ function setLog() {
     });
 }
 
+//This function checks for the .DS_Store files that seems to appear in the calls folder, which causes upload issues.
+function deleteDsStore() {
+    const filePath = path.join('./calls/', '.DS_Store');
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err){
+            return
+        }
+        else {
+            fs.unlink(filePath, (unlinkErr) => {
+                if (unlinkErr) {
+                    console.log(red, 'Error deleted .DS_Store', unlinkErr);
+                } else {
+                    console.log(blue, '.DS_Store deleted.')
+                }
+            })
+        }
+    })
+}
+
 
 console.clear('')
 console.log(blue + 'evaluagent API contact generator' + reset)
@@ -796,6 +815,10 @@ console.log(blue + 'evaluagent API contact generator' + reset)
 setLog()
 let logTitle = getDateAndTime()
 writeData(logTitle)
+
+//Checking for .DS_Store and deleting
+deleteDsStore()
+
 // checking arguments passed in from command line
 if (args[0] === "init") {
     checkForRequiredFiles()
