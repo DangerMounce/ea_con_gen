@@ -71,7 +71,7 @@ function checkForRequiredFiles() {
     const logFilePath = path.join(__dirname, 'outputLog.json');
     const keyFile = path.join(__dirname, 'keyFile.json')
     console.clear('')
-    console.log(blue + 'evaluagent API contact generator' + reset)
+    console.log(chalk.bold.blue('evaluagent API contact generator'))
     directories.forEach(directory => {
         const dirPath = path.join(__dirname, directory)
 
@@ -105,7 +105,7 @@ function checkForRequiredFiles() {
             output: process.stdout
         });
         fs.writeFileSync(keyFile, '', 'utf8');
-        console.log('>' + green + 'keyFile created' + reset)
+        console.log('>', chalk.green('keyFile created'))
         let testKey = { "blank": "1234:5678" }
         addKey(testKey)
         rl.question('Please enter an encyption key: ', (password) => {
@@ -184,8 +184,7 @@ function getKeyFileKeys(encryptionKey) {
                 jsonData = JSON.parse(data);
                 const keys = Object.keys(jsonData);
                 console.clear()
-                console.log(`${blue}ea contact generator`)
-                console.log(reset)
+                console.log(chalk.blue('ea contact generator'))
                 console.log('Contracts:', keys);
             } catch (parseErr) {
                 console.error('An error occurred while parsing the keyFile:', parseErr);
@@ -217,15 +216,11 @@ async function deleteKeyFromFile(contract, encryptionKey) {
             await fs.promises.writeFile(keyFilePath, JSON.stringify(jsonData, null, 2), 'utf8');
             encryptAndOverwriteFile(encryptionKey)
             console.clear()
-            console.log(green)
-            console.log(`The key '${contract}' has been removed from keyFile.json.`);
-            console.log(reset)
+            console.log(chalk.green(`The key '${contract}' has been removed from keyFile.json.`));
         } else {
             encryptAndOverwriteFile(encryptionKey)
             console.clear()
-            console.log(red)
-            console.log(`The key '${contract}' does not exist in keyFile.json.`);
-            console.log(reset)
+            console.log(chalk.red(`The key '${contract}' does not exist in keyFile.json.`));
         }
     } catch (error) {
         console.error('An error occurred:', error);
