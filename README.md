@@ -12,13 +12,13 @@ This script is designed to generate and send contact information to the EvaluAge
 ## Requirements
 
 - Node.js
-- Dependencies: `fs`, `axios`, `crypto`, `FormData`, `readline`, `music-metadata`, `path`, `stream/consumers`, and `console`.
+- Dependencies: `fs`, `axios`, `crypto`, `FormData`, `readline`, `music-metadata`, `path`, `stream/consumers`, 'chalk', and `console`.
 
 ## Setup
 
 1. Clone the repository or download the script.
 2. Ensure you have Node.js installed on your machine.
-3. Install required Node.js packages: `npm install axios crypto form-data music-metadata`.
+3. Install required Node.js packages: `npm install axios crypto form-data music-metadata chalk@4.1.0`.
 
 ## Usage
 

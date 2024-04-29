@@ -7,13 +7,9 @@ const readline = require('readline');
 const mm = require('music-metadata');
 const path = require('path');
 const { json } = require('stream/consumers');
-const { log } = require('console');
+// const { log } = require('console');
+const chalk = require('chalk');
 const args = process.argv.slice(2);
-// ANSI escape codes for text color
-const red = '\x1b[31m';
-const green = '\x1b[32m';
-const blue = "\x1b[34m";
-const reset = '\x1b[0m';
 const API_URL = 'https://api.evaluagent.com/v1';
 let key = '';
 let agentList = [];
@@ -81,7 +77,7 @@ function checkForRequiredFiles() {
 
         if (!fs.existsSync(dirPath)) {
             fs.mkdirSync(dirPath, { recursive: true })
-            console.log(`>${green}${directory} directory created.${reset}`)
+            console.log('>', chalk.green(`${directory} directory created`))
         }
     })
 
@@ -89,20 +85,20 @@ function checkForRequiredFiles() {
         console.log('output.log exists. Clearing its contents...');
         // Using fs.truncateSync to clear the contents
         fs.truncateSync(logFilePath, 0);
-        console.log('>' + green + 'output.log has been cleared.' + reset);
+        console.log('>', chalk.green('output.log has been cleared.'))
         let data = getDateAndTime()
         writeData(data)
     } else {
         // Creating a new, empty file
         fs.writeFileSync(logFilePath, '', 'utf8');
-        console.log('>' + green + 'output.log has been created.' + reset);
+        console.log('>', chalk.green('output.log has been cleared.'))
         let data = getDateAndTime()
         writeData(data)
     }
 
     if (fs.existsSync(keyFile)) {
         console.log('>' + green + 'keyFile exists' + reset)
-        console.log('end')
+        console.log('>', chalk.green('keyFile exists'))
     } else {
         const rl = readline.createInterface({
             input: process.stdin,
@@ -144,9 +140,7 @@ function writeData(data) {
         // Append the JSON string to the file
         fs.appendFile('outputLog.json', jsonData + '\n', 'utf8', (error) => {
             if (error) {
-                console.log("\x1b[31m");
-                console.error('An error occurred while creating log:', error.message);
-                console.log("\x1b[0m");
+                console.log(chalk.bold.red('Error: ', error.message))
                 reject(error); // Reject the Promise if there's an error
             } else {
                 resolve(); // Resolve the Promise when operation is successful
@@ -163,9 +157,7 @@ function addKey(data) {
         // Append the JSON string to the file
         fs.appendFile('keyFile.json', jsonData + '\n', 'utf8', (error) => {
             if (error) {
-                console.log("\x1b[31m");
                 console.error('An error occurred while adding key:', error.message);
-                console.log("\x1b[0m");
                 reject(error); // Reject the Promise if there's an error
             } else {
                 resolve(); // Resolve the Promise when operation is successful
@@ -280,9 +272,7 @@ function addNewApiKey(contract, apiKey, encyptionKey) {
     // Read content of the file
     fs.readFile(keyFilePath, 'utf-8', (err, data) => {
         if (err) {
-            console.log(red)
-            console.error('An error occurred reading the keyFile: ', err)
-            console.log(reset)
+            console.error(chalk.bold.red('An error occured reading the keyFile: ', err))
             return
         }
 
@@ -291,9 +281,8 @@ function addNewApiKey(contract, apiKey, encyptionKey) {
         try {
             jsonData = JSON.parse(data);
         } catch (parseErr) {
-            console.log(red)
-            console.error('An error occurred while parsing the keyFile: ', parseErr)
-            console.log(reset)
+
+            console.error(chalk.bold.red('An error occurred while parsing the keyFile: ', parseErr))
             encryptAndOverwriteFile(encyptionKey)
             console.clear()
             return;
@@ -301,9 +290,7 @@ function addNewApiKey(contract, apiKey, encyptionKey) {
 
         // Check if the contract already exists
         if (jsonData.hasOwnProperty(contract)) {
-            console.log(red)
-            console.error(`An error occurred: The key '${contract}' already exists.`)
-            console.log(reset)
+            console.error(chalk.bold.red(`An error occurred: The key '${contract}' already exists.`))
             encryptAndOverwriteFile(encyptionKey)
             return;
         }
@@ -317,17 +304,12 @@ function addNewApiKey(contract, apiKey, encyptionKey) {
         // Write the updated JSON string back to the file
         fs.writeFile(keyFilePath, updatedJsonData, 'utf8', (writeErr) => {
             if (writeErr) {
-                console.log(red)
-                console.error('An error occurred writing back to the keyFile: ', writeErr)
-                console.log(reset)
+                console.error(chalk.bold.red('An error occurred writing back to the keyFile: ', writeErr))
                 return
             }
             encryptAndOverwriteFile(encyptionKey)
             console.clear()
-            console.log(green)
-            console.log(`API key '${contract}' added to keyfile.`)
-            console.log(reset)
-
+            console.log(chalk.bold.green(`API key '${contract}' added to keyfile.`))
         })
     })
 }
@@ -347,15 +329,13 @@ function validateArgs(args) {
     const areBothNumbers = !isNaN(parseFloat(args[3])) && isFinite(args[3]) &&
         !isNaN(parseFloat(args[4])) && isFinite(args[4]);
     if (!areBothNumbers) {
-        console.log(red)
-        console.log('Error: number of contacts and/or interval values are invalid.')
+        console.log(chalk.bold.red('Error: number of contacts and/or interval values are invalid.'))
         return
     }
     //Check if contact type is (c)all, (t)icket, or (b)oth
     // Validate contactType
     if (!['t', 'c', 'b'].includes(args[2])) {
-        console.log(red)
-        console.log('Error: Invalid contact type: ', args[2])
+        console.log(chalk.bold.red('Error: Invalid contact type: ', args[2]))
         process.exit(1)
     }
     getApiKey(args[1])
@@ -368,17 +348,14 @@ function getApiKey(contractName) {
     //Read and parse the keyFile
     fs.readFile(keyFilePath, 'utf8', (err, data) => {
         if (err) {
-            console.log(red)
-            console.log('An error occured reading the keyFile: ', err)
-            console.log(reset)
+            console.log(chalk.bold.red('An error occured reading the keyFile: ', err))
             return;
         }
         let jsonData;
         try {
             jsonData = JSON.parse(data)
         } catch (parseErr) {
-            console.log(red)
-            console.error('An error occured while parsing the keyFile: ', parseErr);
+            console.error(chalk.bold.red('An error occured while parsing the keyFile: ', parseErr));
             encryptAndOverwriteFile(args[5])
             return;
         }
@@ -387,12 +364,12 @@ function getApiKey(contractName) {
             encryptAndOverwriteFile(args[5])
             key = jsonData[contractName]
             console.clear()
-            console.log(`${blue}EA Contact Generator - version ${version}`)
+            console.log(chalk.bold.blue(`EA Contact Generator - version ${version}`))
             console.log('')
-            console.log(`${reset}Contract Name - ${green} ${contractName}`)
-            console.log(`${reset}Contact Type - ${green} ${args[2]}`)
-            console.log(`${reset}Number of Contacts - ${green} ${args[3]}`)
-            console.log(`${reset}Interval - ${green} ${args[4]} seconds`)
+            console.log(`Contract Name - `, chalk.green(contractName))
+            console.log('Contact Type - ', chalk.green(args[2]))
+            console.log('Number of Contacts - ', chalk.green(args[3]))
+            console.log('Interval - ', chalk.green(`${args[4]} seconds`))
             // writing to log
             let logData = {
                 "contract": contractName,
@@ -418,9 +395,7 @@ async function checkEndPoint(key) {
         if (response) {
             const agentRole = response.find(role => role.attributes.name === 'agent')
             if (!agentRole) {
-                console.log('\x1b[32m')
-                console.log('Connected to end point.')
-                console.log('\x1b[31m')
+                console.log(chalk.green('Connected to end point.'))
                 throw new Error("Agent role was not found.");
                 return
             }
@@ -428,13 +403,12 @@ async function checkEndPoint(key) {
                 let logEntry = {
                     "agentRole.id": agentRole.id
                 }
-                console.log(`${reset}Agent ID - ${green} ${agentRole.id}`)
+                console.log('Agent ID - ', chalk.green(agentRole.id))
                 getUserList(agentRole.id)
             }
         }
     } catch (error) {
-        console.log(`${red}Error: ${error.response.data.errors[0].detail}`)
-        console.log(reset)
+        console.log(chalk.bold.red(`Error: ${error.response.data.errors[0].detail}`))
         process.exit(1)
     }
 }
@@ -448,7 +422,7 @@ async function getUserList(agentRoleId) {
             email: agent.attributes.email,
             agent_id: agent.id
         }))
-    console.log(`${reset}Agents found: ${green} ${agentList.length}`)
+    console.log(`Agents found: `, chalk.green(agentList.length))
     promptForConfirmation()
 }
 
@@ -477,7 +451,7 @@ function promptForConfirmation() {
         input: process.stdin,
         output: process.stdout
     });
-    console.log("\x1b[0m")
+    console.log('')
     rl.question('Ready? (y/n) ', (answer) => {
         if (answer.toLowerCase() === 'y') {
             let logEntry = {
@@ -487,17 +461,12 @@ function promptForConfirmation() {
             sendContacts(args[3])
 
         } else if (answer.toLowerCase() === 'n') {
-            console.log(blue)
-            console.log('Goodbye.');
-            console.log(reset)
+            console.log(chalk.blue('Goodbye.'));
             rl.close();
         } else {
-            console.log('\x1b[31m')
-            console.log('Invalid input.');
+            console.log(chalk.bold.red('Invalid input.'));
             rl.close()
         }
-
-
     });
 }
 
@@ -520,8 +489,8 @@ async function directoryIsEmpty(directory) {
 }
 
 async function sendContacts(number) {
-    console.log(blue)
-    console.log(`Status:`)
+    console.log('')
+    console.log(chalk.bold.blue(`Status:`))
     for (let c = 0; c < number; c++) {
         const exportContact = await createContact()
         writeData(exportContact)
@@ -543,20 +512,19 @@ async function sendContacts(number) {
                     "result": result.message
                 }
                 writeData(logData)
-                console.log(reset, `${c + 1} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email}) - ${green}${serverResponse}`);
+                console.log(`${c + 1} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email}) -`, chalk.bold.green(serverResponse))
             } else {
                 serverResponse = result.errors[0].title
                 let logData = {
                     "failed": result
                 }
                 writeData(logData)
-                console.log(reset, `${c + 1} | ${exportContact.data.reference} | ${red}Error${reset} - ${red}${serverResponse}`);
+                console.log(`${c + 1} | ${exportContact.data.reference} | ${red}Error${reset} - `, chalk.bold.red(serverResponse))
             }
 
             if (c + 1 === parseInt(args[3], 10)) {
-                console.log(blue);
-                console.log(`Job complete.`);
-                console.log(reset)
+                console.log('')
+                console.log(chalk.bold.green(`Job complete.`));
                 process.exit(1)
             }
         } catch (error) {
@@ -575,15 +543,13 @@ async function createContact() {
     if (args[2] === "c") {
 
         if (callDirectoryEmpty) {
-            console.log(`${red}Call directory is empty`)
-            console.log(reset)
+            console.log(chalk.bold.red('Call directory is empty.'))
             process.exit(1)
         }
         contactTemplate = await generateCall(agentList)
     } else if (args[2] === "t") {
         if (ticketDirectoryEmpty) {
-            console.log(`${red}Ticket directory is empty`)
-            console.log(reset)
+            console.log(chalk.bold.red('Ticket directory is empty.'))
             process.exit(1)
         }
 
@@ -594,16 +560,14 @@ async function createContact() {
         // Call generateCall or generateChat based on the random number
         if (randomChoice === 0) {
             if (ticketDirectoryEmpty) {
-                console.log(`${red}Ticket directory is empty`)
-                console.log(reset)
+                console.log(chalk.bold.red('Ticket directory is empty.'))
                 process.exit(1)
             }
             contactTemplate = await generateCall(finalAgentList);
 
         } else {
             if (callDirectoryEmpty) {
-                console.log(`${red}Call directory is empty`)
-                console.log(reset)
+                console.log(chalk.bold.red('Call directory is empty.'))
                 process.exit(1)
             }
             contactTemplate = await generateChat(finalAgentList);
@@ -670,8 +634,8 @@ async function uploadAudio(audioSelection) {
             "audio upload": error.message
         }
         writeData(logEntry)
-        console.error(`${reset}There was a problem with the audio upload for '${audioSelection}': ${error.message}`);
-        console.log(`${red}Aborting job to prevent blank call uploads`)
+        console.error(`There was a problem with the audio upload for `, chalk.bold.white(audioSelection), ' : ', chalk.bold.red(error.message))
+        console.log(chalk.bold.red('Aborting job to prevent blank call uploads'))
         process.exit()
     }
 }
@@ -782,9 +746,7 @@ function delay(seconds) {
 function setLog() {
     fs.writeFile('outputLog.json', '', 'utf8', (error) => {
         if (error) {
-            console.log("\x1b[31m"); // Set text color to red
             console.error('An error occurred initialising the log:', error.message);
-            console.log("\x1b[0m"); // Reset text color
         }
     });
 }
@@ -799,9 +761,9 @@ function deleteDsStore() {
         else {
             fs.unlink(filePath, (unlinkErr) => {
                 if (unlinkErr) {
-                    console.log(red, 'Error deleted .DS_Store', unlinkErr);
+                    console.log('Error deleted .DS_Store', unlinkErr);
                 } else {
-                    console.log(blue, '.DS_Store deleted.')
+                    console.log('.DS_Store deleted.')
                 }
             })
         }
@@ -810,7 +772,8 @@ function deleteDsStore() {
 
 
 console.clear('')
-console.log(blue + 'evaluagent API contact generator' + reset)
+console.log(chalk.bold.blue('evaluagent API Contact Generator'))
+
 
 setLog()
 let logTitle = getDateAndTime()
@@ -824,29 +787,26 @@ if (args[0] === "init") {
     checkForRequiredFiles()
 } else if (args[0] === "add") {
     if (args.length > 4) {
-        console.log(red)
-        console.log('Error: too many arguments')
+        console.log(chalk.bold.red('Error: too many arguments'))
     } else {
         addNewApiKey(args[1], args[2], args[3])
     }
 } else if (args[0] === "list"){
     if (args.length > 2) {
-        console.log(red)
-        console.log('Error: too many arguments')
+        console.log(chalk.bold.red('Error: too many arguments'))
     } else {
         getKeyFileKeys(args[1])
     }
 } else if (args[0] === "del"){
     if (args.length > 3) {
-        console.log(red)
-        console.log('Error: too many arguments')
+        console.log(chalk.bold.red('Error: too many arguments'))
     } else {
         deleteKeyFromFile(args[1], args[2])
     }
 }else if (args[0] === "contacts") {
     if (args.length != 6) {
-        console.log(red)
-        console.log('Invalid arguments' + reset)
+        console.log('')
+        console.log(chalk.bold.red('Invalid arguments'))
         console.log()
         console.log('Usage: [contacts] [contract name] [contact type] [number of contacts] [interval] [decryption key]')
     } else {
@@ -858,5 +818,5 @@ if (args[0] === "init") {
     encryptAndOverwriteFile(args[1])
 } else {
     console.log()
-    console.log(red + "Error: invalid arguments" + reset)
+    console.log(chalk.bold.red('Invalid arguments'))
 }
