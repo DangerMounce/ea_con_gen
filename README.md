@@ -12,7 +12,7 @@ This script is designed to generate and send contact information to the EvaluAge
 ## Requirements
 
 - Node.js
-- Dependencies: `fs`, `axios`, `crypto`, `FormData`, `readline`, `music-metadata`, `path`, `stream/consumers`, 'chalk', and `console`.
+- Dependencies: `fs`, `axios`, `crypto`, `FormData`, `readline`, `music-metadata`, `path`, `stream/consumers`, `chalk`, and `console`.
 
 ## Setup
 
