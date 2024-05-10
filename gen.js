@@ -1,22 +1,31 @@
-const version = "10_0"
-const fs = require('fs');
-const axios = require('axios');
-const crypto = require('crypto');
-const FormData = require('form-data');
-const readline = require('readline');
-const mm = require('music-metadata');
-const path = require('path');
-const { json } = require('stream/consumers');
-// const { log } = require('console');
-const chalk = require('chalk');
-const args = process.argv.slice(2);
-const API_URL = 'https://api.evaluagent.com/v1';
-let key = '';
-let agentList = [];
-let finalAgentList = [];
-let contactType = '';
-let numberOfContacts = '';
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import { fileURLToPath } from 'url';
+import inquirer from 'inquirer';
+import crypto from 'crypto';
+import axios from 'axios';
+import { time } from 'console';
+import fetch from 'node-fetch';
+import btoa from 'btoa';
+import mm from 'music-metadata';
+import FormData from 'form-data';
 
+const version = '11.1'
+const TARGET_FILE = 'keyFile.json'
+const API_URL = 'https://api.evaluagent.com/v1';
+
+let args = process.argv.slice(2);
+let encryptionKey = null
+let keyFileEncrypted
+let password
+let agentRoleId
+let key
+let agentList = [];
+let contractName = null;
+let contactType = null;
+let contactsToCreate = null;
+let timeInterval = null;
 
 // Chat Template
 let chatTemplate = {
@@ -63,72 +72,111 @@ let callTemplate = {
     }
 }
 
-// Requirements: 
-// calls, directories, outputLog.json, keyFile.json
-// check if each of these exists, if not, function should be called to create
-function checkForRequiredFiles() {
-    const directories = ['calls', 'tickets']
-    const logFilePath = path.join(__dirname, 'outputLog.json');
-    const keyFile = path.join(__dirname, 'keyFile.json')
-    console.clear('')
-    console.log(chalk.bold.blue('evaluagent API contact generator'))
-    directories.forEach(directory => {
-        const dirPath = path.join(__dirname, directory)
-
-        if (!fs.existsSync(dirPath)) {
-            fs.mkdirSync(dirPath, { recursive: true })
-            console.log('>', chalk.green(`${directory} directory created`))
+// Check to ensure that the file passed through exists.  If not, create it.
+async function ensureFileExists(file) {
+    if (!fs.existsSync(file)) {
+        fs.writeFileSync(file, '')
+        console.log(chalk.white(file.split('/').pop(), chalk.bold.blue('CREATED')))
+        if (file.split('/').pop() === 'keyFile.json') {
+            fs.writeFileSync(file, '{}', 'utf8');
+            keyFileEncrypted = false
+            if (!keyFileEncrypted) { // keyFile is not encrypted
+                let password = await promptForPassword()
+                encryptFile(password)
+                keyFileEncrypted = true
+            }
+        } else {
+            clearOutputLog()
         }
-    })
-
-    if (fs.existsSync(logFilePath)) {
-        console.log('output.log exists. Clearing its contents...');
-        // Using fs.truncateSync to clear the contents
-        fs.truncateSync(logFilePath, 0);
-        console.log('>', chalk.green('output.log has been cleared.'))
-        let data = getDateAndTime()
-        writeData(data)
     } else {
-        // Creating a new, empty file
-        fs.writeFileSync(logFilePath, '', 'utf8');
-        console.log('>', chalk.green('output.log has been cleared.'))
-        let data = getDateAndTime()
-        writeData(data)
-    }
-
-    if (fs.existsSync(keyFile)) {
-        console.log('>' + green + 'keyFile exists' + reset)
-        console.log('>', chalk.green('keyFile exists'))
-    } else {
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
-        fs.writeFileSync(keyFile, '', 'utf8');
-        console.log('>', chalk.green('keyFile created'))
-        let testKey = { "blank": "1234:5678" }
-        addKey(testKey)
-        rl.question('Please enter an encyption key: ', (password) => {
-            rl.close()
-            encryptAndOverwriteFile(password)
-        })
+        keyFileEncrypted = true
+        console.log(chalk.white(file.split('/').pop(), chalk.bold.green('✅')))
     }
 }
 
-// Just gets the date and time
-function getDateAndTime() {
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+//Encrypts the keyfile
+async function encryptFile(password) {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const filePath = path.join(__dirname, TARGET_FILE);
+    const salt = crypto.randomBytes(16); // Generate a new, random salt for each encryption
+    try {
+        const key = crypto.scryptSync(password, salt, 32);
+        const iv = crypto.randomBytes(16);
+        const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
 
-    const now = new Date();
-    const dayName = days[now.getDay()];
-    const day = now.getDate();
-    const month = months[now.getMonth()];
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
+        const data = fs.readFileSync(filePath, 'utf8');
+        let encrypted = cipher.update(data, 'utf8', 'hex');
+        encrypted += cipher.final('hex');
 
-    let data = `${dayName} ${day} ${month} - ${hours}:${minutes}`
-    return { "ea contact generator": data }
+        const result = salt.toString('hex') + iv.toString('hex') + encrypted; // Store salt, IV, and encrypted data
+        fs.writeFileSync(filePath, result, 'utf8');
+        keyFileEncrypted = true
+    } catch (error) {
+        console.error('Error during encryption:', error.message);
+    }
+}
+
+// Clears console and puts title back up
+function titleText() {
+    console.clear('')
+    console.log(chalk.bold.blue('evaluagent Contact Generator', version))
+    console.log('')
+}
+
+// Prompts for the password to encrypt the keyfile
+async function promptForPassword() {
+    console.log('')
+    try {
+        const response = await inquirer.prompt([
+            {
+                name: 'password',
+                type: 'password',
+                message: 'Enter password for the keyFile:',
+                mask: '*'
+            }
+        ])
+        return response.password
+    } catch (error) {
+        console.error(chalk.red(`Error: ${error.message}`))
+        process.exit(1)
+    }
+}
+
+// Decrypyts the keyFile
+async function decryptFile(password) {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const filePath = path.join(__dirname, TARGET_FILE);
+    try {
+        const data = fs.readFileSync(filePath, 'utf8');
+        const salt = Buffer.from(data.substring(0, 32), 'hex'); // Retrieve the salt
+        const iv = Buffer.from(data.substring(32, 64), 'hex'); // Retrieve the IV
+        const encryptedData = data.substring(64);
+
+        const key = crypto.scryptSync(password, salt, 32);
+        const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+
+        let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+
+        fs.writeFileSync(filePath, decrypted, 'utf8');
+    } catch (error) {
+        console.error('Error during decryption:', error.message);
+        process.exit(1)
+    }
+}
+
+// Function to clear the contents of the outputLog
+function clearOutputLog() {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const outputLogPath = path.join(__dirname, 'outputLog.json');
+
+    try {
+        let data = getDateAndTime()
+        fs.writeFileSync(outputLogPath, '');
+        writeData(data)
+    } catch (error) {
+        console.error(chalk.red(`Error clearing outputLog.json: ${error.message}`));
+    }
 }
 
 // Writes to the output log
@@ -149,164 +197,180 @@ function writeData(data) {
     });
 }
 
-// Adds a new key to the keyfile
-function addKey(data) {
-    return new Promise((resolve, reject) => {
-        // Convert the JavaScript object to a string in JSON format
-        const jsonData = JSON.stringify(data, null, 2);
-        // Append the JSON string to the file
-        fs.appendFile('keyFile.json', jsonData + '\n', 'utf8', (error) => {
-            if (error) {
-                console.error('An error occurred while adding key:', error.message);
-                reject(error); // Reject the Promise if there's an error
-            } else {
-                resolve(); // Resolve the Promise when operation is successful
-            }
-        });
-    });
+// Just returns the date and time
+function getDateAndTime() {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    const now = new Date();
+    const dayName = days[now.getDay()];
+    const day = now.getDate();
+    const month = months[now.getMonth()];
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+
+    let data = `${dayName} ${day} ${month} - ${hours}:${minutes}`
+    return { "ea contact generator": data }
 }
 
-//This function lists all the keys from the keyFile
-function getKeyFileKeys(encryptionKey) {
-    decryptAndOverwriteFile(encryptionKey)
-    const keyFilePath = path.join(__dirname, 'keyFile.json');
-
-    return new Promise((resolve, reject) => {
-        fs.readFile(keyFilePath, 'utf8', (err, data) => {
-            if (err) {
-                console.error('An error occurred while reading the keyFile:', err);
-                reject(err);
-                return;
-            }
-
-            let jsonData;
-            try {
-                jsonData = JSON.parse(data);
-                const keys = Object.keys(jsonData);
-                console.clear()
-                console.log(chalk.blue('ea contact generator'))
-                console.log('Contracts:', keys);
-            } catch (parseErr) {
-                console.error('An error occurred while parsing the keyFile:', parseErr);
-                reject(parseErr);
-                return;
-            }
-            encryptAndOverwriteFile(encryptionKey)
-            // Extract and return the keys
-            resolve(Object.keys(jsonData));
-        });
-    });
+//Displays the help text
+function showHelp() {
+    titleText()
+    console.log(chalk.underline.yellow('Help'))
+    console.log('')
+    console.log(chalk.bold.yellow('node gen init'))
+    console.log('')
+    console.log(`Creates calls and tickets directories if they don't exists.`)
+    console.log(`Also creates outputLog and keyFile if they don't exists.`)
+    console.log(`The keyFile will be encrypted so you'll be prompted to create a password.`)
+    console.log('')
+    console.log(chalk.bold.yellow('node gen add [contract name] [api key]'))
+    console.log('')
+    console.log('Adds a new contract and API key to the keyFile.')
+    console.log(`You'll be prompted for the keyFile password before the contract and API key is added.`)
+    console.log('')
+    console.log(chalk.bold.yellow('node gen del [contract name]'))
+    console.log('')
+    console.log(`Deletes the contract and API key from the keyFile.`)
+    console.log(`You'll be prompted for the keyFile password.`)
+    console.log('')
+    console.log(chalk.bold.yellow('node gen contacts'))
+    console.log('')
+    console.log('Creates contacts and sends to evaluagent.')
+    console.log(`You'll be prompted for the keyFile password.`)
+    console.log('Select the contract from the list.')
+    console.log('Confirm contact type, number of contacts and time interval between contacts.')
+    console.log('Note that you must have MP3 audio files in the calls directory and the appropriate JSON files in the tickets directory.')
 }
 
-//This function deletes a contract from the keyFile
-async function deleteKeyFromFile(contract, encryptionKey) {
+//Gets everything going
+async function checkFilesAndFoldersExsists() {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const directories = ['calls', 'tickets'];
     const keyFilePath = path.join(__dirname, 'keyFile.json');
-    decryptAndOverwriteFile(encryptionKey)
-    
-    try {
-        // Read the content of the file
-        const data = await fs.promises.readFile(keyFilePath, 'utf8');
-        const jsonData = JSON.parse(data);
-
-        // Check if the key exists in the JSON data
-        if (jsonData.hasOwnProperty(contract)) {
-            // Delete the key-value pair
-            delete jsonData[contract];
-            // Write the updated JSON data back to the file
-            await fs.promises.writeFile(keyFilePath, JSON.stringify(jsonData, null, 2), 'utf8');
-            encryptAndOverwriteFile(encryptionKey)
-            console.clear()
-            console.log(chalk.green(`The key '${contract}' has been removed from keyFile.json.`));
+    const outputLogPath = path.join(__dirname, 'outputLog.json');
+    titleText()
+    directories.forEach(directory => {
+        const dirPath = path.join(__dirname, directory)
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true })
+            console.log(chalk.white(directory, 'directory', chalk.bold.blue('CREATED')))
         } else {
-            encryptAndOverwriteFile(encryptionKey)
-            console.clear()
-            console.log(chalk.red(`The key '${contract}' does not exist in keyFile.json.`));
+            console.log(chalk.white(directory, 'directory', chalk.bold.green('✅')))
         }
-    } catch (error) {
-        console.error('An error occurred:', error);
-    }
-}
-
-// Function to encrypt the keyfile and overwrite the same file
-function encryptAndOverwriteFile(key) {
-    const inputFile = "keyFile.json"
-    const data = fs.readFileSync(inputFile, 'utf8');
-    const cipher = crypto.createCipher('aes-256-cbc', key);
-    let encryptedData = cipher.update(data, 'utf8', 'hex');
-    encryptedData += cipher.final('hex');
-    fs.writeFileSync(inputFile, encryptedData, 'hex');
-}
-
-// Function to decrypt an encrypted JSON file and overwrite the same file
-function decryptAndOverwriteFile(key) {
-    const inputFile = "keyFile.json"
-    try {
-        const encryptedData = fs.readFileSync(inputFile, 'hex');
-        const decipher = crypto.createDecipher('aes-256-cbc', key);
-        let decryptedData = decipher.update(encryptedData, 'hex', 'utf8');
-        decryptedData += decipher.final('utf8');
-        fs.writeFileSync(inputFile, decryptedData, 'utf8');
-        let logEntry = {
-            "keyFile decryption": "complete"
-        }
-        // console.clear()
-    } catch (error) {
-        console.log(red)
-        console.error('Decryption failed or decryption key missing.');
-        let decryptError = {
-            "keyFile decryption": "failed"
-        }
-        process.exit(1)
-    }
-}
-
-// Function to add a new API key to the keyfile
-function addNewApiKey(contract, apiKey, encyptionKey) {
-    const keyFilePath = path.join(__dirname, 'keyFile.json')
-    decryptAndOverwriteFile(encyptionKey)
-    // Read content of the file
-    fs.readFile(keyFilePath, 'utf-8', (err, data) => {
-        if (err) {
-            console.error(chalk.bold.red('An error occured reading the keyFile: ', err))
-            return
-        }
-
-        // Parse the JSON data from the file
-        let jsonData;
-        try {
-            jsonData = JSON.parse(data);
-        } catch (parseErr) {
-
-            console.error(chalk.bold.red('An error occurred while parsing the keyFile: ', parseErr))
-            encryptAndOverwriteFile(encyptionKey)
-            console.clear()
-            return;
-        }
-
-        // Check if the contract already exists
-        if (jsonData.hasOwnProperty(contract)) {
-            console.error(chalk.bold.red(`An error occurred: The key '${contract}' already exists.`))
-            encryptAndOverwriteFile(encyptionKey)
-            return;
-        }
-
-        // Add the new key-value pair
-        jsonData[contract] = apiKey;
-
-        // Convert modified object back into JSON string
-        const updatedJsonData = JSON.stringify(jsonData, null, 2);
-
-        // Write the updated JSON string back to the file
-        fs.writeFile(keyFilePath, updatedJsonData, 'utf8', (writeErr) => {
-            if (writeErr) {
-                console.error(chalk.bold.red('An error occurred writing back to the keyFile: ', writeErr))
-                return
-            }
-            encryptAndOverwriteFile(encyptionKey)
-            console.clear()
-            console.log(chalk.bold.green(`API key '${contract}' added to keyfile.`))
-        })
     })
+    await ensureFileExists(outputLogPath)
+    await ensureFileExists(keyFilePath)
+}
+
+// Function to add a new API key to the keyFile.json
+async function addNewApiKey(contract, apiKey) {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const keyFilePath = path.join(__dirname, 'keyFile.json');
+
+    // Read the existing content of the keyFile.json
+    let keyFileData = {};
+    try {
+        const data = fs.readFileSync(keyFilePath, 'utf8');
+        keyFileData = JSON.parse(data);
+    } catch (err) {
+        console.error(chalk.red('Error reading or parsing keyFile.json:', err.message));
+        return;
+    }
+
+    // Check if the contract already exists
+    if (keyFileData.hasOwnProperty(contract)) {
+        console.log(chalk.red(`The contract '${contract}' already exists in keyFile.json.`));
+        return;
+    }
+
+    // Add the new API key
+    keyFileData[contract] = apiKey;
+
+    // Write the updated content back to keyFile.json
+    try {
+        fs.writeFileSync(keyFilePath, JSON.stringify(keyFileData, null, 2), 'utf8');
+        console.log('')
+        console.log(chalk.green(`Successfully added '${contract}' to keyFile.json.`));
+    } catch (err) {
+        console.error(chalk.red('Error writing to keyFile.json:', err.message));
+    }
+}
+
+// Function to delete an API key from the keyFile.json
+async function deleteApiKey(contract) {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const keyFilePath = path.join(__dirname, 'keyFile.json');
+
+    // Ensure the file exists before modifying
+    if (!fs.existsSync(keyFilePath)) {
+        console.log(chalk.red('Error: keyFile.json does not exist.'));
+        return;
+    }
+
+    // Read the existing content of the keyFile.json
+    let keyFileData = {};
+    try {
+        const data = fs.readFileSync(keyFilePath, 'utf8');
+        keyFileData = data.trim() ? JSON.parse(data) : {};
+    } catch (err) {
+        console.error(chalk.red('Error reading or parsing keyFile.json:', err.message));
+        return;
+    }
+
+    // Check if the contract exists and delete the key-value pair
+    if (keyFileData.hasOwnProperty(contract)) {
+        delete keyFileData[contract];
+        try {
+            fs.writeFileSync(keyFilePath, JSON.stringify(keyFileData, null, 2), 'utf8');
+            console.log('')
+            console.log(chalk.green(`Successfully deleted '${contract}' from keyFile.json.`));
+        } catch (err) {
+            console.error(chalk.red('Error writing to keyFile.json:', err.message));
+        }
+    } else {
+        console.log(chalk.red(`The contract '${contract}' does not exist in keyFile.json.`));
+    }
+}
+
+// Function to list all keys in a numbered menu
+async function selectApiKey() {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const keyFilePath = path.join(__dirname, 'keyFile.json');
+    // Read the existing content of the keyFile.json
+    let keyFileData = {};
+    try {
+        const data = fs.readFileSync(keyFilePath, 'utf8');
+        keyFileData = data.trim() ? JSON.parse(data) : {};
+    } catch (err) {
+        console.error(chalk.red('Error reading or parsing keyFile.json:', err.message));
+        return;
+    }
+    // List all keys in a numbered menu format
+    const keys = Object.keys(keyFileData);
+    if (keys.length === 0) {
+        console.log(chalk.yellow('No API keys found in keyFile.json.'));
+        process.exit(1)
+    } else {
+        console.clear('')
+        titleText()
+        const answers = await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'selectedKey',
+                message: 'Select a contract:',
+                choices: keys.map((key, index) => ({
+                    name: `${index + 1}. ${key}`,
+                    value: key
+                }))
+            }
+        ]);
+        encryptFile(password)
+        const selectedKey = answers.selectedKey;
+        const selectedValue = keyFileData[selectedKey];
+        contractName = selectedKey
+        return selectedValue
+    }
 }
 
 // This function connects to the end point and returns the response
@@ -318,155 +382,132 @@ async function fetchApi(endpoint) {
     return response.data.data
 }
 
-// Function to validate the arguments if adding contacts
-function validateArgs(args) {
-    //Check if number of contacts and interval are integers.
-    const areBothNumbers = !isNaN(parseFloat(args[3])) && isFinite(args[3]) &&
-        !isNaN(parseFloat(args[4])) && isFinite(args[4]);
-    if (!areBothNumbers) {
-        console.log(chalk.bold.red('Error: number of contacts and/or interval values are invalid.'))
-        return
-    }
-    //Check if contact type is (c)all, (t)icket, or (b)oth
-    // Validate contactType
-    if (!['t', 'c', 'b'].includes(args[2])) {
-        console.log(chalk.bold.red('Error: Invalid contact type: ', args[2]))
+// Function to prompt the user to select "Calls", "Tickets", or "Both"
+async function promptContactType() {
+    try {
+        const answers = await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'contactType',
+                message: 'Select a contact type:',
+                choices: ['Calls', 'Tickets', 'Both']
+            }
+        ]);
+
+        const selectedType = answers.contactType;
+        return selectedType;
+    } catch (error) {
+        console.error(chalk.red(`Error: ${error.message}`));
         process.exit(1)
     }
-    getApiKey(args[1])
 }
 
-// Function to get the API key from the keyFile
-function getApiKey(contractName) {
-    const keyFilePath = path.join(__dirname, 'keyFile.json');
-    decryptAndOverwriteFile(args[5])
-    //Read and parse the keyFile
-    fs.readFile(keyFilePath, 'utf8', (err, data) => {
-        if (err) {
-            console.log(chalk.bold.red('An error occured reading the keyFile: ', err))
-            return;
-        }
-        let jsonData;
-        try {
-            jsonData = JSON.parse(data)
-        } catch (parseErr) {
-            console.error(chalk.bold.red('An error occured while parsing the keyFile: ', parseErr));
-            encryptAndOverwriteFile(args[5])
-            return;
-        }
-        //Check if key exists and return it's value
-        if (jsonData.hasOwnProperty(contractName)) {
-            encryptAndOverwriteFile(args[5])
-            key = jsonData[contractName]
-            console.clear()
-            console.log(chalk.bold.blue(`EA Contact Generator - version ${version}`))
-            console.log('')
-            console.log(`Contract Name - `, chalk.green(contractName))
-            console.log('Contact Type - ', chalk.green(args[2]))
-            console.log('Number of Contacts - ', chalk.green(args[3]))
-            console.log('Interval - ', chalk.green(`${args[4]} seconds`))
-            // writing to log
-            let logData = {
-                "contract": contractName,
-                "contact type": args[2],
-                "number of contacts": args[3],
-                "interval": args[4]
-            }
-            writeData(logData)
-            checkEndPoint(key)
-        }
-        else {
-            console.log(`The key '${contractName}' was not found in keyFile.json.`);
-            encryptAndOverwriteFile(args[5])
-            return null;
-        }
-    })
-}
-
-// Thsi function checks that we can connect using the credentials
-async function checkEndPoint(key) {
+// Function to prompt the user for the number of contacts to create
+async function promptTimeInterval() {
     try {
-        const response = await fetchApi('/org/roles')
-        if (response) {
-            const agentRole = response.find(role => role.attributes.name === 'agent')
+        const answers = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'timeInterval',
+                message: 'Time interval in seconds?',
+                validate: function (value) {
+                    const valid = !isNaN(parseFloat(value)) && isFinite(value) && parseInt(value, 10) > 0;
+                    return valid || 'Please enter a positive number';
+                },
+                filter: Number
+            }
+        ]);
+
+        const timeInterval = answers.timeInterval;
+        return timeInterval;
+    } catch (error) {
+        console.error(chalk.red(`Error: ${error.message}`));
+        process.exit(1)
+    }
+}
+
+// Function to prompt the user for the number of contacts to create
+async function promptNumberOfContacts() {
+    try {
+        const answers = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'numberOfContacts',
+                message: 'How many contacts would you like to create?',
+                validate: function (value) {
+                    const valid = !isNaN(parseFloat(value)) && isFinite(value) && parseInt(value, 10) > 0;
+                    return valid || 'Please enter a positive number';
+                },
+                filter: Number
+            }
+        ]);
+
+        const numberOfContacts = answers.numberOfContacts;
+        return numberOfContacts;
+    } catch (error) {
+        console.error(chalk.red(`Error: ${error.message}`));
+    }
+}
+
+// Function to prompt the user for a Yes or No response
+async function promptYesOrNo() {
+    try {
+        const answers = await inquirer.prompt([
+            {
+                type: 'confirm',
+                name: 'confirmation',
+                message: 'Ready?',
+                default: false // Set default value as needed
+            }
+        ]);
+
+        const confirmation = answers.confirmation;
+        if (!confirmation) {
+            process.exit(1)
+        } else {
+            return}
+    } catch (error) {
+        console.error(chalk.red(`Error: ${error.message}`));
+        process.exit(1)
+    }
+}
+
+// Need to get the agent ID and the agent list
+async function getAgentDetails(key) {
+    try {
+        const roleResponse = await fetchApi('/org/roles')
+        if (roleResponse) {
+            const agentRole = roleResponse.find(role => role.attributes.name === 'agent')
             if (!agentRole) {
                 console.log(chalk.green('Connected to end point.'))
                 throw new Error("Agent role was not found.");
-                return
+                process.exit(1)
             }
             if (agentRole) {
-                let logEntry = {
-                    "agentRole.id": agentRole.id
-                }
-                console.log('Agent ID - ', chalk.green(agentRole.id))
-                getUserList(agentRole.id)
+                agentRoleId = agentRole.id
             }
+            const users = await fetchApi('/org/users')
+            agentList = users.filter(user =>
+                user.relationships.roles.data.some(role => role.id === agentRoleId && user.attributes.active)).map(agent => ({
+                    name: agent.attributes.fullname,
+                    email: agent.attributes.email,
+                    agent_id: agent.id
+                }))
+            // get rid of any agents that have no email address
+            let filteredList = agentList.filter(agent => agent.email !== 'null');
+            agentList = filteredList
+            writeData(agentList)
+            
         }
     } catch (error) {
-        console.log(chalk.bold.red(`Error: ${error.response.data.errors[0].detail}`))
+        console.log(chalk.bold.red(`There was an error getting the agent details.`))
         process.exit(1)
     }
-}
-
-// This function gets the user list
-async function getUserList(agentRoleId) {
-    const users = await fetchApi('/org/users')
-    agentList = users.filter(user =>
-        user.relationships.roles.data.some(role => role.id === agentRoleId && user.attributes.active)).map(agent => ({
-            name: agent.attributes.fullname,
-            email: agent.attributes.email,
-            agent_id: agent.id
-        }))
-    console.log(`Agents found: `, chalk.green(agentList.length))
-    promptForConfirmation()
-}
-
-//This function finds agents with no email address and removes them from the list
-async function removeAgentsWithNullEmail(agentList) {
-    // return agentList.filter(agent => agent.email !== null);
-    // Filter out agents with non-null emails and log removed ones
-    const filteredList = agentList.filter(agent => {
-        if (agent.email === null) {
-            let logEntry = {
-                "Removed Agent": agent,
-            }
-            writeData(logEntry)
-            // console.log('Removed object:', agent);
-            return false; // Exclude this agent
-        }
-        return true; // Include this agent
-    });
-
-    return filteredList;
-}
-
-//This function checks for confirmation from the user before starting creating contacts
-function promptForConfirmation() {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-    console.log('')
-    rl.question('Ready? (y/n) ', (answer) => {
-        if (answer.toLowerCase() === 'y') {
-            let logEntry = {
-                "confirmation": "yes",
-                "rl.close": false
-            }
-            sendContacts(args[3])
-
-        } else if (answer.toLowerCase() === 'n') {
-            console.log(chalk.blue('Goodbye.'));
-            rl.close();
-        } else {
-            console.log(chalk.bold.red('Invalid input.'));
-            rl.close()
-        }
-    });
 }
 
 //This function checks if either the calls or tickets directory is empty
 async function directoryIsEmpty(directory) {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const directoryPath = path.join(__dirname, directory);
 
     return new Promise((resolve, reject) => {
@@ -483,13 +524,140 @@ async function directoryIsEmpty(directory) {
     });
 }
 
+//This function generates the contact template
+async function createContact() {
+    let contactTemplate;
+    let callDirectoryEmpty = await directoryIsEmpty('calls')
+    let ticketDirectoryEmpty = await directoryIsEmpty('tickets')
+
+    if (contactType === "Calls") {
+        if (callDirectoryEmpty) {
+            console.log(chalk.red('No calls found in directory.'))
+            process.exit(1)
+        } else {
+            contactTemplate = await generateCall(agentList)
+        }
+    } else if (contactType === "Tickets") {
+        if (ticketDirectoryEmpty) {
+            console.log(chalk.red('No chats found in directory.'))
+            process.exit(1)
+        } else {
+            contactTemplate = await generateChat(agentList)
+        }
+    } else {
+        if (callDirectoryEmpty) {
+            console.log(chalk.red('No calls found in directory.'))
+            process.exit(1)
+        }
+        if (ticketDirectoryEmpty) {
+            console.log(chalk.red('No chats found in directory.'))
+            process.exit(1)
+        }
+        const randomChoice = Math.floor(Math.random() * 2)
+        if (randomChoice === 0) {
+            contactTemplate = await generateChat(agentList)
+        } else {
+            contactTemplate = await generateCall(agentList)
+        }
+    }
+    return contactTemplate
+}
+
+//This function creates the chat contact template
+async function generateChat(agents) {
+    const fsPromises = fs.promises;
+    const agentNumber = Math.floor(Math.random() * agents.length)
+    chatTemplate.data.reference = generateReference() + Math.floor(Math.random() * 100) // Generates random contact refrence
+    chatTemplate.data.agent_id = agents[agentNumber].agent_id
+    chatTemplate.data.agent_email = agents[agentNumber].email
+    chatTemplate.data.contact_date = generateDate()
+    chatTemplate.data.channel = "Chat"
+    chatTemplate.data.assigned_at = generateDate()
+    chatTemplate.data.solved_at = generateDate()
+    // Need to sort responses now
+    const directoryPath = './tickets/';
+    const chatFiles = [];
+    try {
+        const files = await fsPromises.readdir(directoryPath);
+        files.forEach((file) => {
+            const filePath = './tickets/' + file;
+            chatFiles.push(filePath);
+        });
+    } catch (err) {
+        console.log('Error reading directory:', err)
+    }
+    let responseFile = chatFiles[Math.floor(Math.random() * chatFiles.length)]
+    try {
+        let data = await fsPromises.readFile(responseFile, 'utf-8')
+        chatTemplate.data.responses = JSON.parse(data)
+    } catch (err) {
+        console.log('An error occured reading ', responseFile, " ", err)
+        throw err;
+    }
+    chatTemplate.data.responses.forEach(response => {
+        if (!response.speaker_is_customer) {
+            response.speaker_email = chatTemplate.data.agent_email;
+        }
+    });
+    chatTemplate.data.metadata.Filename = await extractChatName(responseFile);
+    chatTemplate.data.metadata.Status = getStatus()
+    const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
+    chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
+    return chatTemplate
+}
+
+//This function takes the filename and adds it to the metadata
+async function extractChatName(filename) {
+    // Remove the directory path
+    let base = filename.split('/').pop();
+    // Remove the file extension 
+    base = base.split('.').slice(0, -1).join('.');
+    return base;
+}
+
+//This function generates a random metadata tag for status
+function getStatus() {
+    let priorities = ['New', 'Open', 'Pending', 'Hold', 'Solved']
+    let priority = Math.floor(Math.random() * priorities.length)
+    return priorities[priority]
+}
+
+//This function returns the filename without the extension for the metadata
+async function extractBaseName(filename) {
+    // Remove the directory path
+    let base = filename.split('/').pop();
+    // Remove the file extension
+    base = base.split('.').slice(0, -1).join('.');
+    return base;
+}
+
+//This funtion generates a contact reference
+function generateReference() {
+    let contactRef = new Date().toISOString()
+    contactRef = contactRef.replace(/-/g, '')
+    contactRef = contactRef.replace(/:/g, '')
+    contactRef = contactRef.replace('.', '')
+    return contactRef
+}
+
+//This function generates the date for solved, assigned dates in the contact template
+function generateDate() {
+    return new Date().toISOString().split('.')[0] + "Z";
+}
+
+
 async function sendContacts(number) {
-    console.log('')
-    console.log(chalk.bold.blue(`Status:`))
+    console.log('');
+    console.log(chalk.bold.blue(`Status:`));
+
     for (let c = 0; c < number; c++) {
-        const exportContact = await createContact()
-        writeData(exportContact)
+        const exportContact = await createContact();
+        writeData(exportContact);
         const conUrl = "https://api.evaluagent.com/v1/quality/imported-contacts";
+
+        // Use process.stdout.write to avoid new line
+        process.stdout.write(`${c + 1} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email}) - `);
+
         try {
             const response = await fetch(conUrl, {
                 method: "POST",
@@ -500,81 +668,41 @@ async function sendContacts(number) {
                 body: JSON.stringify(exportContact)
             });
             const result = await response.json();
-            let serverResponse = null
+
             if (result.message) {
-                serverResponse = result.message
-                let logData = {
-                    "result": result.message
-                }
-                writeData(logData)
-                console.log(`${c + 1} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email}) -`, chalk.bold.green(serverResponse))
+                let serverResponse = result.message;
+                let logData = { "result": result.message };
+                writeData(logData);
+                // Append server response on the same line
+                console.log(chalk.bold.green(serverResponse));
             } else {
-                serverResponse = result.errors[0].title
-                let logData = {
-                    "failed": result
-                }
-                writeData(logData)
-                console.log(`${c + 1} | ${exportContact.data.reference} | ${red}Error${reset} - `, chalk.bold.red(serverResponse))
+                let serverResponse = result.errors[0].title;
+                let logData = { "failed": result };
+                writeData(logData);
+                // Append error response on the same line
+                console.log(chalk.bold.red(serverResponse));
             }
 
-            if (c + 1 === parseInt(args[3], 10)) {
-                console.log('')
-                console.log(chalk.bold.green(`Job complete.`));
-                process.exit(1)
+            if (c + 1 === number) {
+                console.log('\n' + chalk.bold.green(`Job complete.`));
+                process.exit(1); // Consider using process.exit(0) if the exit is normal without errors
             }
         } catch (error) {
-            console.error(error);
+            console.error(chalk.bold.red(`\nError: ${error.message}`));
         }
-        await delay(args[4])
+        await delay(timeInterval);
     }
 }
 
-//This function generates the contact template
-async function createContact() {
-    let contactTemplate;
-    const finalAgentList = await removeAgentsWithNullEmail(agentList)
-    let callDirectoryEmpty = await directoryIsEmpty('calls')
-    let ticketDirectoryEmpty = await directoryIsEmpty('tickets')
-    if (args[2] === "c") {
-
-        if (callDirectoryEmpty) {
-            console.log(chalk.bold.red('Call directory is empty.'))
-            process.exit(1)
-        }
-        contactTemplate = await generateCall(agentList)
-    } else if (args[2] === "t") {
-        if (ticketDirectoryEmpty) {
-            console.log(chalk.bold.red('Ticket directory is empty.'))
-            process.exit(1)
-        }
-
-        contactTemplate = await generateChat(finalAgentList)
-    } else {
-        // Generate a random number (0 or 1)
-        const randomChoice = Math.floor(Math.random() * 2);
-        // Call generateCall or generateChat based on the random number
-        if (randomChoice === 0) {
-            if (ticketDirectoryEmpty) {
-                console.log(chalk.bold.red('Ticket directory is empty.'))
-                process.exit(1)
-            }
-            contactTemplate = await generateCall(finalAgentList);
-
-        } else {
-            if (callDirectoryEmpty) {
-                console.log(chalk.bold.red('Call directory is empty.'))
-                process.exit(1)
-            }
-            contactTemplate = await generateChat(finalAgentList);
-
-        }
-    }
-    return contactTemplate
+//This function creates the time interval between the next contact being created
+function delay(seconds) {
+    const ms = seconds * 1000
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 //This function creates the call contact template
 async function generateCall(agents) {
-    const fs1 = require('fs').promises;
+    const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
     callTemplate.data.reference = generateReference() + Math.floor(Math.random() * 100) // Generates random contact refrence
     callTemplate.data.agent_id = agents[agentNumber].agent_id
@@ -589,7 +717,7 @@ async function generateCall(agents) {
     const directoryPath = './calls/';
     const callFiles = [];
     try {
-        const files = await fs1.readdir(directoryPath);
+        const files = await fsPromises.readdir(directoryPath);
         files.forEach((file) => {
             const filePath = './calls/' + file;
             callFiles.push(filePath);
@@ -635,15 +763,6 @@ async function uploadAudio(audioSelection) {
     }
 }
 
-//This function returns the filename without the extension for the metadata
-async function extractBaseName(filename) {
-    // Remove the directory path
-    let base = filename.split('/').pop();
-    // Remove the file extension
-    base = base.split('.').slice(0, -1).join('.');
-    return base;
-}
-
 //This function gets the duration of the audio file for the metadata
 async function getMP3Duration(filePath) {
     try {
@@ -657,161 +776,58 @@ async function getMP3Duration(filePath) {
     }
 }
 
-//This function creates the chat contact template
-async function generateChat(agents) {
-    const fs1 = require('fs').promises;
-    const agentNumber = Math.floor(Math.random() * agents.length)
-    chatTemplate.data.reference = generateReference() + Math.floor(Math.random() * 100) // Generates random contact refrence
-    chatTemplate.data.agent_id = agents[agentNumber].agent_id
-    chatTemplate.data.agent_email = agents[agentNumber].email
-    chatTemplate.data.contact_date = generateDate()
-    chatTemplate.data.channel = "Chat"
-    chatTemplate.data.assigned_at = generateDate()
-    chatTemplate.data.solved_at = generateDate()
-    // Need to sort responses now
-    const directoryPath = './tickets/';
-    const chatFiles = [];
-    try {
-        const files = await fs1.readdir(directoryPath);
-        files.forEach((file) => {
-            const filePath = './tickets/' + file;
-            chatFiles.push(filePath);
-        });
-    } catch (err) {
-        console.log('Error reading directory:', err)
-    }
-    let responseFile = chatFiles[Math.floor(Math.random() * chatFiles.length)]
-    try {
-        let data = await fs1.readFile(responseFile, 'utf-8')
-        chatTemplate.data.responses = JSON.parse(data)
-    } catch (err) {
-        console.log('An error occured reading ', responseFile, " ", err)
-        throw err;
-    }
-    chatTemplate.data.responses.forEach(response => {
-        if (!response.speaker_is_customer) {
-            response.speaker_email = chatTemplate.data.agent_email;
-        }
-    });
-    chatTemplate.data.metadata.Filename = await extractChatName(responseFile);
-    chatTemplate.data.metadata.Status = getStatus()
-    const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
-    chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
-    return chatTemplate
-}
 
-//This function takes the filename and adds it to the metadata
-async function extractChatName(filename) {
-    // Remove the directory path
-    let base = filename.split('/').pop();
-    // Remove the file extension 
-    base = base.split('.').slice(0, -1).join('.');
-    return base;
-}
-
-//This function generates a random metadata tag for status
-function getStatus() {
-    let priorities = ['New', 'Open', 'Pending', 'Hold', 'Solved']
-    let priority = Math.floor(Math.random() * priorities.length)
-    return priorities[priority]
-}
-
-//This funtion generates a contact reference
-function generateReference() {
-    let contactRef = new Date().toISOString()
-    contactRef = contactRef.replace(/-/g, '')
-    contactRef = contactRef.replace(/:/g, '')
-    contactRef = contactRef.replace('.', '')
-    contactRef = `rd${version}_${contactRef}`
-    return contactRef
-}
-
-//This function generates the date for solved, assigned dates in the contact template
-function generateDate() {
-    return new Date().toISOString().split('.')[0] + "Z";
-}
-
-//This function creates the time interval between the next contact being created
-function delay(seconds) {
-    const ms = seconds * 1000
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-//This function clears the log and calls the function to add the date and time
-function setLog() {
-    fs.writeFile('outputLog.json', '', 'utf8', (error) => {
-        if (error) {
-            console.error('An error occurred initialising the log:', error.message);
-        }
-    });
-}
-
-//This function checks for the .DS_Store files that seems to appear in the calls folder, which causes upload issues.
-function deleteDsStore() {
-    const filePath = path.join('./calls/', '.DS_Store');
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-        if (err){
-            return
-        }
-        else {
-            fs.unlink(filePath, (unlinkErr) => {
-                if (unlinkErr) {
-                    console.log('Error deleted .DS_Store', unlinkErr);
-                } else {
-                    console.log('.DS_Store deleted.')
-                }
-            })
-        }
-    })
-}
-
-
-console.clear('')
-console.log(chalk.bold.blue('evaluagent API Contact Generator'))
-
-
-setLog()
-let logTitle = getDateAndTime()
-writeData(logTitle)
-
-//Checking for .DS_Store and deleting
-deleteDsStore()
-
-// checking arguments passed in from command line
-if (args[0] === "init") {
-    checkForRequiredFiles()
-} else if (args[0] === "add") {
-    if (args.length > 4) {
-        console.log(chalk.bold.red('Error: too many arguments'))
+if (process.argv.length <= 2) {
+    titleText()
+    console.log('Error:', chalk.bold.red(`Arguments missing.  Type`), chalk.yellow('node gen help'))
+    console.log('')
+} else if (args[0].toLowerCase() === 'help') {
+    showHelp()
+} else if (args[0].toLowerCase() === 'add') {
+    if (args.length === 3) {
+        console.log('12345')
     } else {
-        addNewApiKey(args[1], args[2], args[3])
+        console.log('Error: ', chalk.red('Invalid arguments.  Type'), chalk.yellow('node gen help'))
     }
-} else if (args[0] === "list"){
-    if (args.length > 2) {
-        console.log(chalk.bold.red('Error: too many arguments'))
-    } else {
-        getKeyFileKeys(args[1])
-    }
-} else if (args[0] === "del"){
-    if (args.length > 3) {
-        console.log(chalk.bold.red('Error: too many arguments'))
-    } else {
-        deleteKeyFromFile(args[1], args[2])
-    }
-}else if (args[0] === "contacts") {
-    if (args.length != 6) {
-        console.log('')
-        console.log(chalk.bold.red('Invalid arguments'))
-        console.log()
-        console.log('Usage: [contacts] [contract name] [contact type] [number of contacts] [interval] [decryption key]')
-    } else {
-        validateArgs(args)
-    }
-} else if (args[0] === 'decrypt') {
-    decryptAndOverwriteFile(args[1])
-} else if (args[0] === 'encrypt') {
-    encryptAndOverwriteFile(args[1])
+    await checkFilesAndFoldersExsists()
+    let contract = args[1]
+    let apiKey = args[2]
+    password = await promptForPassword()
+    console.log('')
+    await decryptFile(password)
+    console.log('')
+    await addNewApiKey(contract, apiKey)
+    encryptFile(password)
+
+} else if (args[0].toLowerCase() === 'del') { // Delete a key
+    await checkFilesAndFoldersExsists()
+    password = await promptForPassword()
+    await decryptFile(password)
+    await deleteApiKey(args[1])
+} else if (args[0].toLowerCase() === 'init') { // Setup files
+    checkFilesAndFoldersExsists()
+} else if (args[0].toLowerCase() === 'contacts') { // for contacts
+    await checkFilesAndFoldersExsists()
+    password = await promptForPassword()
+    await decryptFile(password)
+    key = await selectApiKey()
+    await getAgentDetails()
+    titleText()
+    console.log('Contract:', chalk.green(contractName))
+    console.log('Agent ID:', chalk.green(agentRoleId))
+    contactType = await promptContactType()
+    contactsToCreate = await promptNumberOfContacts()
+    timeInterval = await promptTimeInterval()
+    titleText()
+    console.log('Contract:', chalk.green(contractName))
+    console.log('Agent ID:', chalk.green(agentRoleId))
+    console.log('Contact Type:', chalk.green(contactType))
+    console.log('Time interval:', chalk.green(`${timeInterval} seconds`))
+    console.log('')
+    await promptYesOrNo()
+    sendContacts(contactsToCreate)
+} else if (args[0].toLowerCase() === 'create') { // Just so I can lock the file
+    console.log('🥸')
 } else {
-    console.log()
-    console.log(chalk.bold.red('Invalid arguments'))
+    console.log('Error: ', chalk.red('Invalid arguments.  Type'), chalk.yellow('node gen help'))
 }
