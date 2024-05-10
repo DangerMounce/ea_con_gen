@@ -20,7 +20,7 @@ Clone the repository and install the dependencies:
 
 ```bash
 npm install chalk inquirer axios node-fetch btoa music-metadata form-data
-
+```
 ## Usage
 
 Navigate to the script directory and run the script with the following commands:
@@ -33,8 +33,8 @@ node gen contacts     # Initiate the contact generation process
 
 ## Commands Overview
 
-help: Shows help information for command usage.
-init: Sets up required directories and files, including outputLog.json and keyFile.json.
-add: Securely adds a new API key to the encrypted keyFile.json.
-del: Removes an API key from the encrypted keyFile.json.
+help: Shows help information for command usage.<br>
+init: Sets up required directories and files, including outputLog.json and keyFile.json.<br>
+add: Securely adds a new API key to the encrypted keyFile.json.<br>
+del: Removes an API key from the encrypted keyFile.json.<br>
 contacts: Generates contacts based on predefined templates and uploads them to the EvaluAgent API.
