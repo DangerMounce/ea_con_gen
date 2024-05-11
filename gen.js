@@ -804,6 +804,7 @@ if (process.argv.length <= 2) {
     password = await promptForPassword()
     await decryptFile(password)
     await deleteApiKey(args[1])
+    encryptFile(password)
 } else if (args[0].toLowerCase() === 'init') { // Setup files
     checkFilesAndFoldersExsists()
 } else if (args[0].toLowerCase() === 'contacts') { // for contacts
