@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import { fileURLToPath } from 'url';
 import inquirer from 'inquirer';
 import axios from 'axios';
+import path from 'path';
 import { time } from 'console';
 import fetch from 'node-fetch';
 import btoa from 'btoa';
