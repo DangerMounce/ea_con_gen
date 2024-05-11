@@ -10,6 +10,7 @@ import fetch from 'node-fetch';
 import btoa from 'btoa';
 import mm from 'music-metadata';
 import FormData from 'form-data';
+import { generateUuid } from './modules/utils.js'
 
 const version = '11.2'
 const TARGET_FILE = 'keyFile.json'
@@ -567,7 +568,7 @@ async function createContact() {
 async function generateChat(agents) {
     const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
-    chatTemplate.data.reference = generateReference() + Math.floor(Math.random() * 100) // Generates random contact refrence
+    chatTemplate.data.reference = await generateUuid()
     chatTemplate.data.agent_id = agents[agentNumber].agent_id
     chatTemplate.data.agent_email = agents[agentNumber].email
     chatTemplate.data.contact_date = generateDate()
@@ -629,15 +630,6 @@ async function extractBaseName(filename) {
     // Remove the file extension
     base = base.split('.').slice(0, -1).join('.');
     return base;
-}
-
-//This funtion generates a contact reference
-function generateReference() {
-    let contactRef = new Date().toISOString()
-    contactRef = contactRef.replace(/-/g, '')
-    contactRef = contactRef.replace(/:/g, '')
-    contactRef = contactRef.replace('.', '')
-    return contactRef
 }
 
 //This function generates the date for solved, assigned dates in the contact template
@@ -704,7 +696,7 @@ function delay(seconds) {
 async function generateCall(agents) {
     const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
-    callTemplate.data.reference = generateReference() + Math.floor(Math.random() * 100) // Generates random contact refrence
+    callTemplate.data.reference = await generateUuid()
     callTemplate.data.agent_id = agents[agentNumber].agent_id
     callTemplate.data.agent_email = agents[agentNumber].email
     callTemplate.data.contact_date = generateDate()
@@ -775,6 +767,7 @@ async function getMP3Duration(filePath) {
         return null;
     }
 }
+
 
 
 if (process.argv.length <= 2) {
