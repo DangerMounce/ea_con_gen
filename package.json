@@ -1,0 +1,21 @@
+{
+  "name": "ea_con_gen",
+  "version": "11.2",
+  "description": "This script facilitates the automation of contact generation processes within the EvaluAgent platform, offering functionalities such as audio uploads, API key management, and dynamic contact template generation based on user interactions.",
+  "main": "gen.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "btoa": "^1.2.1",
+    "chalk": "^5.3.0",
+    "form-data": "^4.0.0",
+    "inquirer": "^9.2.20",
+    "music-metadata": "^7.14.0",
+    "node-fetch": "^3.3.2"
+  }
+}

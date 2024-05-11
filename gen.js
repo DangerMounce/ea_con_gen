@@ -11,7 +11,7 @@ import btoa from 'btoa';
 import mm from 'music-metadata';
 import FormData from 'form-data';
 
-const version = '11.1'
+const version = '11.2'
 const TARGET_FILE = 'keyFile.json'
 const API_URL = 'https://api.evaluagent.com/v1';
 
