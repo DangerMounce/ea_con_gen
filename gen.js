@@ -1,19 +1,29 @@
 import fs from 'fs';
-import path from 'path';
 import chalk from 'chalk';
 import { fileURLToPath } from 'url';
 import inquirer from 'inquirer';
-import crypto from 'crypto';
 import axios from 'axios';
 import { time } from 'console';
 import fetch from 'node-fetch';
 import btoa from 'btoa';
-import mm from 'music-metadata';
 import FormData from 'form-data';
-import { generateUuid } from './modules/utils.js'
+import { 
+    generateUuid, 
+    getMP3Duration, 
+    generateDate, 
+    getDateAndTime, 
+    titleText, 
+    showHelp, 
+    extractChatName,
+    getStatus,
+    extractBaseName,
+    delay
+} from './modules/utils.js'
+import {
+    encryptFile,
+    decryptFile
+} from './modules/encryption.js'
 
-const version = '11.2'
-const TARGET_FILE = 'keyFile.json'
 const API_URL = 'https://api.evaluagent.com/v1';
 
 let args = process.argv.slice(2);
@@ -95,35 +105,6 @@ async function ensureFileExists(file) {
     }
 }
 
-//Encrypts the keyfile
-async function encryptFile(password) {
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const filePath = path.join(__dirname, TARGET_FILE);
-    const salt = crypto.randomBytes(16); // Generate a new, random salt for each encryption
-    try {
-        const key = crypto.scryptSync(password, salt, 32);
-        const iv = crypto.randomBytes(16);
-        const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-
-        const data = fs.readFileSync(filePath, 'utf8');
-        let encrypted = cipher.update(data, 'utf8', 'hex');
-        encrypted += cipher.final('hex');
-
-        const result = salt.toString('hex') + iv.toString('hex') + encrypted; // Store salt, IV, and encrypted data
-        fs.writeFileSync(filePath, result, 'utf8');
-        keyFileEncrypted = true
-    } catch (error) {
-        console.error('Error during encryption:', error.message);
-    }
-}
-
-// Clears console and puts title back up
-function titleText() {
-    console.clear('')
-    console.log(chalk.bold.blue('evaluagent Contact Generator', version))
-    console.log('')
-}
-
 // Prompts for the password to encrypt the keyfile
 async function promptForPassword() {
     console.log('')
@@ -139,29 +120,6 @@ async function promptForPassword() {
         return response.password
     } catch (error) {
         console.error(chalk.red(`Error: ${error.message}`))
-        process.exit(1)
-    }
-}
-
-// Decrypyts the keyFile
-async function decryptFile(password) {
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const filePath = path.join(__dirname, TARGET_FILE);
-    try {
-        const data = fs.readFileSync(filePath, 'utf8');
-        const salt = Buffer.from(data.substring(0, 32), 'hex'); // Retrieve the salt
-        const iv = Buffer.from(data.substring(32, 64), 'hex'); // Retrieve the IV
-        const encryptedData = data.substring(64);
-
-        const key = crypto.scryptSync(password, salt, 32);
-        const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
-
-        let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
-        decrypted += decipher.final('utf8');
-
-        fs.writeFileSync(filePath, decrypted, 'utf8');
-    } catch (error) {
-        console.error('Error during decryption:', error.message);
         process.exit(1)
     }
 }
@@ -198,50 +156,29 @@ function writeData(data) {
     });
 }
 
-// Just returns the date and time
-function getDateAndTime() {
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+//This function uploads the audio file
+async function uploadAudio(audioSelection) {
 
-    const now = new Date();
-    const dayName = days[now.getDay()];
-    const day = now.getDate();
-    const month = months[now.getMonth()];
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const url = 'https://api.evaluagent.com/v1/quality/imported-contacts/upload-audio';
+    const headers = {
+        'Authorization': 'Basic ' + Buffer.from(key).toString('base64')
+    };
 
-    let data = `${dayName} ${day} ${month} - ${hours}:${minutes}`
-    return { "ea contact generator": data }
-}
+    const formData = new FormData();
+    formData.append('audio_file', fs.createReadStream(audioSelection));
 
-//Displays the help text
-function showHelp() {
-    titleText()
-    console.log(chalk.underline.yellow('Help'))
-    console.log('')
-    console.log(chalk.bold.yellow('node gen init'))
-    console.log('')
-    console.log(`Creates calls and tickets directories if they don't exists.`)
-    console.log(`Also creates outputLog and keyFile if they don't exists.`)
-    console.log(`The keyFile will be encrypted so you'll be prompted to create a password.`)
-    console.log('')
-    console.log(chalk.bold.yellow('node gen add [contract name] [api key]'))
-    console.log('')
-    console.log('Adds a new contract and API key to the keyFile.')
-    console.log(`You'll be prompted for the keyFile password before the contract and API key is added.`)
-    console.log('')
-    console.log(chalk.bold.yellow('node gen del [contract name]'))
-    console.log('')
-    console.log(`Deletes the contract and API key from the keyFile.`)
-    console.log(`You'll be prompted for the keyFile password.`)
-    console.log('')
-    console.log(chalk.bold.yellow('node gen contacts'))
-    console.log('')
-    console.log('Creates contacts and sends to evaluagent.')
-    console.log(`You'll be prompted for the keyFile password.`)
-    console.log('Select the contract from the list.')
-    console.log('Confirm contact type, number of contacts and time interval between contacts.')
-    console.log('Note that you must have MP3 audio files in the calls directory and the appropriate JSON files in the tickets directory.')
+    try {
+        const response = await axios.post(url, formData, { headers: { ...formData.getHeaders(), ...headers } });
+        return response.data.path;
+    } catch (error) {
+        let logEntry = {
+            "audio upload": error.message
+        }
+        writeData(logEntry)
+        console.error(`There was a problem with the audio upload for `, chalk.bold.white(audioSelection), ' : ', chalk.bold.red(error.message))
+        console.log(chalk.bold.red('Aborting job to prevent blank call uploads'))
+        process.exit()
+    }
 }
 
 //Gets everything going
@@ -607,37 +544,6 @@ async function generateChat(agents) {
     return chatTemplate
 }
 
-//This function takes the filename and adds it to the metadata
-async function extractChatName(filename) {
-    // Remove the directory path
-    let base = filename.split('/').pop();
-    // Remove the file extension 
-    base = base.split('.').slice(0, -1).join('.');
-    return base;
-}
-
-//This function generates a random metadata tag for status
-function getStatus() {
-    let priorities = ['New', 'Open', 'Pending', 'Hold', 'Solved']
-    let priority = Math.floor(Math.random() * priorities.length)
-    return priorities[priority]
-}
-
-//This function returns the filename without the extension for the metadata
-async function extractBaseName(filename) {
-    // Remove the directory path
-    let base = filename.split('/').pop();
-    // Remove the file extension
-    base = base.split('.').slice(0, -1).join('.');
-    return base;
-}
-
-//This function generates the date for solved, assigned dates in the contact template
-function generateDate() {
-    return new Date().toISOString().split('.')[0] + "Z";
-}
-
-
 async function sendContacts(number) {
     console.log('');
     console.log(chalk.bold.blue(`Status:`));
@@ -686,12 +592,6 @@ async function sendContacts(number) {
     }
 }
 
-//This function creates the time interval between the next contact being created
-function delay(seconds) {
-    const ms = seconds * 1000
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 //This function creates the call contact template
 async function generateCall(agents) {
     const fsPromises = fs.promises;
@@ -729,46 +629,6 @@ async function generateCall(agents) {
     callTemplate.data.audio_file_path = await uploadAudio(callFile)
     return callTemplate
 }
-
-//This function uploads the audio file
-async function uploadAudio(audioSelection) {
-
-    const url = 'https://api.evaluagent.com/v1/quality/imported-contacts/upload-audio';
-    const headers = {
-        'Authorization': 'Basic ' + Buffer.from(key).toString('base64')
-    };
-
-    const formData = new FormData();
-    formData.append('audio_file', fs.createReadStream(audioSelection));
-
-    try {
-        const response = await axios.post(url, formData, { headers: { ...formData.getHeaders(), ...headers } });
-        return response.data.path;
-    } catch (error) {
-        let logEntry = {
-            "audio upload": error.message
-        }
-        writeData(logEntry)
-        console.error(`There was a problem with the audio upload for `, chalk.bold.white(audioSelection), ' : ', chalk.bold.red(error.message))
-        console.log(chalk.bold.red('Aborting job to prevent blank call uploads'))
-        process.exit()
-    }
-}
-
-//This function gets the duration of the audio file for the metadata
-async function getMP3Duration(filePath) {
-    try {
-        const metadata = await mm.parseFile(filePath);
-        const duration = metadata.format.duration; // Duration in seconds
-        const roundedDuration = Math.round(duration); // Round to nearest whole number
-        return roundedDuration;
-    } catch (error) {
-        console.error("An error occurred:", error.message);
-        return null;
-    }
-}
-
-
 
 if (process.argv.length <= 2) {
     titleText()
