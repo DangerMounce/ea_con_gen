@@ -25,11 +25,11 @@ npm install chalk inquirer axios node-fetch btoa music-metadata form-data
 
 Navigate to the script directory and run the script with the following commands:
 
-node gen help         # Display help information
-node gen init         # Initialize necessary files and directories
-node gen add <contract name> <api key> # Add a new API key
-node gen del <contract name> # Delete an API key
-node gen contacts     # Initiate the contact generation process
+node gen help         # Display help information<br>
+node gen init         # Initialize necessary files and directories<br>
+node gen add <contract name> <api key> # Add a new API key<br>
+node gen del <contract name> # Delete an API key<br>
+node gen contacts     # Initiate the contact generation process<br>
 
 ## Commands Overview
 
