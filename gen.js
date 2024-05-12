@@ -18,7 +18,8 @@ import {
     extractChatName,
     getStatus,
     extractBaseName,
-    delay
+    delay,
+    deleteDsStoreFile
 } from './modules/utils.js'
 import {
     encryptFile,
@@ -631,6 +632,7 @@ async function generateCall(agents) {
     return callTemplate
 }
 
+deleteDsStoreFile()
 if (process.argv.length <= 2) {
     titleText()
     console.log('Error:', chalk.bold.red(`Arguments missing.  Type`), chalk.yellow('node gen help'))
