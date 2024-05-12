@@ -125,7 +125,7 @@ export async function deleteDsStoreFile() {
             if (error.code === 'ENOENT') {
             } else {
                 // Log other errors
-                console.error(`Error accessing or deleting .DS_Store in ${dir}:`, error); //
+                console.error(`Error accessing or deleting .DS_Store in ${dir}:`, error);
             }
         }
     }
