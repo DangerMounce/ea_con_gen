@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import mm from 'music-metadata';
 import chalk from 'chalk';
+import { access, unlink } from 'fs/promises';
 
 const version = '11.2' 
 
@@ -110,4 +111,22 @@ export async function extractBaseName(filename) {
 export function delay(seconds) {
     const ms = seconds * 1000
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export async function deleteDsStoreFile() {
+    const directories = ['../calls', '../tickets']
+    for (const dir of directories) {
+        const filePath = `${dir}/.DS_Store`;
+        try {
+            await access(filePath);  // Check if the file exists
+            await unlink(filePath);  // Delete the file
+        } catch (error) {
+            // If the file does not exist, access will throw an error
+            if (error.code === 'ENOENT') {
+            } else {
+                // Log other errors
+                console.error(`Error accessing or deleting .DS_Store in ${dir}:`, error);
+            }
+        }
+    }
 }
