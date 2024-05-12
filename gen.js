@@ -25,6 +25,10 @@ import {
     encryptFile,
     decryptFile
 } from './modules/encryption.js'
+import {
+    generateChatTranscript,
+    writeChatDataToFile
+} from './modules/chat_gen.js'
 
 const API_URL = 'https://api.evaluagent.com/v1';
 
@@ -329,8 +333,8 @@ async function promptContactType() {
             {
                 type: 'list',
                 name: 'contactType',
-                message: 'Select a contact type:',
-                choices: ['Calls', 'Tickets', 'Both']
+                message: 'Select contact source:',
+                choices: ['Stored Calls', 'Stored Tickets', 'Stored Calls & Tickets', 'New Tickets']
             }
         ]);
 
@@ -470,21 +474,25 @@ async function createContact() {
     let callDirectoryEmpty = await directoryIsEmpty('calls')
     let ticketDirectoryEmpty = await directoryIsEmpty('tickets')
 
-    if (contactType === "Calls") {
+    if (contactType === "Stored Calls") {
         if (callDirectoryEmpty) {
             console.log(chalk.red('No calls found in directory.'))
             process.exit(1)
         } else {
             contactTemplate = await generateCall(agentList)
         }
-    } else if (contactType === "Tickets") {
+    } else if (contactType === "Stored Tickets") {
         if (ticketDirectoryEmpty) {
             console.log(chalk.red('No chats found in directory.'))
             process.exit(1)
         } else {
             contactTemplate = await generateChat(agentList)
         }
-    } else {
+    } else if (contactType === "New Tickets [BETA]") {
+        contactTemplate = await generateNewChat(agentList)
+    }
+    
+    else { // If Stored Calls & Tickets
         if (callDirectoryEmpty) {
             console.log(chalk.red('No calls found in directory.'))
             process.exit(1)
@@ -543,6 +551,26 @@ async function generateChat(agents) {
     chatTemplate.data.metadata.Status = getStatus()
     const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
     chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
+    return chatTemplate
+}
+
+//This function creates a new chat contact template
+async function generateNewChat(agents) {
+    const fsPromises = fs.promises;
+    const agentNumber = Math.floor(Math.random() * agents.length)
+    chatTemplate.data.reference = await generateUuid()
+    chatTemplate.data.agent_id = agents[agentNumber].agent_id
+    chatTemplate.data.agent_email = agents[agentNumber].email
+    chatTemplate.data.contact_date = generateDate()
+    chatTemplate.data.channel = "Chat"
+    chatTemplate.data.assigned_at = generateDate()
+    chatTemplate.data.solved_at = generateDate()
+    chatTemplate.data.responses = await generateChatTranscript()
+    chatTemplate.data.metadata.Filename = await generateUuid()
+    chatTemplate.data.metadata.Status = getStatus()
+    const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
+    chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
+    await writeChatDataToFile(chatTemplate.data.responses)
     return chatTemplate
 }
 
@@ -631,6 +659,7 @@ async function generateCall(agents) {
     callTemplate.data.audio_file_path = await uploadAudio(callFile)
     return callTemplate
 }
+
 
 deleteDsStoreFile()
 if (process.argv.length <= 2) {
