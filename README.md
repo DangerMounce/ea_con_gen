@@ -19,7 +19,7 @@ This script facilitates the automation of contact generation processes within th
 Clone the repository and install the dependencies:
 
 ```bash
-npm install chalk inquirer axios node-fetch btoa music-metadata form-data
+npm install chalk inquirer axios node-fetch btoa music-metadata form-data openai
 ```
 ## Usage
 
