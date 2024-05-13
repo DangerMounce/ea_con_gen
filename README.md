@@ -8,7 +8,7 @@ This script facilitates the automation of contact generation processes within th
 - **Encryption & Decryption**: Secures API keys using encryption and provides decryption capabilities for access management.
 - **Contact Management**: Generates and uploads contact data to EvaluAgent, supporting both calls and tickets formats.
 - **Audio Handling**: Manages audio files for calls, including uploading and assigning metadata.
-- - **Chat Transcript Generation**: Utlises OpenAI to generate new chat transcripts.
+- **Chat Transcript Generation**: Utlises OpenAI to generate new chat transcripts.
 
 ## Prerequisites
 
