@@ -4,6 +4,7 @@ import { write } from "fs"
 import fs from 'fs'
 import { promises as fsP } from 'fs';
 import fetch from 'node-fetch';
+import {prompt} from './prompt.js'
 import { join, dirname } from 'path';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
@@ -15,11 +16,6 @@ const openAIClient = new OpenAI({
 
 
 export async function generateChatTranscript() {
-
-    const prompt = [{
-        "role": "system",
-        "content": "Please provide a hypothetical conversation between a contact centre agent and a customer who are talking on live chat. The transcript should be formatted in an array with alternating messages between the agent and the customer. Each message should be a separate object within the array that includes the following attributes: \"message\" and \"speaker_is_customer\" - this a boolean flat and should indicate if the speaker is the customer.  You should only provide the array."
-    }]
     try {
         const chatCompletion = await openAIClient.chat.completions.create({
             model: 'gpt-3.5-turbo',
