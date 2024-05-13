@@ -5,3 +5,4 @@ calls
 node_modules
 .DS_Store
 .env
+chatHistory.json
