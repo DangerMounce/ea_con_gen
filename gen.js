@@ -177,10 +177,6 @@ async function uploadAudio(audioSelection) {
         const response = await axios.post(url, formData, { headers: { ...formData.getHeaders(), ...headers } });
         return response.data.path;
     } catch (error) {
-        let logEntry = {
-            "audio upload": error.message
-        }
-        writeData(logEntry)
         console.error(`There was a problem with the audio upload for `, chalk.bold.white(audioSelection), ' : ', chalk.bold.red(error.message))
         console.log(chalk.bold.red('Aborting job to prevent blank call uploads'))
         process.exit()
@@ -353,7 +349,7 @@ async function promptTimeInterval() {
             {
                 type: 'input',
                 name: 'timeInterval',
-                message: 'Time interval in seconds?',
+                message: 'Time interval in seconds? (does not include new chat generation time)',
                 validate: function (value) {
                     const valid = !isNaN(parseFloat(value)) && isFinite(value) && parseInt(value, 10) > 0;
                     return valid || 'Please enter a positive number';
@@ -440,7 +436,6 @@ async function getAgentDetails(key) {
             // get rid of any agents that have no email address
             let filteredList = agentList.filter(agent => agent.email !== 'null');
             agentList = filteredList
-            writeData(agentList)
             
         }
     } catch (error) {
@@ -566,7 +561,7 @@ async function generateNewChat(agents) {
     chatTemplate.data.assigned_at = generateDate()
     chatTemplate.data.solved_at = generateDate()
     chatTemplate.data.responses = await generateChatTranscript()
-    chatTemplate.data.metadata.Filename = await generateUuid()
+    chatTemplate.data.metadata.Filename = "Auto-Gen"
     chatTemplate.data.metadata.Status = getStatus()
     const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
     chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
@@ -596,11 +591,8 @@ async function sendContacts(number) {
                 body: JSON.stringify(exportContact)
             });
             const result = await response.json();
-
             if (result.message) {
                 let serverResponse = result.message;
-                let logData = { "result": result.message };
-                writeData(logData);
                 // Append server response on the same line
                 console.log(chalk.bold.green(serverResponse));
             } else {
