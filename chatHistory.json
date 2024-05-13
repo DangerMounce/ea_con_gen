@@ -2,73 +2,65 @@
   {
     "speaker_email": "agent@example.com",
     "response_id": "1",
-    "message": "Hello! Welcome to our live chat support. How can I assist you today?",
+    "message": "Hello! Thank you for contacting our support team. How can I assist you today?",
     "speaker_is_customer": false,
     "channel": "Chat",
-    "message_created_at": "2024-05-13T10:33:54.629Z"
+    "message_created_at": "2024-05-13T13:27:50.002Z"
   },
   {
     "speaker_email": "customer@example.com",
     "response_id": "2",
-    "message": "Hi, I'm having an issue with my recent order. It hasn't arrived yet.",
+    "message": "Hi, I am having trouble logging into my account. It keeps saying invalid password.",
     "speaker_is_customer": true,
     "channel": "Chat",
-    "message_created_at": "2024-05-13T10:34:54.629Z"
+    "message_created_at": "2024-05-13T13:28:50.002Z"
   },
   {
     "speaker_email": "agent@example.com",
     "response_id": "3",
-    "message": "I'm sorry to hear that. Can you please provide me with your order number so I can look into it for you?",
+    "message": "I'm sorry to hear that. Let me help you with that. Can you please provide me with your account email?",
     "speaker_is_customer": false,
     "channel": "Chat",
-    "message_created_at": "2024-05-13T10:35:54.629Z"
+    "message_created_at": "2024-05-13T13:29:50.002Z"
   },
   {
     "speaker_email": "customer@example.com",
     "response_id": "4",
-    "message": "Sure, my order number is 123456789.",
+    "message": "Sure, my account email is example@email.com",
     "speaker_is_customer": true,
     "channel": "Chat",
-    "message_created_at": "2024-05-13T10:36:54.629Z"
+    "message_created_at": "2024-05-13T13:30:50.002Z"
   },
   {
     "speaker_email": "agent@example.com",
     "response_id": "5",
-    "message": "Thank you for providing that information. Let me check the status of your order right now.",
+    "message": "Thank you for the information. Let me check your account for you.",
     "speaker_is_customer": false,
     "channel": "Chat",
-    "message_created_at": "2024-05-13T10:37:54.629Z"
+    "message_created_at": "2024-05-13T13:31:50.002Z"
   },
   {
     "speaker_email": "customer@example.com",
     "response_id": "6",
-    "message": "Okay, take your time.",
+    "message": "Okay, thank you.",
     "speaker_is_customer": true,
     "channel": "Chat",
-    "message_created_at": "2024-05-13T10:38:54.629Z"
+    "message_created_at": "2024-05-13T13:32:50.002Z"
   },
   {
     "speaker_email": "agent@example.com",
     "response_id": "7",
-    "message": "I've checked the status of your order, and it appears that it's scheduled to be delivered tomorrow. Would you like me to provide more information?",
+    "message": "It seems like there was a typo in the password you entered. I have reset it for you. The new password is 12345. You can use it to log in and change it later.",
     "speaker_is_customer": false,
     "channel": "Chat",
-    "message_created_at": "2024-05-13T10:39:54.629Z"
+    "message_created_at": "2024-05-13T13:33:50.002Z"
   },
   {
     "speaker_email": "customer@example.com",
     "response_id": "8",
-    "message": "That's a relief! Thank you for checking. No need for more information, I'll keep an eye out for it tomorrow.",
+    "message": "Great, thank you so much for your help!",
     "speaker_is_customer": true,
     "channel": "Chat",
-    "message_created_at": "2024-05-13T10:40:54.629Z"
-  },
-  {
-    "speaker_email": "agent@example.com",
-    "response_id": "9",
-    "message": "You're welcome! If you have any more questions or need further assistance, feel free to ask. Have a great day!",
-    "speaker_is_customer": false,
-    "channel": "Chat",
-    "message_created_at": "2024-05-13T10:41:54.629Z"
+    "message_created_at": "2024-05-13T13:34:50.002Z"
   }
 ]
