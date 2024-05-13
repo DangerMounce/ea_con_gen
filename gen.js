@@ -488,7 +488,7 @@ async function createContact() {
         } else {
             contactTemplate = await generateChat(agentList)
         }
-    } else if (contactType === "New Tickets [BETA]") {
+    } else if (contactType === "New Tickets") {
         contactTemplate = await generateNewChat(agentList)
     }
     
@@ -700,13 +700,12 @@ if (process.argv.length <= 2) {
     await getAgentDetails()
     titleText()
     console.log('Contract:', chalk.green(contractName))
-    console.log('Agent ID:', chalk.green(agentRoleId))
     contactType = await promptContactType()
     contactsToCreate = await promptNumberOfContacts()
     timeInterval = await promptTimeInterval()
     titleText()
     console.log('Contract:', chalk.green(contractName))
-    console.log('Agent ID:', chalk.green(agentRoleId))
+    console.log('Number of contacts:', chalk.green(contactsToCreate))
     console.log('Contact Type:', chalk.green(contactType))
     console.log('Time interval:', chalk.green(`${timeInterval} seconds`))
     console.log('')
