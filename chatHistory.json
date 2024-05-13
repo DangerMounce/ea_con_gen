@@ -2,73 +2,73 @@
   {
     "speaker_email": "agent@example.com",
     "response_id": "1",
-    "message": "Hello, thank you for contacting our customer service. How can I assist you today?",
+    "message": "Hello! Welcome to our live chat support. How can I assist you today?",
     "speaker_is_customer": false,
     "channel": "Chat",
-    "message_created_at": "2024-05-12T21:08:53.786Z"
+    "message_created_at": "2024-05-13T10:33:54.629Z"
   },
   {
     "speaker_email": "customer@example.com",
     "response_id": "2",
-    "message": "Hi, I have a question about my recent order delivery status.",
+    "message": "Hi, I'm having an issue with my recent order. It hasn't arrived yet.",
     "speaker_is_customer": true,
     "channel": "Chat",
-    "message_created_at": "2024-05-12T21:09:53.786Z"
+    "message_created_at": "2024-05-13T10:34:54.629Z"
   },
   {
     "speaker_email": "agent@example.com",
     "response_id": "3",
-    "message": "Of course! Could you please provide me with your order number so I can check the status for you?",
+    "message": "I'm sorry to hear that. Can you please provide me with your order number so I can look into it for you?",
     "speaker_is_customer": false,
     "channel": "Chat",
-    "message_created_at": "2024-05-12T21:10:53.786Z"
+    "message_created_at": "2024-05-13T10:35:54.629Z"
   },
   {
     "speaker_email": "customer@example.com",
     "response_id": "4",
-    "message": "Sure, my order number is #123456789.",
+    "message": "Sure, my order number is 123456789.",
     "speaker_is_customer": true,
     "channel": "Chat",
-    "message_created_at": "2024-05-12T21:11:53.786Z"
+    "message_created_at": "2024-05-13T10:36:54.629Z"
   },
   {
     "speaker_email": "agent@example.com",
     "response_id": "5",
-    "message": "Thank you for providing the order number. Let me check that for you. Please hold on for a moment.",
+    "message": "Thank you for providing that information. Let me check the status of your order right now.",
     "speaker_is_customer": false,
     "channel": "Chat",
-    "message_created_at": "2024-05-12T21:12:53.786Z"
+    "message_created_at": "2024-05-13T10:37:54.629Z"
   },
   {
     "speaker_email": "customer@example.com",
     "response_id": "6",
-    "message": "Take your time, I'll wait.",
+    "message": "Okay, take your time.",
     "speaker_is_customer": true,
     "channel": "Chat",
-    "message_created_at": "2024-05-12T21:13:53.786Z"
+    "message_created_at": "2024-05-13T10:38:54.629Z"
   },
   {
     "speaker_email": "agent@example.com",
     "response_id": "7",
-    "message": "I've checked the status of your order #123456789. It's currently out for delivery and should be arriving today by the end of the day. Is there anything else you would like to know?",
+    "message": "I've checked the status of your order, and it appears that it's scheduled to be delivered tomorrow. Would you like me to provide more information?",
     "speaker_is_customer": false,
     "channel": "Chat",
-    "message_created_at": "2024-05-12T21:14:53.786Z"
+    "message_created_at": "2024-05-13T10:39:54.629Z"
   },
   {
     "speaker_email": "customer@example.com",
     "response_id": "8",
-    "message": "That's great to hear! No, that will be all. Thank you for your help.",
+    "message": "That's a relief! Thank you for checking. No need for more information, I'll keep an eye out for it tomorrow.",
     "speaker_is_customer": true,
     "channel": "Chat",
-    "message_created_at": "2024-05-12T21:15:53.786Z"
+    "message_created_at": "2024-05-13T10:40:54.629Z"
   },
   {
     "speaker_email": "agent@example.com",
     "response_id": "9",
-    "message": "You're welcome! If you have any more questions in the future, feel free to reach out. Have a nice day!",
+    "message": "You're welcome! If you have any more questions or need further assistance, feel free to ask. Have a great day!",
     "speaker_is_customer": false,
     "channel": "Chat",
-    "message_created_at": "2024-05-12T21:16:53.786Z"
+    "message_created_at": "2024-05-13T10:41:54.629Z"
   }
 ]
