@@ -566,6 +566,12 @@ async function generateNewChat(agents) {
     const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
     chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
     await writeChatDataToFile(chatTemplate.data.responses)
+    chatTemplate.data.responses.forEach(response => {
+        if (!response.speaker_is_customer) {
+            response.speaker_email = chatTemplate.data.agent_email;
+        }
+    });
+    writeData("TEST", chatTemplate)
     return chatTemplate
 }
 
