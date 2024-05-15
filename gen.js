@@ -709,8 +709,9 @@ if (process.argv.length <= 2) {
     console.log('')
     await promptYesOrNo()
     sendContacts(contactsToCreate)
-} else if (args[0].toLowerCase() === 'create') { // Just so I can lock the file
-    console.log('🥸')
+} else if (args[0].toLowerCase() === 'lock') { // Just so I can lock the file
+    password = await promptForPassword()
+    encryptFile(password)
 } else {
     console.log('Error: ', chalk.red('Invalid arguments.  Type'), chalk.yellow('node gen help'))
 }
