@@ -7,6 +7,11 @@ import {
     getStatus
 } from './utils.js'
 
+import {
+    generateChatTranscript,
+    writeChatDataToFile
+} from './chat_gen.js'
+
 // Chat Template
 export let chatTemplate = {
     "data": {
@@ -73,16 +78,16 @@ export async function generateChat(agents) {
 }
 
 //This function creates a new chat contact template
-async function generateNewChat(agents) {
+export async function generateNewChat(agents) {
     const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
     chatTemplate.data.reference = await generateUuid()
     chatTemplate.data.agent_id = agents[agentNumber].agent_id
     chatTemplate.data.agent_email = agents[agentNumber].email
-    chatTemplate.data.contact_date = generateDate()
+    chatTemplate.data.contact_date = getDate()
     chatTemplate.data.channel = "Chat"
-    chatTemplate.data.assigned_at = generateDate()
-    chatTemplate.data.solved_at = generateDate()
+    chatTemplate.data.assigned_at = getDate()
+    chatTemplate.data.solved_at = getDate()
     chatTemplate.data.responses = await generateChatTranscript()
     chatTemplate.data.metadata.Filename = "Auto-Gen"
     chatTemplate.data.metadata.Status = getStatus()
@@ -94,6 +99,5 @@ async function generateNewChat(agents) {
             response.speaker_email = chatTemplate.data.agent_email;
         }
     });
-    console.log("TEST", chatTemplate)
     return chatTemplate
 }

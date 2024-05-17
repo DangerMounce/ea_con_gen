@@ -9,6 +9,9 @@ import { join, dirname } from 'path';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 dotenv.config();
+import {
+    generateUuid
+} from './utils.js'
 
 const openAIClient = new OpenAI({
     apiKey: process.env['OPENAI_API_KEY']
@@ -82,13 +85,6 @@ async function loadChatHistory() {
         console.error('Failed to read or parse chat history');
         return []; // Return an empty array if there's an error
     }
-}
-
-
-async function generateUuid() {
-    const response = await fetch('https://www.uuidtools.com/api/generate/v1');
-    const [uuid] = await response.json();
-    return uuid;
 }
 
 export async function writeChatDataToFile(data) {
