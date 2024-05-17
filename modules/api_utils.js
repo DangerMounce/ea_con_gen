@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import axios from 'axios';
+import FormData from 'form-data';
 import fs from 'fs';
 import {
     apiKey,
@@ -96,6 +97,27 @@ export async function getAgentDetails(key) {
         console.log(chalk.bold.red(`There was an error getting the agent details.`))
         console.error(error)
         process.exit(1)
+    }
+}
+
+//This function uploads the audio file
+export async function uploadAudio(audioSelection) {
+
+    const url = 'https://api.evaluagent.com/v1/quality/imported-contacts/upload-audio';
+    const headers = {
+        'Authorization': 'Basic ' + Buffer.from(apiKey).toString('base64')
+    };
+
+    const formData = new FormData();
+    formData.append('audio_file', fs.createReadStream(audioSelection));
+
+    try {
+        const response = await axios.post(url, formData, { headers: { ...formData.getHeaders(), ...headers } });
+        return response.data.path;
+    } catch (error) {
+        console.error(`There was a problem with the audio upload for `, chalk.bold.white(audioSelection), ' : ', chalk.bold.red(error.message))
+        console.log(chalk.bold.red('Aborting job to prevent blank call uploads'))
+        process.exit()
     }
 }
 

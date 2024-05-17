@@ -1,3 +1,16 @@
+import fs from 'fs';
+
+import {
+    generateUuid,
+    getDate,
+    fileNameOnly,
+    getStatus,
+    getMP3Duration
+} from './utils.js'
+
+import {
+    uploadAudio
+} from './api_utils.js'
 // Call Template
 export let callTemplate = {
     "data": {
@@ -28,10 +41,10 @@ export async function generateCall(agents) {
     callTemplate.data.reference = await generateUuid()
     callTemplate.data.agent_id = agents[agentNumber].agent_id
     callTemplate.data.agent_email = agents[agentNumber].email
-    callTemplate.data.contact_date = generateDate()
+    callTemplate.data.contact_date = getDate()
     callTemplate.data.channel = "Chat"
-    callTemplate.data.assigned_at = generateDate()
-    callTemplate.data.solved_at = generateDate()
+    callTemplate.data.assigned_at = getDate()
+    callTemplate.data.solved_at = getDate()
     callTemplate.data.channel = "Telephony"
     callTemplate.data.handling_time = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
 
@@ -54,7 +67,7 @@ export async function generateCall(agents) {
             }
         }
     });
-    callTemplate.data.metadata.Filename = await extractBaseName(callFile)
+    callTemplate.data.metadata.Filename = await fileNameOnly(callFile)
     callTemplate.data.audio_file_path = await uploadAudio(callFile)
     return callTemplate
 }

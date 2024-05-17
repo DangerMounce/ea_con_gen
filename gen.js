@@ -1,7 +1,6 @@
 import { time } from 'console';
 import fetch from 'node-fetch';
 import btoa from 'btoa';
-import FormData from 'form-data';
 import {
     checkFilesAndFoldersExsists,
     showHelp,
