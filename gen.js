@@ -98,10 +98,6 @@ if (instruction.toLowerCase() === "add") {
     await promptYesOrNo()
     showSelectionSummary()
     sendContacts(contactsToCreate)
-    
-
-
-
 } else if (instruction.toLowerCase() === "lock") {  
     // for testing - to lock the keyfile
     const password = await promptForPassword()
