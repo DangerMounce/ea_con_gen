@@ -27,35 +27,10 @@ export async function generateChatTranscript() {
         const responseMessage = chatCompletion.choices[0].message.content // Just gets the message
         let transcriptArray = await formatChatHistory(responseMessage) // Returns the responses in an array
         const formattedChatData = transcriptArray.map(formatChatMessage);
-        writeHistory(formattedChatData)
+        // writeHistory(formattedChatData)
         return formattedChatData
     } catch (error) {
         console.error(chalk.white('Error - main() -'),chalk.red(error))
-    }
-}
-
-function writeHistory(data) {
-    clearHistory()
-    return new Promise((resolve, reject) => {
-        // Convert the JavaScript object to a string in JSON format
-        const jsonData = JSON.stringify(data, null, 2);
-        // Append the JSON string to the file
-        fs.appendFile('chatHistory.json', jsonData + '\n', 'utf8', (error) => {
-            if (error) {
-                console.error('An error occurred while creating history:', error.message);
-                reject(error); // Reject the Promise if there's an error
-            } else {
-                resolve(); // Resolve the Promise when operation is successful
-            }
-        });
-    });
-}
-
-async function clearHistory() {
-    try {
-        await fsP.writeFile('chatHistory.json', '', 'utf8');
-    } catch (error) {
-        console.error('Error clearing the file:', error);
     }
 }
 
