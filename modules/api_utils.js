@@ -1,11 +1,14 @@
 import chalk from 'chalk';
 import axios from 'axios';
+import fs from 'fs';
 import {
-    apiKey
+    apiKey,
+    timeInterval
 } from '../gen.js'
 import {
     createContact,
-    writeData
+    writeData,
+    delay
 } from './utils.js'
 const API_URL = 'https://api.evaluagent.com/v1';
 let agentRoleId = null;
@@ -28,8 +31,7 @@ export async function sendContacts(number) {
     for (let c = 0; c < number; c++) {
         const exportContact = await createContact();
         const conUrl = "https://api.evaluagent.com/v1/quality/imported-contacts";
-        // console.log(exportContact)
-        process.exit(1)
+        await writeApiData(exportContact)
         // Use process.stdout.write to avoid new line
         process.stdout.write(`${c + 1} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email}) - `);
 
@@ -38,7 +40,7 @@ export async function sendContacts(number) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + btoa(key)
+                    Authorization: "Basic " + btoa(apiKey)
                 },
                 body: JSON.stringify(exportContact)
             });
@@ -95,4 +97,21 @@ export async function getAgentDetails(key) {
         console.error(error)
         process.exit(1)
     }
+}
+
+async function writeApiData(data) {
+    return new Promise((resolve, reject) => {
+        // Convert the JavaScript object to a string in JSON format
+        const jsonData = JSON.stringify(data, null, 2);
+
+        // Append the JSON string to the file
+        fs.appendFile('outputLog.json', jsonData + '\n', 'utf8', (error) => {
+            if (error) {
+                console.log(chalk.bold.red('Error: ', error.message))
+                reject(error); // Reject the Promise if there's an error
+            } else {
+                resolve(); // Resolve the Promise when operation is successful
+            }
+        });
+    });
 }

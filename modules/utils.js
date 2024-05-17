@@ -187,7 +187,7 @@ export function writeData(data) {
         const jsonData = JSON.stringify(data, null, 2);
 
         // Append the JSON string to the file
-        fs.appendFile('../outputLog.json', jsonData + '\n', 'utf8', (error) => {
+        fs.appendFile('outputLog.json', jsonData + '\n', 'utf8', (error) => {
             if (error) {
                 console.log(chalk.bold.red('Error: ', error.message))
                 reject(error); // Reject the Promise if there's an error
@@ -364,7 +364,6 @@ export async function createContact() {
             process.exit(1)
         } else {
             contactTemplate = await generateChat(agentList)
-            console.log(contactTemplate)
         }
     } else if (contactType === "New Tickets") {
         contactTemplate = await generateNewChat(agentList)
