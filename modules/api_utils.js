@@ -34,7 +34,7 @@ export async function sendContacts(number) {
         const conUrl = "https://api.evaluagent.com/v1/quality/imported-contacts";
         await writeApiData(exportContact)
         // Use process.stdout.write to avoid new line
-        process.stdout.write(`${c + 1} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email}) - `);
+        process.stdout.write(`${c + 1} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email.split('@')[0]}) - `);
 
         try {
             const response = await fetch(conUrl, {
