@@ -23,6 +23,10 @@ import {
     generateChat
 } from './generate_chat.js'
 
+import {
+    generateCall
+} from './generate_call.js'
+
 const ea_con_gen = "ea Contact Manager"
 const version = '11.2' 
 
@@ -355,8 +359,7 @@ export async function createContact() {
             console.log(chalk.red('No calls found in directory.'))
             process.exit(1)
         } else {
-            // test
-            // contactTemplate = await generateCall(agentList)
+            contactTemplate = await generateCall(agentList)
         }
     } else if (contactType === "Stored Tickets") {
         if (ticketDirectoryEmpty) {
