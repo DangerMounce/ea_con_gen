@@ -10,7 +10,8 @@ import {
     apiKeyMenu,
     showSelectionSummary,
     clearOutputLog,
-    writeData
+    writeData,
+    deleteDsStoreFile
 } from './modules/utils.js';
 
 import {
@@ -53,6 +54,7 @@ export let contractName = args[1] // Can only be a contract name
 export let apiKey = args[2] // Can only be an api key
 
 await checkFilesAndFoldersExsists();
+deleteDsStoreFile()
 clearOutputLog()
 // deal with the instruction
 if (instruction.toLowerCase() === "add") { 
