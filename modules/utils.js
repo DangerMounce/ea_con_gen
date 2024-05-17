@@ -27,6 +27,10 @@ import {
     generateCall
 } from './generate_call.js'
 
+import {
+    generateNewChat
+} from './generate_chat.js'
+
 const ea_con_gen = "ea Contact Manager"
 const version = '11.2' 
 
