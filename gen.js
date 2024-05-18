@@ -27,6 +27,10 @@ import {
     sendContacts
 } from './modules/api_utils.js'
 
+import {
+    checkForUpdates
+} from './modules/auto_update.jss'
+
 let password = null;
 export let agentList = [];
 let contractNameAndApiKey = [];
@@ -96,7 +100,7 @@ if (instruction.toLowerCase() === "add") {
 // if it's add then we'll be adding and API
 
 
-
+await checkForUpdates()
 
 async function archiveMain() {
 if (process.argv.length <= 2) {
