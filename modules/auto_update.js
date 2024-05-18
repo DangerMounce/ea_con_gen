@@ -65,6 +65,7 @@ async function checkForUpdates() {
             writeCurrentVersion(latestVersion);
             console.log(chalk.blue(`Update completed successfully.`));
             console.log(chalk.green(`Please restart the script to apply the updates.`));
+            process.exit(1)
         }
         return;
     } else {
