@@ -2,18 +2,19 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import AdmZip from 'adm-zip'; 
+import AdmZip from 'adm-zip';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 
 // Configuration
 const repoOwner = 'DangerMounce';
-const repoName = 'auto_update';
-const branchName = 'main';
+const repoName = 'ea_con_gen';
+const branchName = '37-automatic-updating';
 const gitHubUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branchName}`;
 const downloadUrl = `https://github.com/${repoOwner}/${repoName}/archive/refs/heads/${branchName}.zip`;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const versionFilePath = path.resolve(__dirname, 'version.log');
+const updateDir = path.resolve(__dirname, '..');  // Assuming `auto_update.js` is in the `modules` directory
+const versionFilePath = path.resolve(updateDir, 'version.log');
 
 async function promptUserToUpdate() {
     try {
@@ -63,7 +64,7 @@ async function checkForUpdates() {
             await updateRepository();
             writeCurrentVersion(latestVersion);
             console.log(chalk.blue(`Update completed successfully.`));
-            process.exit(1);
+            console.log(chalk.green(`Please restart the script to apply the updates.`));
         }
         return;
     } else {
@@ -75,9 +76,12 @@ async function updateRepository() {
     try {
         const zipPath = path.resolve(__dirname, 'repo.zip');
         await downloadFile(downloadUrl, zipPath);
-        await extractZip(zipPath, __dirname);
-        fs.unlinkSync(zipPath);  // Clean up the zip file
+        await extractZip(zipPath, updateDir);
+        // fs.unlinkSync(zipPath);  // Clean up the zip file
         console.log('Repository updated.');
+        console.log(`Update directory: ${updateDir}`);
+        console.log(`Version file path: ${versionFilePath}`);
+
     } catch (error) {
         console.error('Error updating the repository:', error);
     }
@@ -104,6 +108,7 @@ async function extractZip(zipPath, dest) {
     for (const file of files) {
         const srcPath = path.resolve(extractedDir, file);
         const destPath = path.resolve(dest, file);
+        console.log(`Updating ${destPath}...`);  // Add logging for debugging
         if (fs.existsSync(destPath)) {
             fs.rmSync(destPath, { recursive: true, force: true }); // Remove existing file/folder
         }
