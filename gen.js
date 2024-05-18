@@ -29,7 +29,7 @@ import {
 
 import {
     checkForUpdates
-} from './modules/auto_update.jss'
+} from './modules/auto_update.js'
 
 let password = null;
 export let agentList = [];
