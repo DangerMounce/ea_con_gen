@@ -58,13 +58,14 @@ async function checkForUpdates() {
     const currentVersion = await getCurrentVersion();
     const latestVersion = await getLatestVersion();
     if (currentVersion !== latestVersion) {
+        console.log('')
         console.log('A new version is available.');
         const updateAgreed = await promptUserToUpdate();
         if (updateAgreed) {
             await updateRepository();
             writeCurrentVersion(latestVersion);
-            console.log(chalk.blue(`Update completed successfully.`));
-            console.log(chalk.green(`Please restart the script to apply the updates.`));
+            console.log(chalk.white(`Update completed successfully.`));
+            console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
             process.exit(1)
         }
         return;
