@@ -15,11 +15,6 @@ import {
 } from './modules/utils.js';
 
 import {
-    encryptFile,
-    decryptFile
-} from './modules/encryption.js';
-
-import {
     promptForPassword,
     promptContactType,
     promptNumberOfContacts,
@@ -64,10 +59,7 @@ if (instruction.toLowerCase() === "add") {
         nodeArguments('Too many arguments.')
         process.exit(1)
     } else {
-        password = await promptForPassword()
-        decryptFile(password)
         addNewApiKey(contractName, apiKey)
-        encryptFile(password)
     }
 } else if (instruction.toLowerCase() === "del") {  
     // Deleting an existing API key
@@ -76,22 +68,16 @@ if (instruction.toLowerCase() === "add") {
         nodeArguments('Too many arguments.')
         process.exit(1)
     } else {
-        password = await promptForPassword()
-        decryptFile(password)
         deleteApiKey(contractName)
-        encryptFile(password)
     }
 } else if (instruction.toLowerCase() === "help") {  
     // Show help screen
     showHelp()
 } else if (instruction.toLowerCase() === "contacts") {  
     // Add contacts
-    const password = await promptForPassword()
-    decryptFile(password)
     contractNameAndApiKey = await apiKeyMenu()
     contractName = contractNameAndApiKey[0]
     apiKey = contractNameAndApiKey[1]
-    encryptFile(password)
     agentList = await getAgentDetails(apiKey)
     contactType = await promptContactType()
     contactsToCreate = await promptNumberOfContacts()
@@ -101,13 +87,9 @@ if (instruction.toLowerCase() === "add") {
     showSelectionSummary()
     sendContacts(contactsToCreate)
 } else if (instruction.toLowerCase() === "lock") {  
-    // for testing - to lock the keyfile
-    const password = await promptForPassword()
-    encryptFile(password)
+
 } else if (instruction.toLowerCase() === "unlock") {  
-    // for testing - to unlock the keyfile
-    const password = await promptForPassword()
-    decryptFile(password)
+    
 } else {
     nodeArguments('Invalid Arguments.')
 }
@@ -132,25 +114,16 @@ if (process.argv.length <= 2) {
     await checkFilesAndFoldersExsists()
     let contract = args[1]
     let apiKey = args[2]
-    password = await promptForPassword()
-    console.log('')
-    await decryptFile(password)
     console.log('')
     await addNewApiKey(contract, apiKey)
-    encryptFile(password)
 
 } else if (args[0].toLowerCase() === 'del') { // Delete a key
     await checkFilesAndFoldersExsists()
-    password = await promptForPassword()
-    await decryptFile(password)
     await deleteApiKey(args[1])
-    encryptFile(password)
 } else if (args[0].toLowerCase() === 'init') { // Setup files
     checkFilesAndFoldersExsists()
 } else if (args[0].toLowerCase() === 'contacts') { // for contacts
     await checkFilesAndFoldersExsists()
-    password = await promptForPassword()
-    await decryptFile(password)
     key = await selectApiKey()
     await getAgentDetails()
     titleText()
@@ -168,7 +141,6 @@ if (process.argv.length <= 2) {
     sendContacts(contactsToCreate)
 } else if (args[0].toLowerCase() === 'lock') { // Just so I can lock the file
     password = await promptForPassword()
-    encryptFile(password)
 } else {
     console.log('Error: ', chalk.red('Invalid arguments.  Type'), chalk.yellow('node gen help'))
 }
