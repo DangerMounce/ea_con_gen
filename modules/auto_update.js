@@ -14,12 +14,13 @@ import {
 const repoOwner = 'DangerMounce';
 const repoName = 'ea_con_gen';
 const branchName = 'main';
+const gitHubUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branchName}`
 const localDirectory = path.dirname(fileURLToPath(import.meta.url));
 const versionFilePath = path.resolve(localDirectory, 'version.txt');
 
 
 export async function getLatestVersion() {
-    const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branchName}`);
+    const response = await fetch(gitHubUrl);
     const data = await response.json();
     return data.sha;
 }
@@ -51,9 +52,32 @@ export async function checkForUpdates() {
     if (currentVersion != latestVesion) {
         const wantsToUpdate = await confirmedYesToUpdate()
         if (wantsToUpdate) {
-            console.log('Ok, gonna update.')
+            const fileChanges = await getFilesChangedInCommit(latestVesion)
+            console.log(fileChanges)
             process.exit(1)
         }
         
+    }
+}
+
+async function getFilesChangedInCommit(sha) {
+    console.log(sha)
+    try {
+        const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits/${sha}`);
+        
+        if (!response.ok) {
+            throw new Error(`GitHub API responded with status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.files) {
+            throw new Error('No files property in the API response');
+        }
+
+        return data.files.map(file => file.filename);
+    } catch (error) {
+        console.error('Error fetching files changed in commit:', error);
+        return [];
     }
 }
