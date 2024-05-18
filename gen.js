@@ -50,7 +50,6 @@ export let apiKey = args[2] // Can only be an api key
 
 
 await checkForUpdates()
-
 await checkFilesAndFoldersExsists();
 deleteDsStoreFile()
 clearOutputLog()
