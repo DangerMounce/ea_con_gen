@@ -32,7 +32,7 @@ import {
 } from './generate_chat.js'
 
 const ea_con_gen = "ea Contact Manager"
-const version = '12.6' 
+const version = '12.7' 
 
 let keyFileIsEncrypted = false
 
