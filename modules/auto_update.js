@@ -9,7 +9,7 @@ import chalk from 'chalk'
 // Configuration
 const repoOwner = 'DangerMounce';
 const repoName = 'auto_update';
-const branchName = 'main';
+const branchName = '37-automatic-updating';
 const gitHubUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branchName}`;
 const downloadUrl = `https://github.com/${repoOwner}/${repoName}/archive/refs/heads/${branchName}.zip`;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

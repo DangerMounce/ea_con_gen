@@ -43,15 +43,6 @@ export let contactType = null;
 export let contactsToCreate = null;
 export let timeInterval = null;
 
-// let args = process.argv.slice(2);
-// let encryptionKey = null
-// let keyFileEncrypted
-// let password
-// let agentRoleId
-// let key
-// let agentList = [];
-// let contractName = null;
-
 const args = process.argv.slice(2);
 const instruction = args[0] // Can be "init", "add", "del", "help" or "contacts"
 export let contractName = args[1] // Can only be a contract name
