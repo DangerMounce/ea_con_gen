@@ -109,3 +109,26 @@ export async function promptYesOrNo() {
         process.exit(1)
     }
 }
+
+// Function to prompt the user for a Yes or No response
+export async function confirmedYesToUpdate() {
+    try {
+        const answers = await inquirer.prompt([
+            {
+                type: 'confirm',
+                name: 'confirmation',
+                message: 'Update available.  Update now?',
+                default: false // Set default value as needed
+            }
+        ]);
+
+        const confirmation = answers.confirmation;
+        if (!confirmation) {
+            return false
+        } else {
+            return true}
+    } catch (error) {
+        console.error(chalk.red(`Error: ${error.message}`));
+        process.exit(1)
+    }
+}
