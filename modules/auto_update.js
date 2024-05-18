@@ -1,5 +1,7 @@
 import fetch from 'node-fetch';
 import fs from 'fs'
+import dotenv from 'dotenv';
+dotenv.config();
 import path from 'path'
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
@@ -18,7 +20,8 @@ const gitHubUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/commits
 const localDirectory = path.dirname(fileURLToPath(import.meta.url));
 const versionFilePath = path.resolve(localDirectory, 'version.txt');
 
-
+// Test
+const GITHUB_KEY = process.env['GITHUB_TOKEN']
 export async function getLatestVersion() {
     const response = await fetch(gitHubUrl);
     const data = await response.json();
@@ -63,7 +66,13 @@ export async function checkForUpdates() {
 async function getFilesChangedInCommit(sha) {
     console.log(sha)
     try {
-        const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits/${sha}`);
+        console.log(GITHUB_KEY)
+        const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits/${sha}`, {
+            headers: {
+                'Authorization': `token ${GITHUB_KEY}`
+            }})
+
+        // const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits/${sha}`);
         
         if (!response.ok) {
             throw new Error(`GitHub API responded with status: ${response.status}`);
