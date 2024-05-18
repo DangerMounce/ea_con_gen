@@ -4,12 +4,12 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import AdmZip from 'adm-zip'; 
 import inquirer from 'inquirer';
-import chalk from 'chalk'
+import chalk from 'chalk';
 
 // Configuration
 const repoOwner = 'DangerMounce';
 const repoName = 'auto_update';
-const branchName = '37-automatic-updating';
+const branchName = 'main';
 const gitHubUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branchName}`;
 const downloadUrl = `https://github.com/${repoOwner}/${repoName}/archive/refs/heads/${branchName}.zip`;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -27,14 +27,10 @@ async function promptUserToUpdate() {
         ]);
 
         const confirmation = readyToUpdate.confirmation;
-        if (!confirmation) {
-            return confirmation
-        } else {
-            return confirmation
-        }
+        return confirmation;
     } catch (error) {
         console.error(chalk.red(`Error: ${error.message}`));
-        process.exit(1)
+        process.exit(1);
     }
 }
 
@@ -49,13 +45,12 @@ async function getCurrentVersion() {
         const version = fs.readFileSync(versionFilePath, 'utf-8').trim();
         return version;
     }
-    // console.log('version.log not found. No current version available.');
     return null;
 }
 
 function writeCurrentVersion(version) {
     fs.writeFileSync(versionFilePath, version, 'utf-8');
-    // console.log(`Current version (${version}) written to data.log`);
+    console.log(`Current version (${version}) written to version.log`);
 }
 
 async function checkForUpdates() {
@@ -63,16 +58,16 @@ async function checkForUpdates() {
     const latestVersion = await getLatestVersion();
     if (currentVersion !== latestVersion) {
         console.log('A new version is available.');
-        const updateAgreed = await promptUserToUpdate()
+        const updateAgreed = await promptUserToUpdate();
         if (updateAgreed) {
             await updateRepository();
             writeCurrentVersion(latestVersion);
-            console.log(chalk.blue(`Update completed successfully.`))
-            process.exit(1)
+            console.log(chalk.blue(`Update completed successfully.`));
+            process.exit(1);
         }
-        return
+        return;
     } else {
-        // console.log('You are using the latest version.');
+        console.log('You are using the latest version.');
     }
 }
 
@@ -82,7 +77,7 @@ async function updateRepository() {
         await downloadFile(downloadUrl, zipPath);
         await extractZip(zipPath, __dirname);
         fs.unlinkSync(zipPath);  // Clean up the zip file
-        // console.log('Repository updated.');
+        console.log('Repository updated.');
     } catch (error) {
         console.error('Error updating the repository:', error);
     }
