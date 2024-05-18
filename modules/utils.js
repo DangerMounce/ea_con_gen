@@ -32,7 +32,7 @@ import {
 } from './generate_chat.js'
 
 const ea_con_gen = "ea Contact Manager"
-const version = '11.2' 
+const version = '12.5' 
 
 let keyFileIsEncrypted = false
 
@@ -162,7 +162,7 @@ async function ensureFileExists(file) {
         if (file.split('/').pop() === 'keyFile.json') {
             fs.writeFileSync(file, '{}', 'utf8');
             if (!keyFileIsEncrypted) { // keyFile is not encrypted
-                let password = await promptForPassword()
+                // let password = await promptForPassword()
                 // encryptFile(password)
                 keyFileIsEncrypted = true
             }

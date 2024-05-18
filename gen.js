@@ -27,6 +27,10 @@ import {
     sendContacts
 } from './modules/api_utils.js'
 
+import {
+    checkForUpdates
+} from './modules/auto_update.js'
+
 let password = null;
 export let agentList = [];
 let contractNameAndApiKey = [];
@@ -48,6 +52,7 @@ const instruction = args[0] // Can be "init", "add", "del", "help" or "contacts"
 export let contractName = args[1] // Can only be a contract name
 export let apiKey = args[2] // Can only be an api key
 
+
 await checkFilesAndFoldersExsists();
 deleteDsStoreFile()
 clearOutputLog()
@@ -62,6 +67,7 @@ if (instruction.toLowerCase() === "add") {
         addNewApiKey(contractName, apiKey)
     }
 } else if (instruction.toLowerCase() === "del") {  
+    await checkForUpdates()
     // Deleting an existing API key
     // Check if arguments are no more than 3
     if (args.length > 3) {
@@ -74,6 +80,7 @@ if (instruction.toLowerCase() === "add") {
     // Show help screen
     showHelp()
 } else if (instruction.toLowerCase() === "contacts") {  
+    await checkForUpdates()
     // Add contacts
     contractNameAndApiKey = await apiKeyMenu()
     contractName = contractNameAndApiKey[0]
@@ -86,8 +93,8 @@ if (instruction.toLowerCase() === "add") {
     await promptYesOrNo()
     showSelectionSummary()
     sendContacts(contactsToCreate)
-} else if (instruction.toLowerCase() === "lock") {  
-
+} else if (instruction.toLowerCase() === "update") {  
+    await checkForUpdates()
 } else if (instruction.toLowerCase() === "unlock") {  
     
 } else {
