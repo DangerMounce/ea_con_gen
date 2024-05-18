@@ -52,6 +52,7 @@ const instruction = args[0] // Can be "init", "add", "del", "help" or "contacts"
 export let contractName = args[1] // Can only be a contract name
 export let apiKey = args[2] // Can only be an api key
 
+await checkForUpdates()
 await checkFilesAndFoldersExsists();
 deleteDsStoreFile()
 clearOutputLog()
@@ -100,7 +101,7 @@ if (instruction.toLowerCase() === "add") {
 // if it's add then we'll be adding and API
 
 
-await checkForUpdates()
+
 
 async function archiveMain() {
 if (process.argv.length <= 2) {
