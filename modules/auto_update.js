@@ -69,7 +69,7 @@ async function checkForUpdates() {
         }
         return;
     } else {
-        console.log('You are using the latest version.');
+        // console.log('You are using the latest version.');
     }
 }
 
