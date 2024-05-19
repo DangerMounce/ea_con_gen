@@ -28,7 +28,8 @@ import {
 } from './modules/api_utils.js'
 
 import {
-    checkForUpdates
+    checkForUpdates,
+    forceUpdate
 } from './modules/auto_update.js'
 
 let password = null;
@@ -85,8 +86,8 @@ if (instruction.toLowerCase() === "add") {
     showSelectionSummary()
     sendContacts(contactsToCreate)
 } else if (instruction.toLowerCase() === "update") {  
-    await checkForUpdates()
-} else if (instruction.toLowerCase() === "unlock") {  
+    await forceUpdate()
+} else if (instruction.toLowerCase() === "") {  
     
 } else {
     nodeArguments('Invalid Arguments.')
