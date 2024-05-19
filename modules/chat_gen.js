@@ -75,3 +75,17 @@ export async function writeChatDataToFile(data) {
         console.error('Error writing file:', error);
     }
 }
+
+export async function generateCallTranscript() {
+    try {
+        const chatCompletion = await openAIClient.chat.completions.create({
+            model: 'gpt-3.5-turbo',
+            messages: prompt
+        });
+        const responseMessage = chatCompletion.choices[0].message.content // Just gets the message
+        let transcriptArray = await formatChatHistory(responseMessage) // Returns the responses in an array
+        return transcriptArray
+    } catch (error) {
+        console.error(chalk.white('Error - main() -'),chalk.red(error))
+    }
+}
