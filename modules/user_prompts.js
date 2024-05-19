@@ -28,7 +28,7 @@ export async function promptContactType() {
                 type: 'list',
                 name: 'contactType',
                 message: 'Select contact source:',
-                choices: ['Stored Calls', 'Stored Tickets', 'Stored Calls & Tickets', 'New Tickets']
+                choices: ['Stored Calls', 'Stored Tickets', 'Stored Calls & Tickets', 'New Tickets', 'New Calls [BETA]']
             }
         ]);
 
