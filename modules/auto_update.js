@@ -121,4 +121,15 @@ async function extractZip(zipPath, dest) {
     fs.rmSync(tempDir, { recursive: true, force: true });
 }
 
-export { checkForUpdates };
+async function forceUpdate() {
+    const updateAgreed = await promptUserToUpdate();
+        if (updateAgreed) {
+            await updateRepository();
+            writeCurrentVersion(latestVersion);
+            console.log(chalk.white(`Update completed successfully.`));
+            console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
+            process.exit(1)
+        }
+}
+
+export { checkForUpdates, forceUpdate };
