@@ -30,7 +30,7 @@ import {
 } from './generate_call.js'
 
 const ea_con_gen = "ea Contact Manager"
-const version = '12.13.1' 
+const version = '12.13.2' 
 
 let keyFileIsEncrypted = false
 

@@ -63,7 +63,7 @@ async function checkForUpdates() {
         const updateAgreed = await promptUserToUpdate();
         if (updateAgreed) {
             await updateRepository();
-            // writeCurrentVersion(latestVersion);
+            writeCurrentVersion(latestVersion);
             console.log(chalk.white(`Update completed successfully.`));
             console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
             process.exit(1)
@@ -125,7 +125,7 @@ async function forceUpdate() {
     const updateAgreed = await promptUserToUpdate();
         if (updateAgreed) {
             await updateRepository();
-            writeCurrentVersion(latestVersion);
+            // writeCurrentVersion(latestVersion);
             console.log(chalk.white(`Update completed successfully.`));
             console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
             process.exit(1)
