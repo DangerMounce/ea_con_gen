@@ -30,7 +30,7 @@ import {
 } from './generate_call.js'
 
 const ea_con_gen = "ea Contact Manager"
-const version = '12.9' 
+const version = '12.10' 
 
 let keyFileIsEncrypted = false
 
@@ -454,10 +454,13 @@ if (isTicketsFolderEmpty()) {
 }
 
 export async function isStoredTicketsAndsCallsAvailable() {
-    if (!isStoredCallsAvailable() || !isStoredTicketsAvailable()) {
-        return false 
+    const storedCallsAvailable = await isStoredTicketsAvailable()
+    const storedTicketsAvailable = await isStoredCallsAvailable()
+
+    if (storedCallsAvailable === true || storedTicketsAvailable === true) {
+        return true 
     } else {
-        return true
+        return false
     }
 }
 

@@ -65,12 +65,20 @@ export async function promptContactType() {
                         name: chalk.white('New Calls', chalk.bold.blue('BETA')),
                         value: 'New Calls [BETA]',
                         disabled: isNewCallFeatureDisabled ? chalk.bold.red('Not available') : false
+                    },
+                    {
+                        name: chalk.green('Exit'),
+                        value: 'Exit'
                     }
                 ]
             }
         ]);
 
         const selectedType = answers.contactType;
+        console.log(selectedType)
+        if (selectedType === 'Exit') {
+            process.exit(1)
+        }
         return selectedType;
     } catch (error) {
         console.error(chalk.red(`Error: ${error.message}`));
