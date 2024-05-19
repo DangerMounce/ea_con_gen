@@ -20,19 +20,17 @@ import {
 } from '../gen.js'
 
 import {
-    generateChat
-} from './generate_chat.js'
-
-import {
-    generateCall
-} from './generate_call.js'
-
-import {
+    generateChat,
     generateNewChat
 } from './generate_chat.js'
 
+import {
+    generateCall,
+    generateNewCall
+} from './generate_call.js'
+
 const ea_con_gen = "ea Contact Manager"
-const version = '12.7' 
+const version = '12.8' 
 
 let keyFileIsEncrypted = false
 
@@ -374,6 +372,8 @@ export async function createContact() {
         }
     } else if (contactType === "New Tickets") {
         contactTemplate = await generateNewChat(agentList)
+    } else if (contactType === "New Calls [BETA]") {
+        contactTemplate = await generateNewCall(agentList)
     }
     
     else { // If Stored Calls & Tickets
