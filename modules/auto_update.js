@@ -64,7 +64,8 @@ async function checkForUpdates() {
         if (updateAgreed) {
             await updateRepository();
             writeCurrentVersion(latestVersion);
-            console.log(chalk.white(`Update completed successfully.`));
+            console.log('')
+            console.log(chalk.bold.green(`Update completed successfully.`));
             console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
             process.exit(1)
         }
