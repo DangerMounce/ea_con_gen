@@ -9,6 +9,14 @@ import {
 } from './utils.js'
 
 import {
+    generateCallTranscript
+} from './chat_gen.js'
+
+import {
+    generateAudio
+} from './audio_generator.js'
+
+import {
     uploadAudio
 } from './api_utils.js'
 // Call Template
@@ -70,4 +78,43 @@ export async function generateCall(agents) {
     callTemplate.data.metadata.Filename = await fileNameOnly(callFile)
     callTemplate.data.audio_file_path = await uploadAudio(callFile)
     return callTemplate
+}
+
+export async function generateNewCall(agents) {
+    const conversation = await generateCallTranscript()
+    const audioToBeUploaded = await generateAudio(conversation)
+    const fsPromises = fs.promises;
+    const agentNumber = Math.floor(Math.random() * agents.length)
+    callTemplate.data.reference = await generateUuid()
+    callTemplate.data.agent_id = agents[agentNumber].agent_id
+    callTemplate.data.agent_email = agents[agentNumber].email
+    callTemplate.data.contact_date = getDate()
+    callTemplate.data.channel = "Call"
+    callTemplate.data.assigned_at = getDate()
+    callTemplate.data.solved_at = getDate()
+    callTemplate.data.channel = "Telephony"
+    callTemplate.data.handling_time = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
+
+    const directoryPath = './calls/';
+    const callFiles = [];
+    try {
+        const files = await fsPromises.readdir(directoryPath);
+        files.forEach((file) => {
+            const filePath = './calls/' + file;
+            callFiles.push(filePath);
+        });
+    } catch (err) {
+        console.log('Error reading directory:', err)
+    }
+    let callFile = `./calls/${audioToBeUploaded}`
+    getMP3Duration(callFile).then(duration => {
+        if (duration) {
+            let logEntry = {
+                "audio length": duration
+            }
+        }
+    });
+    callTemplate.data.metadata.Filename = "Auto Gen"
+    callTemplate.data.audio_file_path = await uploadAudio(callFile);
+return callTemplate
 }

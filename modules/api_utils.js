@@ -102,7 +102,6 @@ export async function getAgentDetails(key) {
 
 //This function uploads the audio file
 export async function uploadAudio(audioSelection) {
-
     const url = 'https://api.evaluagent.com/v1/quality/imported-contacts/upload-audio';
     const headers = {
         'Authorization': 'Basic ' + Buffer.from(apiKey).toString('base64')
