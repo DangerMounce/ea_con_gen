@@ -58,8 +58,8 @@ async function checkForUpdates() {
     const currentVersion = await getCurrentVersion();
     const latestVersion = await getLatestVersion();
     if (currentVersion !== latestVersion) {
-        console.log('')
         console.log('A new version is available.');
+        console.log('')
         const updateAgreed = await promptUserToUpdate();
         if (updateAgreed) {
             await updateRepository();
