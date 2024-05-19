@@ -453,10 +453,13 @@ if (isTicketsFolderEmpty()) {
 }
 
 export async function isStoredTicketsAndsCallsAvailable() {
-    if (!isStoredCallsAvailable() || !isStoredTicketsAvailable()) {
-        return false 
+    const storedCallsAvailable = await isStoredTicketsAvailable()
+    const storedTicketsAvailable = await isStoredCallsAvailable()
+
+    if (storedCallsAvailable === true || storedTicketsAvailable === true) {
+        return true 
     } else {
-        return true
+        return false
     }
 }
 
