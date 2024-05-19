@@ -30,7 +30,7 @@ import {
 } from './generate_call.js'
 
 const ea_con_gen = "ea Contact Manager"
-const version = '12.8' 
+const version = '12.9' 
 
 let keyFileIsEncrypted = false
 
@@ -409,4 +409,72 @@ export async function showSelectionSummary() {
     console.log(chalk.bold.white('Contact Source:', chalk.blue(contactType)))
     console.log(chalk.bold.white('Number of Contacts:',chalk.blue(contactsToCreate)))
     console.log(chalk.bold.white('Time interval:', chalk.blue(timeInterval)))
+}
+
+export function isCallsFolderEmpty() {
+    const callsFolderPath = path.join('.', 'calls');
+
+    try {
+        const files = fs.readdirSync(callsFolderPath);
+        return files.length === 0;
+    } catch (error) {
+        console.error(`Error checking if folder is empty: ${error.message}`);
+        // Depending on your needs, you might want to return false or throw an error here
+        return false;
+    }
+}
+
+export async function isStoredCallsAvailable() {
+if (isCallsFolderEmpty()) {
+    return true
+} else {
+    return false
+}
+}
+
+export function isTicketsFolderEmpty() {
+    const callsFolderPath = path.join('.', 'tickets');
+
+    try {
+        const files = fs.readdirSync(callsFolderPath);
+        return files.length === 0;
+    } catch (error) {
+        console.error(`Error checking if folder is empty: ${error.message}`);
+        // Depending on your needs, you might want to return false or throw an error here
+        return false;
+    }
+}
+
+export async function isStoredTicketsAvailable() {
+if (isTicketsFolderEmpty()) {
+    return true
+} else {
+    return false
+}
+}
+
+export async function isStoredTicketsAndsCallsAvailable() {
+    if (!isStoredCallsAvailable() || !isStoredTicketsAvailable()) {
+        return false 
+    } else {
+        return true
+    }
+}
+
+export async function hasOpenAIAPIKey() {
+    const envFilePath = path.join('.', '.env');
+
+    try {
+        const envFileContent = fs.readFileSync(envFilePath, 'utf-8');
+        const lines = envFileContent.split('\n');
+        for (const line of lines) {
+            const trimmedLine = line.trim();
+            if (trimmedLine.startsWith('OPENAI_API_KEY=')) {
+                return true;
+            }
+        }
+        return false;
+    } catch (error) {
+        return false;
+    }
 }
