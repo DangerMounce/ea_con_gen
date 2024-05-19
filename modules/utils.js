@@ -30,7 +30,7 @@ import {
 } from './generate_call.js'
 
 const ea_con_gen = "ea Contact Manager"
-const version = '12.12' 
+const version = '12.12.1' 
 
 let keyFileIsEncrypted = false
 
@@ -60,20 +60,17 @@ export function showHelp() {
     titleText()
     console.log(chalk.underline.yellow('Help'))
     console.log('')
-    console.log(chalk.bold.yellow('node gen add [contract name] [api key]'))
+    console.log(chalk.bold.yellow('node gen'), chalk.bold.green('[contract name]'), chalk.bold.blue('[contract name]'))
     console.log('')
     console.log('Adds a new contract and API key to the keyFile.')
-    console.log(`You'll be prompted for the keyFile password before the contract and API key is added.`)
     console.log('')
-    console.log(chalk.bold.yellow('node gen del [contract name]'))
+    console.log(chalk.bold.yellow('node gen'), chalk.bold.green('del'), chalk.bold.blue('[contract name]'))
     console.log('')
     console.log(`Deletes the contract and API key from the keyFile.`)
-    console.log(`You'll be prompted for the keyFile password.`)
     console.log('')
-    console.log(chalk.bold.yellow('node gen contacts'))
+    console.log(chalk.bold.yellow('node gen'), chalk.bold.green('contacts'))
     console.log('')
     console.log('Creates contacts and sends to evaluagent.')
-    console.log(`You'll be prompted for the keyFile password.`)
     console.log('Select the contract from the list.')
     console.log('Confirm contact type, number of contacts and time interval between contacts.')
     console.log('Note that you must have MP3 audio files in the calls directory and the appropriate JSON files in the tickets directory.')
