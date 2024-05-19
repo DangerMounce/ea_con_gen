@@ -1,6 +1,13 @@
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 
+import { 
+    isStoredCallsAvailable,
+    isStoredTicketsAvailable,
+    isStoredTicketsAndsCallsAvailable,
+    hasOpenAIAPIKey
+ } from './utils.js'
+
 // Prompts for the password to encrypt the keyfile
 export async function promptForPassword() {
     try {
@@ -22,13 +29,44 @@ export async function promptForPassword() {
 
 // Function to prompt the user to select "Calls", "Tickets", or "Both"
 export async function promptContactType() {
+    let isStoredCallsFeatureDisabled = await isStoredCallsAvailable();
+    let isNewCallFeatureDisabled = await hasOpenAIAPIKey();
+    let isStoredTicketsFeatureDisabled = await isStoredTicketsAvailable();
+    let isStoredTicketsAndCallsFeatureDisabled = await isStoredTicketsAndsCallsAvailable();;
+    let isNewTicketsFeatureDisabled = await hasOpenAIAPIKey();
     try {
         const answers = await inquirer.prompt([
             {
                 type: 'list',
                 name: 'contactType',
                 message: 'Select contact source:',
-                choices: ['Stored Calls', 'Stored Tickets', 'Stored Calls & Tickets', 'New Tickets', 'New Calls [BETA]']
+                choices: [
+                    {
+                        name: 'Stored Calls',
+                        value: 'Stored Calls',
+                        disabled: isStoredCallsFeatureDisabled ? chalk.bold.red('Not available') : false
+                    },
+                    {
+                        name: 'Stored Tickets',
+                        value: 'Stored Tickets',
+                        disabled: isStoredTicketsFeatureDisabled ? chalk.bold.red('Not available') : false
+                    },
+                    {
+                        name: 'Stored Calls & Tickets',
+                        value: 'Stored Calls & Tickets',
+                        disabled: isStoredTicketsAndCallsFeatureDisabled ? chalk.bold.red('Not available') : false
+                    },
+                    {
+                        name: chalk.white('New Tickets', chalk.bold.blue('BETA')),
+                        value: 'New Tickets',
+                        disabled: isNewTicketsFeatureDisabled ? chalk.bold.red('Not available') : false
+                    },
+                    {
+                        name: chalk.white('New Calls', chalk.bold.blue('BETA')),
+                        value: 'New Calls [BETA]',
+                        disabled: isNewCallFeatureDisabled ? chalk.bold.red('Not available') : false
+                    }
+                ]
             }
         ]);
 
