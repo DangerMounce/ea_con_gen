@@ -30,7 +30,7 @@ import {
 } from './generate_call.js'
 
 const ea_con_gen = "ea Contact Manager"
-const version = '12.9' 
+const version = '12.10' 
 
 let keyFileIsEncrypted = false
 
@@ -60,12 +60,6 @@ export function showHelp() {
     titleText()
     console.log(chalk.underline.yellow('Help'))
     console.log('')
-    console.log(chalk.bold.yellow('node gen init'))
-    console.log('')
-    console.log(`Creates calls and tickets directories if they don't exists.`)
-    console.log(`Also creates outputLog and keyFile if they don't exists.`)
-    console.log(`The keyFile will be encrypted so you'll be prompted to create a password.`)
-    console.log('')
     console.log(chalk.bold.yellow('node gen add [contract name] [api key]'))
     console.log('')
     console.log('Adds a new contract and API key to the keyFile.')
@@ -83,6 +77,11 @@ export function showHelp() {
     console.log('Select the contract from the list.')
     console.log('Confirm contact type, number of contacts and time interval between contacts.')
     console.log('Note that you must have MP3 audio files in the calls directory and the appropriate JSON files in the tickets directory.')
+    console.log('')
+    console.log(chalk.bold.blue('Contact Types'))
+    console.log('')
+    console.log('Select from stored calls or tickets.')
+    console.log('To generate AI calls or Tickets select the NEW options.')
 }
 
 //This function returns the filename without the extension for the metadata
