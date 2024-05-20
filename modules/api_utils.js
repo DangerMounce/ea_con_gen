@@ -98,7 +98,7 @@ export async function getAgentDetails(key) {
         }
     } catch (error) {
         console.log(chalk.bold.red(`There was an error getting the agent details.  Check your API key.`))
-        writeLog(error)
+        await writeLog(error)
         process.exit(1)
     }
 }
