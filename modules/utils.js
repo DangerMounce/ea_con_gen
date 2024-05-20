@@ -28,7 +28,7 @@ import {
 import { writeLog, clearLog } from './generate_log.js';
 
 const ea_con_gen = "ea Contact Manager"
-const version = '12.17' 
+const version = '12.18' 
 
 
 // This function returns the current date
@@ -193,9 +193,11 @@ export async function addNewApiKey(contractName, apiKey) {
     // Write the updated content back to keyFile.json
     try {
         fs.writeFileSync(keyFilePath, JSON.stringify(keyFileData, null, 2), 'utf8');
+        console.log('')
         console.log(chalk.green(`Successfully added '${contractName}' to keyFile.json.`));
         console.log('')
     } catch (err) {
+        console.log('')
         console.error(chalk.red('Error writing to keyFile.json:', err.message));
         console.log('')
     }
