@@ -55,6 +55,8 @@ if (instruction.toLowerCase() === "add") {
     if (args.length > 3) {
         nodeArguments('Too many arguments.')
         process.exit(1)
+    } else if (args.length === 1){
+        nodeArguments('Contact Name or API Key missing.')
     } else {
         addNewApiKey(contractName, apiKey)
     }
