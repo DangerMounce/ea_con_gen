@@ -21,7 +21,6 @@ async function fetchApi(endpoint) {
     const response = await axios.get(url, {
         headers: { Authorization: `Basic ${Buffer.from(apiKey).toString('base64')}` }
     })
-    writeLog(response.data.data)
     return response.data.data
 }
 
@@ -94,7 +93,6 @@ export async function getAgentDetails(key) {
                 }))
             // get rid of any agents that have no email address
             let filteredList = agentList.filter(agent => agent.email !== 'null');
-            writeLog(filteredList)
             return filteredList
             
         }

@@ -22,7 +22,7 @@ async function promptUserToUpdate() {
             {
                 type: 'confirm',
                 name: 'confirmation',
-                message: 'Update ea Contact Manager?',
+                message: chalk.bold.yellow('Update?'),
                 default: false // Set default value as needed
             }
         ]);
@@ -58,7 +58,9 @@ async function checkForUpdates() {
     const currentVersion = await getCurrentVersion();
     const latestVersion = await getLatestVersion();
     if (currentVersion !== latestVersion) {
-        console.log('A new version is available.');
+        console.clear('')
+        console.log('')
+        console.log(chalk.yellow('A new version of Contact Manager is available.'));
         console.log('')
         const updateAgreed = await promptUserToUpdate();
         if (updateAgreed) {
@@ -81,12 +83,13 @@ async function updateRepository() {
         await downloadFile(downloadUrl, zipPath);
         await extractZip(zipPath, updateDir);
         // fs.unlinkSync(zipPath);  // Clean up the zip file
-        console.log('Repository updated.');
-        console.log(`Update directory: ${updateDir}`);
-        console.log(`Version file path: ${versionFilePath}`);
+        console.log(chalk.green('Repository updated.'));
+        console.log(chalk.green(`Update directory: ${updateDir}`));
+        console.log(chalk.green(`Version file path: ${versionFilePath}`));
 
     } catch (error) {
-        console.error('Error updating the repository:', error);
+        writeLog(error)
+        console.error('Error updating the repository.');
     }
 }
 
@@ -129,7 +132,7 @@ async function forceUpdate() {
             // writeCurrentVersion(latestVersion);
             console.log(chalk.white(`Update completed successfully.`));
             console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
-            process.exit(1)
+            process.exit(0)
         }
 }
 
