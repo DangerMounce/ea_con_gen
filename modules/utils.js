@@ -8,10 +8,6 @@ import fs from 'fs';
 import inquirer from 'inquirer';
 
 import {
-    encryptFile
-} from './encryption.js'
-
-import {
     contractName,
     contactType,
     contactsToCreate,
@@ -30,9 +26,8 @@ import {
 } from './generate_call.js'
 
 const ea_con_gen = "ea Contact Manager"
-const version = '12.14' 
+const version = '12.15' 
 
-let keyFileIsEncrypted = false
 
 // This function returns the current date
 export function getDate() {
@@ -155,11 +150,6 @@ async function ensureFileExists(file) {
         fs.writeFileSync(file, '') // Create the file
         if (file.split('/').pop() === 'keyFile.json') {
             fs.writeFileSync(file, '{}', 'utf8');
-            if (!keyFileIsEncrypted) { // keyFile is not encrypted
-                // let password = await promptForPassword()
-                // encryptFile(password)
-                keyFileIsEncrypted = true
-            }
         } else {
             // clearOutputLog()
         }
