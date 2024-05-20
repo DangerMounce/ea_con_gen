@@ -7,6 +7,7 @@ import ffmpeg from 'fluent-ffmpeg';
 import ffmpegPath from 'ffmpeg-static';
 import ffprobePath from 'ffprobe-static';
 import { generateUuid } from './utils.js'
+import { writeLog, clearLog } from "./generate_log.js";
 
 // Get the current file's directory
 const __filename = fileURLToPath(import.meta.url);

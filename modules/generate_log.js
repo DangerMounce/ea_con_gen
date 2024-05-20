@@ -1,35 +1,48 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import chalk from 'chalk'
 
-async function writeLog(data) {
+// Just returns the date and time
+export async function getDateAndTime() {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    const now = new Date();
+    const dayName = days[now.getDay()];
+    const day = now.getDate();
+    const month = months[now.getMonth()];
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+
+    let dataAndTime = `${dayName} ${day} ${month} - ${hours}:${minutes}`
+    return dataAndTime
+}
+
+export async function writeLog(data) {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const logPath = path.join(__dirname, 'log.json'); // Adjust the path as necessary
     return new Promise((resolve, reject) => {
-        // Convert the JavaScript object to a string in JSON format
         const jsonData = JSON.stringify(data, null, 2);
-
-        // Append the JSON string to the file
-        fs.appendFile('../modules/log.json', jsonData + '\n', 'utf8', (error) => {
+        fs.appendFile(logPath, jsonData + '\n', 'utf8', (error) => {
             if (error) {
-                console.log(chalk.bold.red('Error: ', error.message))
-                reject(error); // Reject the Promise if there's an error
+                console.error(chalk.red('Error writing log:', error.message));
+                reject(error);
             } else {
-                resolve(); // Resolve the Promise when operation is successful
+                resolve();
             }
         });
     });
 }
-// Function to clear the contents of the outputLog
-export function clearLog() {
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const outputLogPath = path.join(__dirname, '../modules/log.json');
 
+export async function clearLog() {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const logPath = path.join(__dirname, 'log.json');
     try {
-        // let data = getDateAndTime()
-        fs.writeFileSync(outputLogPath, '');
-        // writeData(data)
+        let data = await getDateAndTime();
+        fs.writeFileSync(logPath, '');
+        await writeLog({ "Log Created": data });
     } catch (error) {
-        console.error(chalk.red(`Error clearing outputLog.json: ${error.message}`));
+        console.error(chalk.red('Error clearing log:', error.message));
     }
 }
-
-clearLog()

@@ -13,6 +13,7 @@ import {
     generateUuid
 } from './utils.js'
 
+
 const openAIClient = new OpenAI({
     apiKey: process.env['OPENAI_API_KEY']
 });
