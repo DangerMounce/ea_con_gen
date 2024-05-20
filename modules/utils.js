@@ -28,7 +28,7 @@ import {
 import { writeLog, clearLog } from './generate_log.js';
 
 const ea_con_gen = "ea Contact Manager"
-const version = '12.16' 
+const version = '12.17' 
 
 
 // This function returns the current date

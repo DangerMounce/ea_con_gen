@@ -1,3 +1,41 @@
 {
-  "Log Created": "Mon 20 May - 20:03"
+  "Log Created": "Mon 20 May - 20:36"
+}
+{
+  "message": "Request failed with status code 401",
+  "name": "AxiosError",
+  "stack": "AxiosError: Request failed with status code 401\n    at settle (file:///Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/node_modules/axios/lib/core/settle.js:19:12)\n    at IncomingMessage.handleStreamEnd (file:///Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/node_modules/axios/lib/adapters/http.js:589:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1359:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)\n    at Axios.request (file:///Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/node_modules/axios/lib/core/Axios.js:45:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async fetchApi (file:///Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/api_utils.js:21:22)\n    at async getAgentDetails (file:///Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/api_utils.js:77:30)\n    at async file:///Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/gen.js:80:17",
+  "config": {
+    "transitional": {
+      "silentJSONParsing": true,
+      "forcedJSONParsing": true,
+      "clarifyTimeoutError": false
+    },
+    "adapter": [
+      "xhr",
+      "http"
+    ],
+    "transformRequest": [
+      null
+    ],
+    "transformResponse": [
+      null
+    ],
+    "timeout": 0,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "maxBodyLength": -1,
+    "env": {},
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "Authorization": "Basic dGVzdA==",
+      "User-Agent": "axios/1.6.8",
+      "Accept-Encoding": "gzip, compress, deflate, br"
+    },
+    "method": "get",
+    "url": "https://api.evaluagent.com/v1/org/roles"
+  },
+  "code": "ERR_BAD_REQUEST",
+  "status": 401
 }
