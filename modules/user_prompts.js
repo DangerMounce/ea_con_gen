@@ -77,7 +77,8 @@ export async function promptContactType() {
         const selectedType = answers.contactType;
         console.log(selectedType)
         if (selectedType === 'Exit') {
-            process.exit(1)
+            console.clear('')
+            process.exit(0)
         }
         return selectedType;
     } catch (error) {

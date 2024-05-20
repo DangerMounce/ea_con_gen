@@ -25,29 +25,15 @@ import {
     generateNewCall
 } from './generate_call.js'
 
+import { writeLog, clearLog } from './generate_log.js';
+
 const ea_con_gen = "ea Contact Manager"
-const version = '12.15' 
+const version = '12.16' 
 
 
 // This function returns the current date
 export function getDate() {
     return new Date().toISOString().split('.')[0] + "Z";
-}
-
-// Just returns the date and time
-export function getDateAndTime() {
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    const now = new Date();
-    const dayName = days[now.getDay()];
-    const day = now.getDate();
-    const month = months[now.getMonth()];
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-
-    let dataAndTime = `${dayName} ${day} ${month} - ${hours}:${minutes}`
-    return dataAndTime
 }
 
 //Displays the help text
@@ -99,11 +85,15 @@ export async function deleteDsStoreFile() {
         try {
             await access(filePath);  // Check if the file exists
             await unlink(filePath);  // Delete the file
+            let dsData = ({dir,'DS_Store' : "deleted"})
+            writeLog(dsData)
         } catch (error) {
             // If the file does not exist, access will throw an error
             if (error.code === 'ENOENT') {
             } else {
                 // Log other errors
+                let dsData = ({dir,'DS_Store' : error})
+                writeLog(dsData)    
                 console.error(`Error accessing or deleting .DS_Store in ${dir}:`, error);
             }
         }
@@ -158,44 +148,12 @@ async function ensureFileExists(file) {
     }
 }
 
-// Function to clear the contents of the outputLog
-export function clearOutputLog() {
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const outputLogPath = path.join(__dirname, '../outputLog.json');
-
-    try {
-        let data = getDateAndTime()
-        fs.writeFileSync(outputLogPath, '');
-        writeData(data)
-    } catch (error) {
-        console.error(chalk.red(`Error clearing outputLog.json: ${error.message}`));
-    }
-}
-
-// Writes to the output log
-export function writeData(data) {
-    return new Promise((resolve, reject) => {
-        // Convert the JavaScript object to a string in JSON format
-        const jsonData = JSON.stringify(data, null, 2);
-
-        // Append the JSON string to the file
-        fs.appendFile('outputLog.json', jsonData + '\n', 'utf8', (error) => {
-            if (error) {
-                console.log(chalk.bold.red('Error: ', error.message))
-                reject(error); // Reject the Promise if there's an error
-            } else {
-                resolve(); // Resolve the Promise when operation is successful
-            }
-        });
-    });
-}
-
 //Checks for required folders
 export async function checkFilesAndFoldersExsists() {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const directories = ['../calls', '../tickets'];
     const keyFilePath = path.join(__dirname, '../keyFile.json');
-    const outputLogPath = path.join(__dirname, '../outputLog.json');
+    const outputLogPath = path.join(__dirname, '../modules/log.json');
     directories.forEach(directory => {
         const dirPath = path.join(__dirname, directory)
         if (!fs.existsSync(dirPath)) {
@@ -345,6 +303,8 @@ export async function createContact() {
     if (contactType === "Stored Calls") {
         if (callDirectoryEmpty) {
             console.log(chalk.red('No calls found in directory.'))
+            let dsData = ({"Stored Calls" : "empty"})
+            writeLog(dsData)
             process.exit(1)
         } else {
             contactTemplate = await generateCall(agentList)
@@ -352,6 +312,8 @@ export async function createContact() {
     } else if (contactType === "Stored Tickets") {
         if (ticketDirectoryEmpty) {
             console.log(chalk.red('No chats found in directory.'))
+            let dsData = ({"Stored Chats" : "empty"})
+            writeLog(dsData)
             process.exit(1)
         } else {
             contactTemplate = await generateChat(agentList)
@@ -365,10 +327,14 @@ export async function createContact() {
     else { // If Stored Calls & Tickets
         if (callDirectoryEmpty) {
             console.log(chalk.red('No calls found in directory.'))
+            let dsData = ({"Stored Calls" : "empty"})
+            writeLog(dsData)
             process.exit(1)
         }
         if (ticketDirectoryEmpty) {
             console.log(chalk.red('No chats found in directory.'))
+            let dsData = ({"Stored Chats" : "empty"})
+            writeLog(dsData)
             process.exit(1)
         }
         const randomChoice = Math.floor(Math.random() * 2)
@@ -378,6 +344,7 @@ export async function createContact() {
             contactTemplate = await generateCall(agentList)
         }
     }
+    writeLog(contactTemplate)
     return contactTemplate
 }
 
@@ -395,6 +362,11 @@ export async function showSelectionSummary() {
     console.log(chalk.bold.white('Contact Source:', chalk.blue(contactType)))
     console.log(chalk.bold.white('Number of Contacts:',chalk.blue(contactsToCreate)))
     console.log(chalk.bold.white('Time interval:', chalk.blue(timeInterval)))
+    let dsData = ({"Contract Name" : contractName},
+        {"Contact Source" : contactType},
+        {"Number of Contacts" : contactsToCreate},
+        {"Time Interval" : timeInterval})
+    writeLog(dsData)
 }
 
 export function isCallsFolderEmpty() {
@@ -405,7 +377,6 @@ export function isCallsFolderEmpty() {
         return files.length === 0;
     } catch (error) {
         console.error(`Error checking if folder is empty: ${error.message}`);
-        // Depending on your needs, you might want to return false or throw an error here
         return false;
     }
 }
@@ -420,13 +391,11 @@ if (isCallsFolderEmpty()) {
 
 export function isTicketsFolderEmpty() {
     const callsFolderPath = path.join('.', 'tickets');
-
     try {
         const files = fs.readdirSync(callsFolderPath);
         return files.length === 0;
     } catch (error) {
         console.error(`Error checking if folder is empty: ${error.message}`);
-        // Depending on your needs, you might want to return false or throw an error here
         return false;
     }
 }

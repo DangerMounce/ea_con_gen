@@ -9,8 +9,6 @@ import {
     deleteApiKey,
     apiKeyMenu,
     showSelectionSummary,
-    clearOutputLog,
-    writeData,
     deleteDsStoreFile
 } from './modules/utils.js';
 
@@ -30,7 +28,9 @@ import {
 import {
     checkForUpdates,
     forceUpdate
-} from './modules/auto_update.js'
+} from './modules/auto_update.js';
+
+import { writeLog, clearLog } from './modules/generate_log.js'
 
 let password = null;
 export let agentList = [];
@@ -46,8 +46,8 @@ export let apiKey = args[2] // Can only be an api key
 
 
 await checkFilesAndFoldersExsists();
+await clearLog()
 deleteDsStoreFile()
-clearOutputLog()
 // deal with the instruction
 if (instruction.toLowerCase() === "add") { 
     // Adding a new API Key
