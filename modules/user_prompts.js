@@ -138,6 +138,7 @@ export async function promptNumberOfContacts() {
 
 // Function to prompt the user for a Yes or No response
 export async function promptYesOrNo() {
+    console.log('')
     try {
         const answers = await inquirer.prompt([
             {
