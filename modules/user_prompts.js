@@ -46,27 +46,27 @@ export async function promptContactType() {
                     {
                         name: 'Stored Calls',
                         value: 'Stored Calls',
-                        disabled: isStoredCallsFeatureDisabled ? chalk.bold.red('Not available') : false
+                        disabled: isStoredCallsFeatureDisabled ? chalk.bold.red('- not available.') : false
                     },
                     {
                         name: 'Stored Tickets',
                         value: 'Stored Tickets',
-                        disabled: isStoredTicketsFeatureDisabled ? chalk.bold.red('Not available') : false
+                        disabled: isStoredTicketsFeatureDisabled ? chalk.bold.red('- not available.') : false
                     },
                     {
                         name: 'Stored Calls & Tickets',
                         value: 'Stored Calls & Tickets',
-                        disabled: isStoredTicketsAndCallsFeatureDisabled ? chalk.bold.red('Not available') : false
+                        disabled: isStoredTicketsAndCallsFeatureDisabled ? chalk.bold.red('- not available.') : false
                     },
                     {
                         name: chalk.white('New Tickets', chalk.bold.blue('BETA')),
                         value: 'New Tickets',
-                        disabled: clientIsValid ? chalk.bold.red('Not available') : false
+                        disabled: clientIsValid ? chalk.bold.red('- not available.  API key missing.') : false
                     },
                     {
                         name: chalk.white('New Calls', chalk.bold.blue('BETA')),
                         value: 'New Calls [BETA]',
-                        disabled: clientIsValid ? chalk.bold.red('Not available') : false
+                        disabled: clientIsValid ? chalk.bold.red('- not available.  API key missing.') : false
                     },
                     {
                         name: chalk.green('Exit'),
