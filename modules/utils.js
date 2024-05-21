@@ -28,7 +28,8 @@ import {
 import { writeLog, clearLog } from './generate_log.js';
 
 const ea_con_gen = "ea Contact Manager"
-const version = '12.18' 
+const helpVersion = '' // when updating, prev version in here so that we know how old help is.
+const version = '12.20' 
 
 
 // This function returns the current date
@@ -39,7 +40,7 @@ export function getDate() {
 //Displays the help text
 export function showHelp() {
     titleText()
-    console.log(chalk.underline.yellow('Help'))
+    console.log(chalk.underline.yellow('Help'), chalk.bold.green('V',helpVersion))
     console.log('')
     console.log(chalk.bold.yellow('node gen'), chalk.bold.green('[contract name]'), chalk.bold.blue('[contract name]'))
     console.log('')
@@ -422,19 +423,40 @@ export async function isStoredTicketsAndsCallsAvailable() {
 }
 
 export async function hasOpenAIAPIKey() {
-    const envFilePath = path.join('.', '.env');
-
+    let openAIClient;
     try {
-        const envFileContent = fs.readFileSync(envFilePath, 'utf-8');
-        const lines = envFileContent.split('\n');
-        for (const line of lines) {
-            const trimmedLine = line.trim();
-            if (trimmedLine.startsWith('OPENAI_API_KEY=')) {
-                return true;
-            }
-        }
-        return false;
+        openAIClient = new OpenAI({
+            apiKey: process.env['OPENAI_API_KEY']
+        });
     } catch (error) {
-        return false;
+        return false
     }
 }
+
+export async function ensureEnvFileAndApiKey() {
+    const envPath = path.join('./.env'); 
+    const placeholderKey = 'OPENAI_API_KEY=placeholder_for_missing_api_key\n';
+    
+    try {
+        // Check if .env exists
+        if (fs.existsSync(envPath)) {
+            // Read the content of .env
+            const envContent = fs.readFileSync(envPath, 'utf8');
+            // Check if OPENAI_API_KEY exists in the content
+            if (!envContent.includes('OPENAI_API_KEY')) {
+                // If key does not exist, append it
+                fs.appendFileSync(envPath, placeholderKey);
+                console.log('OPENAI_API_KEY added to existing .env file.');
+            } else {
+                console.log('OPENAI_API_KEY already exists in .env file.');
+            }
+        } else {
+            // If .env does not exist, create it and add the placeholder key
+            fs.writeFileSync(envPath, placeholderKey);
+            console.log('.env file created with OPENAI_API_KEY placeholder.');
+        }
+    } catch (error) {
+        console.error('Error handling .env file:', error);
+    }
+    }
+    

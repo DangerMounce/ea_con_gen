@@ -10,13 +10,23 @@ import OpenAI from 'openai';
 import dotenv from 'dotenv';
 dotenv.config();
 import {
-    generateUuid
+    generateUuid,
+    ensureEnvFileAndApiKey
 } from './utils.js'
 
+await ensureEnvFileAndApiKey();
 
-const openAIClient = new OpenAI({
-    apiKey: process.env['OPENAI_API_KEY']
-});
+let openAIClient
+const apiKey = process.env['OPENAI_API_KEY']
+export let clientIsValid = false
+
+if (apiKey !='placeholder-for-api-key') {
+    openAIClient = new OpenAI({
+    apiKey: apiKey
+});} else {
+    console.log(chalk.bold.yellow('[OPENAI_API_KEY] invalid. AI options disabled. TEST'))
+    clientIsValid = true
+}
 
 
 export async function generateChatTranscript() {
