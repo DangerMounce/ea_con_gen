@@ -1,4 +1,33 @@
 "OPENAI_API_KEY already exists in .env file."
 {
-  "Log Created": "Tue 21 May - 17:00"
+  "Log Created": "Tue 21 May - 22:09"
+}
+{
+  "Time Interval": 1
+}
+{
+  "Time Interval": 1
+}
+{
+  "Audio Upload": "quality/143e3003-d490-4691-a058-9c889fc4cd79/137bb763-eb60-4b4b-9938-35c6bbbdc2c2.mp3"
+}
+{
+  "data": {
+    "reference": "65dcb116-17b6-11ef-a182-325096b39f47",
+    "agent_id": "b4a533d6-d228-42cd-93f5-e613112c6f33",
+    "agent_email": "dup@test.ev.co",
+    "contact_date": "2024-05-21T21:09:23Z",
+    "channel": "Telephony",
+    "assigned_at": "2024-05-21T21:09:23Z",
+    "solved_at": "2024-05-21T21:09:23Z",
+    "external_url": "https://www.evaluagent.com",
+    "responses_stored_externally": "true",
+    "handling_time": 109,
+    "customer_telephone_number": "01753 877212",
+    "audio_file_path": "quality/143e3003-d490-4691-a058-9c889fc4cd79/137bb763-eb60-4b4b-9938-35c6bbbdc2c2.mp3",
+    "metadata": {
+      "Filename": "call1",
+      "Contact": "Call"
+    }
+  }
 }

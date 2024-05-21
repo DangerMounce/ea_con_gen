@@ -111,7 +111,7 @@ export async function getAgentDetails(key) {
 
 //This function uploads the audio file
 export async function uploadAudio(audioSelection) {
-    const url = `${cluster}/quality/imported-contacts/upload-audio`;
+    const url = `${API_URL}/quality/imported-contacts/upload-audio`;
     const headers = {
         'Authorization': 'Basic ' + Buffer.from(apiKey).toString('base64')
     };
@@ -121,10 +121,10 @@ export async function uploadAudio(audioSelection) {
 
     try {
         const response = await axios.post(url, formData, { headers: { ...formData.getHeaders(), ...headers } });
-        writeLog({'Audio Upload' : response.data.path})
+        await writeLog({'Audio Upload' : response.data.path})
         return response.data.path;
     } catch (error) {
-        writeLog({audioSelection : error.message})
+        await writeLog({audioSelection : error.message})
         console.error(`There was a problem with the audio upload for `, chalk.bold.white(audioSelection), ' : ', chalk.bold.red(error.message))
         console.log(chalk.bold.red('Aborting job to prevent blank call uploads'))
         process.exit()
