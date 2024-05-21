@@ -177,8 +177,8 @@ export async function promptCluster() {
                         value: 'Austrailian Cluster',
                     },
                     {
-                        name: 'North Amercian Cluster',
-                        value: 'North Amercian Clusters',
+                        name: 'North American Cluster',
+                        value: 'North American Clusters',
                     },
                     {
                         name: chalk.green('Exit'),
@@ -198,7 +198,7 @@ export async function promptCluster() {
             return 'https://api.evaluagent.com/v1'
         } else if (clusterType === 'Austrailian Cluster') {
             return 'https://api.aus.evaluagent.com/v1'
-        } else if (clusterType === 'North Amercian Cluster') {
+        } else if (clusterType === 'North American Cluster') {
             return 'https://api.us-east.evaluagent.com/v1'
         }
 
