@@ -10,7 +10,8 @@ import {
     apiKeyMenu,
     showSelectionSummary,
     deleteDsStoreFile,
-    ensureEnvFileAndApiKey
+    ensureEnvFileAndApiKey,
+    titleText
 } from './modules/utils.js';
 
 import {
@@ -44,10 +45,10 @@ export let timeInterval = null;
 export let cluster = null
 
 const args = process.argv.slice(2);
-const instruction = args[0] // Can be "init", "add", "del", "help" or "contacts"
+export const instruction = args[0] // Can be "init", "add", "del", "help" or "contacts"
 export let contractName = args[1] // Can only be a contract name
 export let apiKey = args[2] // Can only be an api key
-
+export let API_URL = null
 
 await checkFilesAndFoldersExsists();
 await ensureEnvFileAndApiKey();
@@ -80,15 +81,19 @@ if (instruction.toLowerCase() === "add") {
     showHelp()
 } else if (instruction.toLowerCase() === "contacts") {  
     await checkForUpdates()
-    // Add contacts
-    // cluster = await promptCluster()
-    console.log(cluster)
+    titleText()
+    API_URL = await promptCluster()
+    titleText()
     contractNameAndApiKey = await apiKeyMenu()
+    titleText()
     contractName = contractNameAndApiKey[0]
     apiKey = contractNameAndApiKey[1]
     agentList = await getAgentDetails(apiKey)
+    titleText()
     contactType = await promptContactType()
+    titleText()
     contactsToCreate = await promptNumberOfContacts()
+    titleText()
     timeInterval = await promptTimeInterval()
     showSelectionSummary()
     await promptYesOrNo()

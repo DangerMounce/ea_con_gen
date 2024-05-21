@@ -138,6 +138,8 @@ export async function promptNumberOfContacts() {
 
 // Function to prompt the user for a Yes or No response
 export async function promptYesOrNo() {
+    console.log('')
+  
     try {
         const answers = await inquirer.prompt([
             {
@@ -178,7 +180,7 @@ export async function promptCluster() {
                     },
                     {
                         name: 'North American Cluster',
-                        value: 'North American Clusters',
+                        value: 'North American Cluster',
                     },
                     {
                         name: chalk.green('Exit'),
