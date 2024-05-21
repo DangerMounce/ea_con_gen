@@ -7,3 +7,4 @@ node_modules
 .env
 chatHistory.json
 archive
+./modules/log.json
