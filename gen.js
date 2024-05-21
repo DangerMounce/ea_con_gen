@@ -18,7 +18,8 @@ import {
     promptContactType,
     promptNumberOfContacts,
     promptTimeInterval,
-    promptYesOrNo
+    promptYesOrNo,
+    promptCluster
 } from './modules/user_prompts.js';
 
 import {
@@ -39,6 +40,8 @@ let contractNameAndApiKey = [];
 export let contactType = null;
 export let contactsToCreate = null;
 export let timeInterval = null;
+
+export let cluster = null
 
 const args = process.argv.slice(2);
 const instruction = args[0] // Can be "init", "add", "del", "help" or "contacts"
@@ -78,6 +81,8 @@ if (instruction.toLowerCase() === "add") {
 } else if (instruction.toLowerCase() === "contacts") {  
     await checkForUpdates()
     // Add contacts
+    // cluster = await promptCluster()
+    console.log(cluster)
     contractNameAndApiKey = await apiKeyMenu()
     contractName = contractNameAndApiKey[0]
     apiKey = contractNameAndApiKey[1]
