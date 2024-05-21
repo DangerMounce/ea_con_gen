@@ -1,0 +1,183 @@
+"https://api.us-east.evaluagent.com/v1"
+{
+  "Log Created": "Tue 21 May - 15:28"
+}
+{
+  "Time Interval": 1
+}
+{
+  "Time Interval": 1
+}
+{
+  "data": {
+    "reference": "7cb0ff38-177e-11ef-8cf4-325096b39f47",
+    "agent_id": "011bae84-edc0-46f5-b55d-9493082b957e",
+    "agent_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+    "contact_date": "2024-05-21T14:29:09Z",
+    "channel": "Chat",
+    "assigned_at": "2024-05-21T14:29:09Z",
+    "solved_at": "2024-05-21T14:29:09Z",
+    "external_url": "https://www.evaluagent.com",
+    "responses_stored_externally": "true",
+    "responses": [
+      {
+        "speaker_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+        "response_id": "1",
+        "message": "Hello! Welcome to Better Deal Insurance. My name is Chris. How can I assist you today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:06:12.182Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "2",
+        "message": "I doubt you can help me. Your company is a mess!",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:07:12.182Z"
+      },
+      {
+        "speaker_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+        "response_id": "3",
+        "message": "I'm here to help. Before proceeding, can you confirm your full name for security purposes?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:08:12.182Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "4",
+        "message": "John Smith",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:09:12.182Z"
+      },
+      {
+        "speaker_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+        "response_id": "5",
+        "message": "Thank you for completing security. Can you also confirm your date of birth?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:10:12.182Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "6",
+        "message": "10/05/1982",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:11:12.182Z"
+      },
+      {
+        "speaker_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+        "response_id": "7",
+        "message": "That's all correct. Can you please provide me with your first line of address and postcode?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:12:12.182Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "8",
+        "message": "123 Main Street, AB1 2CD",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:13:12.182Z"
+      },
+      {
+        "speaker_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+        "response_id": "9",
+        "message": "Great, thank you for confirming. Can you confirm your email address as well?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:14:12.182Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "10",
+        "message": "john.smith@example.com",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:15:12.182Z"
+      },
+      {
+        "speaker_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+        "response_id": "11",
+        "message": "Thank you for completing security. I'm sorry to hear that you're facing difficulties. How can I assist you today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:16:12.182Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "12",
+        "message": "I need help with a claim that your company has not processed yet. It's been weeks!",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:17:12.182Z"
+      },
+      {
+        "speaker_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+        "response_id": "13",
+        "message": "I understand the frustration. Let me look into this for you. Please allow me a moment to check your account.",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:18:12.182Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "14",
+        "message": "Take your time. I've been waiting long enough.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:19:12.182Z"
+      },
+      {
+        "speaker_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+        "response_id": "15",
+        "message": "Thank you for your patience. It seems there was a delay in processing your claim. A possible resolution could be expediting the review process. Does this work for you?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:20:12.182Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "16",
+        "message": "Yes, that would be great. I appreciate your help on this.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:21:12.182Z"
+      },
+      {
+        "speaker_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+        "response_id": "17",
+        "message": "Glad we could help. I will escalate this issue for you. Is there anything else you need assistance with today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:22:12.182Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "18",
+        "message": "No, that's all sorted. Thank you for your help.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:23:12.182Z"
+      },
+      {
+        "speaker_email": "Kendrick.Legros662919fea58aa@sandbox-evaluagent.com",
+        "response_id": "19",
+        "message": "You're welcome. If you have any further questions in the future, please don't hesitate to reach out. Have a great day!",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-20T16:24:12.182Z"
+      }
+    ],
+    "metadata": {
+      "Filename": "e0e639d0-16c2-11ef-a5d7-325096b39f47",
+      "Status": "New",
+      "AgentResponses": 10,
+      "Contact": "Ticket"
+    }
+  }
+}
