@@ -30,7 +30,7 @@ import { writeLog, clearLog } from './generate_log.js';
 const ea_con_gen = "ea Contact Manager"
 const helpVersion = '' // when updating, prev version in here so that we know how old help is.
 
-const version = '12.22' 
+const version = '12.23' 
 
 // This function returns the current date
 export function getDate() {
@@ -435,7 +435,7 @@ export async function hasOpenAIAPIKey() {
 
 export async function ensureEnvFileAndApiKey() {
     const envPath = path.join('./.env'); 
-    const placeholderKey = 'OPENAI_API_KEY=placeholder_for_missing_api_key\n';
+    const placeholderKey = 'OPENAI_API_KEY = "placeholder-for-api-key"\n';
     
     try {
         // Check if .env exists
