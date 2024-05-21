@@ -8,6 +8,9 @@ import {
     hasOpenAIAPIKey
  } from './utils.js'
 
+
+import { clientIsValid } from './chat_gen.js'
+
 // Prompts for the password to encrypt the keyfile
 export async function promptForPassword() {
     try {
@@ -30,10 +33,9 @@ export async function promptForPassword() {
 // Function to prompt the user to select "Calls", "Tickets", or "Both"
 export async function promptContactType() {
     let isStoredCallsFeatureDisabled = await isStoredCallsAvailable();
-    let isNewCallFeatureDisabled = await hasOpenAIAPIKey();
     let isStoredTicketsFeatureDisabled = await isStoredTicketsAvailable();
     let isStoredTicketsAndCallsFeatureDisabled = await isStoredTicketsAndsCallsAvailable();;
-    let isNewTicketsFeatureDisabled = await hasOpenAIAPIKey();
+    let isOpenAiAvailable = await hasOpenAIAPIKey();
     try {
         const answers = await inquirer.prompt([
             {
@@ -59,12 +61,12 @@ export async function promptContactType() {
                     {
                         name: chalk.white('New Tickets', chalk.bold.blue('BETA')),
                         value: 'New Tickets',
-                        disabled: isNewTicketsFeatureDisabled ? chalk.bold.red('Not available') : false
+                        disabled: clientIsValid ? chalk.bold.red('Not available') : false
                     },
                     {
                         name: chalk.white('New Calls', chalk.bold.blue('BETA')),
                         value: 'New Calls [BETA]',
-                        disabled: isNewCallFeatureDisabled ? chalk.bold.red('Not available') : false
+                        disabled: clientIsValid ? chalk.bold.red('Not available') : false
                     },
                     {
                         name: chalk.green('Exit'),
