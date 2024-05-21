@@ -9,7 +9,8 @@ import {
     deleteApiKey,
     apiKeyMenu,
     showSelectionSummary,
-    deleteDsStoreFile
+    deleteDsStoreFile,
+    ensureEnvFileAndApiKey
 } from './modules/utils.js';
 
 import {
@@ -46,6 +47,7 @@ export let apiKey = args[2] // Can only be an api key
 
 
 await checkFilesAndFoldersExsists();
+await ensureEnvFileAndApiKey();
 await clearLog()
 deleteDsStoreFile()
 // deal with the instruction
