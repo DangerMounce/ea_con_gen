@@ -59,12 +59,12 @@ export async function promptContactType() {
                         disabled: isStoredTicketsAndCallsFeatureDisabled ? chalk.bold.red('not available') : false
                     },
                     {
-                        name: chalk.white('New Tickets', chalk.bold.blue('BETA')),
+                        name: chalk.blue('New Tickets', chalk.bold.blue('BETA')),
                         value: 'New Tickets',
                         disabled: clientIsValid ? chalk.bold.red('not available - API key missing') : false
                     },
                     {
-                        name: chalk.white('New Calls', chalk.bold.blue('BETA')),
+                        name: chalk.blue('New Calls', chalk.bold.blue('BETA')),
                         value: 'New Calls [BETA]',
                         disabled: clientIsValid ? chalk.bold.red('not available - API key missing') : false
                     },
