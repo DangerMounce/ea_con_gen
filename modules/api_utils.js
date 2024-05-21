@@ -4,17 +4,21 @@ import FormData from 'form-data';
 import fs from 'fs';
 import {
     apiKey,
-    timeInterval
-} from '../gen.js'
+    timeInterval,
+    cluster
+} from '../gen.js';
+import { promptCluster } from './user_prompts.js';
 import {
     createContact,
     delay
 } from './utils.js';
 import { clearLog, writeLog } from './generate_log.js';
-const API_URL = 'https://api.evaluagent.com/v1';
+
 let agentRoleId = null;
 let agentList = [];
-
+console.clear()
+const API_URL = await promptCluster()
+writeLog(API_URL)
 // This function connects to the end point and returns the response
 async function fetchApi(endpoint) {
     const url = `${API_URL}${endpoint}`
@@ -31,7 +35,7 @@ export async function sendContacts(number) {
 
     for (let c = 0; c < number; c++) {
         const exportContact = await createContact();
-        const conUrl = "https://api.evaluagent.com/v1/quality/imported-contacts";
+        const conUrl = `${API_URL}/quality/imported-contacts`;
         // Use process.stdout.write to avoid new line
         process.stdout.write(`${c + 1} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email.split('@')[0]}) - `);
 
@@ -105,7 +109,7 @@ export async function getAgentDetails(key) {
 
 //This function uploads the audio file
 export async function uploadAudio(audioSelection) {
-    const url = 'https://api.evaluagent.com/v1/quality/imported-contacts/upload-audio';
+    const url = `${cluster}/quality/imported-contacts/upload-audio`;
     const headers = {
         'Authorization': 'Basic ' + Buffer.from(apiKey).toString('base64')
     };
