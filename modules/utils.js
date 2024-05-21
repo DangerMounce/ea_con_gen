@@ -29,8 +29,8 @@ import { writeLog, clearLog } from './generate_log.js';
 
 const ea_con_gen = "ea Contact Manager"
 const helpVersion = '' // when updating, prev version in here so that we know how old help is.
-const version = '12.22' 
 
+const version = '12.22' 
 
 // This function returns the current date
 export function getDate() {
