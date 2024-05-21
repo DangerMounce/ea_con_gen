@@ -14,7 +14,6 @@ import {
     ensureEnvFileAndApiKey
 } from './utils.js'
 
-import { cluster } from '../gen.js'
 
 await ensureEnvFileAndApiKey();
 

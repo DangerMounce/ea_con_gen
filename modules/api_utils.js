@@ -12,13 +12,15 @@ import {
     createContact,
     delay
 } from './utils.js';
+import { API_URL } from '../gen.js'
 import { clearLog, writeLog } from './generate_log.js';
 
 let agentRoleId = null;
 let agentList = [];
 console.clear()
-const API_URL = await promptCluster()
-writeLog(API_URL)
+
+
+
 // This function connects to the end point and returns the response
 async function fetchApi(endpoint) {
     const url = `${API_URL}${endpoint}`
