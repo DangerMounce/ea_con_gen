@@ -29,7 +29,7 @@ import { writeLog, clearLog } from './generate_log.js';
 
 const ea_con_gen = "ea Contact Manager"
 const helpVersion = '' // when updating, prev version in here so that we know how old help is.
-const version = '12.21' 
+const version = '12.22' 
 
 
 // This function returns the current date
@@ -446,14 +446,14 @@ export async function ensureEnvFileAndApiKey() {
             if (!envContent.includes('OPENAI_API_KEY')) {
                 // If key does not exist, append it
                 fs.appendFileSync(envPath, placeholderKey);
-                console.log('OPENAI_API_KEY added to existing .env file.');
+                writeLog('OPENAI_API_KEY added to existing .env file.');
             } else {
-                console.log('OPENAI_API_KEY already exists in .env file.');
+                writeLog('OPENAI_API_KEY already exists in .env file.');
             }
         } else {
             // If .env does not exist, create it and add the placeholder key
             fs.writeFileSync(envPath, placeholderKey);
-            console.log('.env file created with OPENAI_API_KEY placeholder.');
+            writeLog('.env file created with OPENAI_API_KEY placeholder.');
         }
     } catch (error) {
         console.error('Error handling .env file:', error);
