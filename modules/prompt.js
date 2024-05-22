@@ -1,3 +1,7 @@
+import { ensureEnvFileAndApiKey } from "./utils.js";
+
+await ensureEnvFileAndApiKey();
+
 const customerPresentAs = [
     "Frustrated",
     "Angry",
