@@ -11,7 +11,8 @@ import {
     showSelectionSummary,
     deleteDsStoreFile,
     ensureEnvFileAndApiKey,
-    titleText
+    titleText,
+    updateOpenAIKeyInEnv
 } from './modules/utils.js';
 
 import {
@@ -20,7 +21,8 @@ import {
     promptNumberOfContacts,
     promptTimeInterval,
     promptYesOrNo,
-    promptCluster
+    promptCluster,
+    promptForOpenAiKey
 } from './modules/user_prompts.js';
 
 import {
@@ -101,8 +103,9 @@ if (instruction.toLowerCase() === "add") {
     sendContacts(contactsToCreate)
 } else if (instruction.toLowerCase() === "update") {  
     await forceUpdate()
-} else if (instruction.toLowerCase() === "") {  
-    
+} else if (instruction.toLowerCase() === "openai") {  
+    const ApiKeyForOpenAI = await promptForOpenAiKey()
+    updateOpenAIKeyInEnv(ApiKeyForOpenAI)
 } else {
     nodeArguments('Invalid Arguments.')
 }
