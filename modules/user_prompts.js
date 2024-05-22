@@ -209,3 +209,22 @@ export async function promptCluster() {
         process.exit(1)
     }
 }
+
+//Prompts user for openAi API key
+// Prompts for the password to encrypt the keyfile
+export async function promptForOpenAiKey() {
+    try {
+        const response = await inquirer.prompt([
+            {
+                name: 'openAiApiKey',
+                type: 'openAiApiKey',
+                message: 'Enter your OpenAI API Key:',
+            }
+        ])
+        console.log('')
+        return response.openAiApiKey
+    } catch (error) {
+        console.error(chalk.red(`Error: ${error.message}`))
+        process.exit(1)
+    }
+}
