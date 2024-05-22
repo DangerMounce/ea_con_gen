@@ -28,9 +28,9 @@ import {
 import { writeLog, clearLog } from './generate_log.js';
 
 const ea_con_gen = "ea Contact Manager"
-const helpVersion = '12.25' // when updating, prev version in here so that we know how old help is.
+const helpVersion = '12.26' // when updating, prev version in here so that we know how old help is.
 
-const version = '12.25' 
+const version = '12.26' 
 
 // This function returns the current date
 export function getDate() {
@@ -486,6 +486,7 @@ export async function updateOpenAIKeyInEnv(openAiKey) {
 
         // Write the updated contents back to the .env file
         await fs.promises.writeFile(envPath, updatedContent, 'utf8');
+        console.clear('')
         console.log('Your OpenAI API Key has been added.');
         console.log('')
     } catch (error) {
