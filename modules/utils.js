@@ -28,9 +28,9 @@ import {
 import { writeLog, clearLog } from './generate_log.js';
 
 const ea_con_gen = "ea Contact Manager"
-const helpVersion = '12.24' // when updating, prev version in here so that we know how old help is.
+const helpVersion = '12.25' // when updating, prev version in here so that we know how old help is.
 
-const version = '12.24' 
+const version = '12.25' 
 
 // This function returns the current date
 export function getDate() {
@@ -69,6 +69,7 @@ export function showHelp() {
     console.log('')
     console.log('Note that if you do not have any stored tickets or calls, the relevant options will not be available.')
     console.log('An OpenAI API key is required to enable New Chats and Calls.')
+    console.log(chalk.yellow('node gen openai'), 'will allow you to add your OpenAI key.')
     console.log('Any that are generated will be saved in the relevant calls or tickets directory.')
     console.log('')
     console.log('Following this, you will be asked to select how many contacts you would like to generate.')
@@ -473,3 +474,21 @@ export async function ensureEnvFileAndApiKey() {
     }
     }
     
+export async function updateOpenAIKeyInEnv(openAiKey) {
+    const envPath = path.join('./.env'); // Adjust __dirname based on your environment setup
+
+    try {
+        // Read the contents of the .env file
+        let content = await fs.promises.readFile(envPath, 'utf8');
+
+        // Replace the existing OPENAI_API_KEY with the new key
+        const updatedContent = content.replace(/(OPENAI_API_KEY\s*=\s*)".*"/, `$1"${openAiKey}"`);
+
+        // Write the updated contents back to the .env file
+        await fs.promises.writeFile(envPath, updatedContent, 'utf8');
+        console.log('Your OpenAI API Key has been added.');
+        console.log('')
+    } catch (error) {
+        console.error('Failed to add your OpenAI Key:', error);
+    }
+}
