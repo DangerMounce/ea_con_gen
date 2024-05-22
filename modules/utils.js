@@ -28,9 +28,9 @@ import {
 import { writeLog, clearLog } from './generate_log.js';
 
 const ea_con_gen = "ea Contact Manager"
-const helpVersion = '' // when updating, prev version in here so that we know how old help is.
+const helpVersion = '12.24' // when updating, prev version in here so that we know how old help is.
 
-const version = '12.23.2' 
+const version = '12.24' 
 
 // This function returns the current date
 export function getDate() {
@@ -40,27 +40,40 @@ export function getDate() {
 //Displays the help text
 export function showHelp() {
     titleText()
-    console.log(chalk.underline.yellow('Help'), chalk.bold.green('V',helpVersion))
+    console.log(chalk.bold.yellow('Help'), chalk.bold.green('V',helpVersion))
     console.log('')
-    console.log(chalk.bold.yellow('node gen'), chalk.bold.green('[contract name]'), chalk.bold.blue('[contract name]'))
+    console.log('ea Contact Manager uses an API key to send calls or chat converations to the associated contract')
     console.log('')
-    console.log('Adds a new contract and API key to the keyFile.')
+    console.log(chalk.underline('Add API keys'))
+    console.log(chalk.yellow('node gen add [CONTRACT NAME] [API KEY]'))
     console.log('')
-    console.log(chalk.bold.yellow('node gen'), chalk.bold.green('del'), chalk.bold.blue('[contract name]'))
+    console.log('Create your API key in evaluagent and use the above command to save the details.')
     console.log('')
-    console.log(`Deletes the contract and API key from the keyFile.`)
+    console.log(chalk.underline.yellow('Delete API keys'))
+    console.log(chalk.yellow('node gen del [CONTRACT NAME]'))
     console.log('')
-    console.log(chalk.bold.yellow('node gen'), chalk.bold.green('contacts'))
+    console.log('The above command will delete the associated contract name and API key.')
     console.log('')
-    console.log('Creates contacts and sends to evaluagent.')
-    console.log('Select the contract from the list.')
-    console.log('Confirm contact type, number of contacts and time interval between contacts.')
-    console.log('Note that you must have MP3 audio files in the calls directory and the appropriate JSON files in the tickets directory.')
+    console.log(chalk.underline.yellow('Sending or Creating Contacts'))
+    console.log(chalk.yellow('node gen contacts'))
     console.log('')
-    console.log(chalk.bold.blue('Contact Types'))
+    console.log('The above command will start the process of creating a contact.')
+    console.log('You will be prompted the select the cluster the contract is held on.')
+    console.log('Following this, you wll be prompted to select the type of contact:')
     console.log('')
-    console.log('Select from stored calls or tickets.')
-    console.log('To generate AI calls or Tickets select the NEW options.')
+    console.log('Stored Calls - this will randomly select a saved MP3 file from the calls directory')
+    console.log('Stored Chats - this will randomly select a chat transcript from the tickets directory.')
+    console.log('Stored Chats and Calls - this will randomly select from calls and chats')
+    console.log('New Chats - this will use gen AI to create a new chat transcript.')
+    console.log('New Call - this will use gen AI to create a call.')
+    console.log('')
+    console.log('Note that if you do not have any stored tickets or calls, the relevant options will not be available.')
+    console.log('An OpenAI API key is required to enable New Chats and Calls.')
+    console.log('Any that are generated will be saved in the relevant calls or tickets directory.')
+    console.log('')
+    console.log('Following this, you will be asked to select how many contacts you would like to generate.')
+    console.log('Then you will be asked to select a time delay between each contact being sent to evaluagent.')
+    console.log('Please note that this time does not include AI contact generation time.')
 }
 
 //This function returns the filename without the extension for the metadata
