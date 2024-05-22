@@ -12,8 +12,10 @@ import {
     deleteDsStoreFile,
     ensureEnvFileAndApiKey,
     titleText,
-    updateOpenAIKeyInEnv
+    updateOpenAIKeyInEnv,
 } from './modules/utils.js';
+
+await ensureEnvFileAndApiKey();
 
 import {
     promptForPassword,
