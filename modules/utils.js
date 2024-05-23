@@ -500,3 +500,47 @@ export async function updateOpenAIKeyInEnv(openAiKey) {
         console.error('Failed to add your OpenAI Key:', error);
     }
 }
+
+export async function clearDirectory(dirPath) {
+    try {
+        // Read all files and subdirectories from directory
+        const files = await fs.promises.readdir(dirPath);
+
+        // Loop over found files and directories and delete them
+        for (const file of files) {
+            const currentPath = path.join(dirPath, file);
+            const stat = await fs.promises.stat(currentPath);
+
+            if (stat.isDirectory()) {
+                // Recursively delete directory contents
+                await clearDirectory(currentPath);
+                // Remove the directory itself
+                await fs.promises.rmdir(currentPath);
+            } else {
+                // Delete file
+                await fs.promises.unlink(currentPath);
+            }
+        }
+        console.log(`${dirPath} have been cleared.`);
+    } catch (error) {
+        console.error(`Error clearing directory ${dirPath}:`, error);
+    }
+}
+
+export async function deleteFile(filePath) {
+    try {
+        // Check if the file exists before attempting to delete it
+        await fs.promises.access(filePath, fs.constants.F_OK);
+
+        // Delete the file
+        await fs.promises.unlink(filePath);
+        // console.log(`File ${filePath} has been deleted successfully.`);
+    } catch (error) {
+        // Handle specific errors if the file doesn't exist or other IO errors occur
+        if (error.code === 'ENOENT') {
+            console.log('File does not exist, no need to delete.');
+        } else {
+            console.error(`Error deleting file ${filePath}:`, error);
+        }
+    }
+}
