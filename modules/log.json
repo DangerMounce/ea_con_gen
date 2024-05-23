@@ -1,0 +1,34 @@
+"OPENAI_API_KEY already exists in .env file."
+"OPENAI_API_KEY already exists in .env file."
+{
+  "Log Created": "Thu 23 May - 22:08"
+}
+{
+  "Time Interval": 1
+}
+{
+  "Time Interval": 1
+}
+{
+  "Audio Upload": "quality/143e3003-d490-4691-a058-9c889fc4cd79/50d04e29-bfbf-4e46-853f-48e60624e7c6.mp3"
+}
+{
+  "data": {
+    "reference": "a1bec17c-1948-11ef-b06b-325096b39f47",
+    "agent_id": "1e5fd60a-03fc-40b2-8070-6d09eb2ee24b",
+    "agent_email": "brandon.west@evaluagentacademy.inc.test",
+    "contact_date": "2024-05-23T21:08:41Z",
+    "channel": "Telephony",
+    "assigned_at": "2024-05-23T21:08:41Z",
+    "solved_at": "2024-05-23T21:08:41Z",
+    "external_url": "https://www.evaluagent.com",
+    "responses_stored_externally": "true",
+    "handling_time": 189,
+    "customer_telephone_number": "01753 877212",
+    "audio_file_path": "quality/143e3003-d490-4691-a058-9c889fc4cd79/50d04e29-bfbf-4e46-853f-48e60624e7c6.mp3",
+    "metadata": {
+      "Filename": "call1",
+      "Contact": "Call"
+    }
+  }
+}
