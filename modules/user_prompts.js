@@ -44,12 +44,12 @@ export async function promptContactType() {
                 message: 'Select contact source:',
                 choices: [
                     {
-                        name: 'Stored Calls',
+                        name: 'Existing Calls',
                         value: 'Stored Calls',
                         disabled: isStoredCallsFeatureDisabled ? chalk.bold.red('not available') : false
                     },
                     {
-                        name: 'Stored Tickets',
+                        name: 'Existing Tickets',
                         value: 'Stored Tickets',
                         disabled: isStoredTicketsFeatureDisabled ? chalk.bold.red('not available') : false
                     },
