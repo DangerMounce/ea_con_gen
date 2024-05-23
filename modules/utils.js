@@ -26,11 +26,13 @@ import {
 } from './generate_call.js'
 
 import { writeLog, clearLog } from './generate_log.js';
+import { statusMessage } from './library_sync.js';
+
 
 const ea_con_gen = "ea Contact Manager"
-const helpVersion = '12.26' // when updating, prev version in here so that we know how old help is.
+const helpVersion = '13.0' // when updating, prev version in here so that we know how old help is.
 
-const version = '12.26' 
+const version = '13.0' 
 
 // This function returns the current date
 export function getDate() {
@@ -59,6 +61,8 @@ export function showHelp() {
     console.log('')
     console.log('The above command will start the process of creating a contact.')
     console.log('You will be prompted the select the cluster the contract is held on.')
+    console.log('Contact Manager can sync with remote repository for chat transcripts.')
+    console.log('You will be promoted to update and this will sync chats.')
     console.log('Following this, you wll be prompted to select the type of contact:')
     console.log('')
     console.log('Stored Calls - this will randomly select a saved MP3 file from the calls directory')
@@ -126,7 +130,9 @@ export function getStatus() {
 export function titleText() {
     console.clear('')
     console.log(chalk.bold.blue(`${ea_con_gen} Ver: ${version}`))
+    console.log(chalk.bold.yellow(statusMessage))
     console.log('')
+
 }
 
 //This function gets the duration of the audio file for the metadata
@@ -370,6 +376,7 @@ export async function nodeArguments(argumentError) {
     titleText()
     console.log(chalk.white('Error:',chalk.red(argumentError), chalk.white('Type'), chalk.yellow('node gen help')))
     console.log('')
+    process.exit(1)
 }
 
 //This function creates the summary of menu options
@@ -491,5 +498,49 @@ export async function updateOpenAIKeyInEnv(openAiKey) {
         console.log('')
     } catch (error) {
         console.error('Failed to add your OpenAI Key:', error);
+    }
+}
+
+export async function clearDirectory(dirPath) {
+    try {
+        // Read all files and subdirectories from directory
+        const files = await fs.promises.readdir(dirPath);
+
+        // Loop over found files and directories and delete them
+        for (const file of files) {
+            const currentPath = path.join(dirPath, file);
+            const stat = await fs.promises.stat(currentPath);
+
+            if (stat.isDirectory()) {
+                // Recursively delete directory contents
+                await clearDirectory(currentPath);
+                // Remove the directory itself
+                await fs.promises.rmdir(currentPath);
+            } else {
+                // Delete file
+                await fs.promises.unlink(currentPath);
+            }
+        }
+        console.log(`${dirPath} have been cleared.`);
+    } catch (error) {
+        console.error(`Error clearing directory ${dirPath}:`, error);
+    }
+}
+
+export async function deleteFile(filePath) {
+    try {
+        // Check if the file exists before attempting to delete it
+        await fs.promises.access(filePath, fs.constants.F_OK);
+
+        // Delete the file
+        await fs.promises.unlink(filePath);
+        // console.log(`File ${filePath} has been deleted successfully.`);
+    } catch (error) {
+        // Handle specific errors if the file doesn't exist or other IO errors occur
+        if (error.code === 'ENOENT') {
+            console.log('File does not exist, no need to delete.');
+        } else {
+            console.error(`Error deleting file ${filePath}:`, error);
+        }
     }
 }
