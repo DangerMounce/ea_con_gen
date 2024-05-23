@@ -6,8 +6,6 @@ import AdmZip from 'adm-zip';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { writeLog } from './generate_log.js';
-import { statusMessage } from './utils.js';
-
 // Configuration
 const repoOwner = 'DangerMounce';
 const repoName = 'chat-library';
@@ -18,7 +16,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const updateChatDir = path.resolve(__dirname, '../tickets/');
 const chatVersionFilePath = path.resolve(updateChatDir, '../modules/chatVersion.log');
 
-
+export let statusMessage = ''
 
 async function promptUserToUpdateChats() {
     try {
@@ -70,9 +68,8 @@ async function checkForChatUpdates() {
         if (updateAgreed) {
             await updateRepository();
             writeCurrentVersion(latestVersion);
-            console.log('')
-            console.log(chalk.bold.green(`Chat repository updated successfully.`));
-            statusMessage = `Chat repository updated successfully.`
+            statusMessage = "Chat repository updated successfully."
+            writeLog({"Chat Update" : statusMessage})
         }
         return;
     } else {
