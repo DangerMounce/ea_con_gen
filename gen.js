@@ -15,6 +15,8 @@ import {
     updateOpenAIKeyInEnv,
 } from './modules/utils.js';
 
+import { checkForChatUpdates } from './modules/library_sync.js'
+
 await ensureEnvFileAndApiKey();
 
 import {
@@ -58,6 +60,11 @@ await checkFilesAndFoldersExsists();
 await ensureEnvFileAndApiKey();
 await clearLog()
 deleteDsStoreFile()
+
+if (args.length === 0) {
+    nodeArguments('Missing arguments')
+}
+
 // deal with the instruction
 if (instruction.toLowerCase() === "add") { 
     // Adding a new API Key
@@ -85,6 +92,7 @@ if (instruction.toLowerCase() === "add") {
     showHelp()
 } else if (instruction.toLowerCase() === "contacts") {  
     await checkForUpdates()
+    await checkForChatUpdates()
     titleText()
     API_URL = await promptCluster()
     titleText()
