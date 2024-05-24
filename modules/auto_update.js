@@ -61,7 +61,7 @@ async function checkForUpdates() {
     if (currentVersion !== latestVersion) {
         console.clear('')
         console.log('')
-        console.log(chalk.yellow('A new version of Contact Manager is available.'));
+        console.log(chalk.yellow('A new version of ea Con Gen is available.'));
         console.log('')
         const updateAgreed = await promptUserToUpdate();
         if (updateAgreed) {
