@@ -98,7 +98,6 @@ if (instruction.toLowerCase() === "add") {
     // Show help screen
     showHelp()
 } else if (instruction.toLowerCase() === "contacts") {
-    statusMessage = "Chat Library up to date."
     await checkForUpdates()
     await checkForChatUpdates()
     titleText()
