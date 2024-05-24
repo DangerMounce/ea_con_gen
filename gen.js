@@ -15,10 +15,11 @@ import {
     titleText,
     updateOpenAIKeyInEnv,
     clearDirectory,
-    deleteFile
+    deleteFile,
+    displayChangeLog
 } from './modules/utils.js';
 
-import { checkForChatUpdates } from './modules/library_sync.js'
+import { checkForChatUpdates, statusMessage } from './modules/library_sync.js'
 
 await ensureEnvFileAndApiKey();
 
@@ -64,6 +65,9 @@ await ensureEnvFileAndApiKey();
 await clearLog()
 deleteDsStoreFile()
 
+
+
+
 if (args.length === 0) {
     nodeArguments('Missing arguments')
 }
@@ -94,6 +98,7 @@ if (instruction.toLowerCase() === "add") {
     // Show help screen
     showHelp()
 } else if (instruction.toLowerCase() === "contacts") {
+    statusMessage = "Chat Library up to date."
     await checkForUpdates()
     await checkForChatUpdates()
     titleText()
