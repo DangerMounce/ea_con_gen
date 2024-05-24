@@ -32,7 +32,7 @@ import { statusMessage } from './library_sync.js';
 const ea_con_gen = "ea Contact Manager"
 const helpVersion = '13.0' // when updating, prev version in here so that we know how old help is.
 
-const version = '13.3' 
+const version = '13.3.1' 
 
 // This function returns the current date
 export function getDate() {
