@@ -4,7 +4,10 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 13.3.3           
+                                 /____/  Ver 13.3.4           
 
 In this update:
-* Bug fixes
+Bug Fix: 
+MacOS creates a hidden file ".DS_Store" in the tickets/calls directories.
+This hidden file can be selected as a call or ticket causing the upload to fail.
+This fix checks for this file and deletes it.
