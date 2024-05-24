@@ -32,7 +32,7 @@ import { statusMessage } from './library_sync.js';
 const ea_con_gen = "ea Con Gen"
 const helpVersion = '13.0' // when updating, prev version in here so that we know how old help is.
 
-const version = '13.3.3' 
+const version = '13.3.4' 
 
 // This function returns the current date
 export function getDate() {
@@ -539,7 +539,7 @@ export async function deleteFile(filePath) {
     } catch (error) {
         // Handle specific errors if the file doesn't exist or other IO errors occur
         if (error.code === 'ENOENT') {
-            console.log('File does not exist, no need to delete.');
+            // console.log('File does not exist, no need to delete.');
         } else {
             console.error(`Error deleting file ${filePath}:`, error);
         }
