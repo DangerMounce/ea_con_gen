@@ -65,7 +65,8 @@ await ensureEnvFileAndApiKey();
 await clearLog()
 deleteDsStoreFile()
 
-
+await displayChangeLog()
+process.exit(1)
 
 
 if (args.length === 0) {

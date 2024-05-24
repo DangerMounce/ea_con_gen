@@ -547,7 +547,6 @@ export async function deleteFile(filePath) {
 
 export async function displayChangeLog() {
     const filePath = path.join('modules', 'change.log');
-
     try {
         const data = await fs.promises.readFile(filePath, 'utf8');
         console.log(data);
