@@ -84,9 +84,9 @@ async function updateRepository() {
         await downloadFile(downloadUrl, zipPath);
         await extractZip(zipPath, updateDir);
         // fs.unlinkSync(zipPath);  // Clean up the zip file
-        console.log(chalk.green('Repository updated.'));
-        console.log(chalk.green(`Update directory: ${updateDir}`));
-        console.log(chalk.green(`Version file path: ${versionFilePath}`));
+        console.log('Repository updated.');
+        console.log(`Update directory: ${updateDir}`);
+        console.log(`Version file path: ${versionFilePath}`);
 
     } catch (error) {
         writeLog(error)
