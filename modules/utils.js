@@ -99,6 +99,7 @@ export function delay(seconds) {
 //This function looks for DS_Store in folders and deletes it
 export async function deleteDsStoreFile() {
     const directories = ['../calls', '../tickets']
+    writeLog({".DS_Store" : "checked"})
     for (const dir of directories) {
         const filePath = `${dir}/.DS_Store`;
         try {

@@ -63,7 +63,7 @@ export let API_URL = null
 await checkFilesAndFoldersExsists();
 await ensureEnvFileAndApiKey();
 await clearLog()
-deleteDsStoreFile()
+await deleteDsStoreFile()
 
 if (args.length === 0) {
     nodeArguments('Missing arguments')
