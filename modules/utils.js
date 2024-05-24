@@ -29,10 +29,10 @@ import { writeLog, clearLog } from './generate_log.js';
 import { statusMessage } from './library_sync.js';
 
 
-const ea_con_gen = "ea Contact Manager"
+const ea_con_gen = "ea Con Gen"
 const helpVersion = '13.0' // when updating, prev version in here so that we know how old help is.
 
-const version = '13.3.2' 
+const version = '13.3.3' 
 
 // This function returns the current date
 export function getDate() {
@@ -44,7 +44,7 @@ export function showHelp() {
     titleText()
     console.log(chalk.bold.yellow('Help'), chalk.bold.green('V',helpVersion))
     console.log('')
-    console.log('ea Contact Manager uses an API key to send calls or chat converations to the associated contract')
+    console.log('ea Con Gen uses an API key to send calls or chat converations to the associated contract')
     console.log('')
     console.log(chalk.underline('Add API keys'))
     console.log(chalk.yellow('node gen add [CONTRACT NAME] [API KEY]'))
@@ -61,7 +61,7 @@ export function showHelp() {
     console.log('')
     console.log('The above command will start the process of creating a contact.')
     console.log('You will be prompted the select the cluster the contract is held on.')
-    console.log('Contact Manager can sync with remote repository for chat transcripts.')
+    console.log('ea Con Gen can sync with remote repository for chat transcripts.')
     console.log('You will be promoted to update and this will sync chats.')
     console.log('Following this, you wll be prompted to select the type of contact:')
     console.log('')
