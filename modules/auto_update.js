@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import AdmZip from 'adm-zip';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
+import {displayChangeLog} from './utils.js'
 
 // Configuration
 const repoOwner = 'DangerMounce';
