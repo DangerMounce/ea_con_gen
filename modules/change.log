@@ -8,6 +8,6 @@
 
 In this update:
 Bug Fix: 
-MacOS creates a hidden file ".DS_Store" in the tickets/calls directories.
+For Mac users, MacOS creates a hidden file ".DS_Store" in the tickets/calls directories.
 This hidden file can be selected as a call or ticket causing the upload to fail.
 This fix checks for this file and deletes it.
