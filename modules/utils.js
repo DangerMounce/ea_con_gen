@@ -30,9 +30,9 @@ import { statusMessage } from './library_sync.js';
 
 
 const ea_con_gen = "ea Con Gen"
-const helpVersion = '13.0' // when updating, prev version in here so that we know how old help is.
+const helpVersion = '14.1' // when updating, prev version in here so that we know how old help is.
 
-const version = '14.0' 
+const version = '14.1' 
 
 // This function returns the current date
 export function getDate() {
@@ -79,6 +79,10 @@ export function showHelp() {
     console.log('Following this, you will be asked to select how many contacts you would like to generate.')
     console.log('Then you will be asked to select a time delay between each contact being sent to evaluagent.')
     console.log('Please note that this time does not include AI contact generation time.')
+    console.log(chalk.yellow('node gen clear chats'))
+    console.log('Clears all stored chat tickets.')
+    console.log(chalk.yellow('node gen clear calls'))
+    console.log('Clears all stored calls.')
 }
 
 //This function returns the filename without the extension for the metadata
