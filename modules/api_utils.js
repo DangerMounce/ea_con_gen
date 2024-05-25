@@ -39,7 +39,7 @@ export async function sendContacts(number) {
         const exportContact = await createContact();
         const conUrl = `${API_URL}/quality/imported-contacts`;
         // Use process.stdout.write to avoid new line
-        process.stdout.write(`${c + 1} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email.split('@')[0]}) - `);
+        process.stdout.write(chalk.yellow(`${c + 1}/${number} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email.split('@')[0]}) - `));
 
         try {
             const response = await fetch(conUrl, {

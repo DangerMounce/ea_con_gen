@@ -50,7 +50,6 @@ export async function generateCall(agents) {
     callTemplate.data.agent_id = agents[agentNumber].agent_id
     callTemplate.data.agent_email = agents[agentNumber].email
     callTemplate.data.contact_date = getDate()
-    callTemplate.data.channel = "Chat"
     callTemplate.data.assigned_at = getDate()
     callTemplate.data.solved_at = getDate()
     callTemplate.data.channel = "Telephony"
@@ -77,6 +76,7 @@ export async function generateCall(agents) {
         }
     });
     callTemplate.data.metadata.Filename = await fileNameOnly(callFile)
+    callTemplate.data.audio_file_path = await uploadAudio(callFile);
     return callTemplate
 }
 

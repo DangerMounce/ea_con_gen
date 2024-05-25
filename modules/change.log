@@ -4,8 +4,14 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 13.3.4           
+                                 /____/  Ver 14.0           
 
 In this update:
-Bug Fix: 
-When clearing chat directory, message would display saying no such file exists.
+
+Multi Channel Call Generation... 
+When creating new chats, the audio file is now genereated with the agent audio on one channel and the customer audio on the other.
+This improves transcripton and audio insights on these calls.
+
+Minor Changes...
+More detail in the processing queues.
+Handling time of phone call reflects duration of converstion.
