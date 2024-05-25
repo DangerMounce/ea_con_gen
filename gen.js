@@ -1,6 +1,7 @@
 import { time } from 'console';
 import fetch from 'node-fetch';
 import btoa from 'btoa';
+import fs from 'fs';
 import path from 'path';
 import {
     checkFilesAndFoldersExsists,
@@ -132,6 +133,18 @@ if (instruction.toLowerCase() === "add") {
         // await deleteFile(callVersionLogPath);
         // process.exit(0)
     }
+} else if (instruction.toLowerCase() === "log") {
+    const logFilePath = path.join('modules', 'log.json');
+
+  fs.readFile(logFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading the log file:', err.message);
+      return;
+    }
+
+    console.log('Log file contents:');
+    console.log(data);
+  });
 } else {
     nodeArguments('Invalid Arguments.')
 }

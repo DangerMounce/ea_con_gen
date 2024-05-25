@@ -30,9 +30,9 @@ import { statusMessage } from './library_sync.js';
 
 
 const ea_con_gen = "ea Con Gen"
-const helpVersion = '14.1' // when updating, prev version in here so that we know how old help is.
+const helpVersion = '14.0' // when updating, prev version in here so that we know how old help is.
 
-const version = '14.1' 
+const version = '14.2' 
 
 // This function returns the current date
 export function getDate() {
@@ -83,6 +83,8 @@ export function showHelp() {
     console.log('Clears all stored chat tickets.')
     console.log(chalk.yellow('node gen clear calls'))
     console.log('Clears all stored calls.')
+    console.log(chalk.yellow('node gen log'))
+    console.log('Displays log.')
 }
 
 //This function returns the filename without the extension for the metadata
