@@ -53,7 +53,7 @@ export async function sendContacts(number) {
             const result = await response.json();
             if (result.message) {
                 let serverResponse = result.message;
-                writeLog(serverResponse)
+                writeLog({"Server Response" : serverResponse})
                 // Append server response on the same line
                 console.log(chalk.bold.green(serverResponse));
             } else {

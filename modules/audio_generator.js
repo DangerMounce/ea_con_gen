@@ -55,6 +55,7 @@ async function generateSpeech(message, voice, speaker, index) {
   const buffer = Buffer.from(await mp3.arrayBuffer());
   await fs.promises.writeFile(speechFile, buffer);
   console.log(chalk.bold.yellow('==>'), 'Generating speech...')
+  writeLog([`Generated speech for message ${index}: ${speechFile}`]);
 }
 
 async function processMessages(data) {
@@ -89,6 +90,7 @@ async function concatenateAudioFiles(fileList, outputFile) {
       })
       .on('error', (err) => {
         fs.unlinkSync(inputListFile);
+        writeLog({"concatenate" : err})
         reject(err);
       })
       .save(outputFile);
@@ -177,6 +179,7 @@ function audioToLeftChannel(inputFile, outputFile, callback) {
     })
     .on('error', (err) => {
       console.error('Error:', err.message);
+      writeLog({"audioLeftChannel" : err})
       callback(err);
     })
     .save(outputFile);
@@ -199,6 +202,7 @@ function audioToRightChannel(inputFile, outputFile, callback) {
     })
     .on('error', (err) => {
       console.error('An error occurred: ' + err.message);
+      writeLog({"audioRightChannel" : err})
       callback(err);
     })
     .save(outputFile);
@@ -213,6 +217,7 @@ export async function generateAudio(data) {
     return audioFileOutput;
   } catch (error) {
     console.error('Error during audio generation process:', error);
+    writeLog({"genereateAudio" : error})
     throw error;
   }
 }

@@ -15,3 +15,4 @@ This improves transcripton and audio insights on these calls.
 Minor Changes...
 More detail in the processing queues.
 Handling time of phone call reflects duration of converstion.
+Improved error/success logging.
