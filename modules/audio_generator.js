@@ -4,9 +4,10 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 import { fileURLToPath } from 'url';
 import ffmpeg from 'fluent-ffmpeg';
+import chalk from 'chalk'
 import ffmpegPath from 'ffmpeg-static';
 import ffprobePath from 'ffprobe-static';
-import { generateUuid } from './utils.js'
+import { generateUuid } from './utils.js';
 import { writeLog, clearLog } from "./generate_log.js";
 
 // Get the current file's directory
@@ -53,6 +54,7 @@ async function generateSpeech(message, voice, speaker, index) {
   });
   const buffer = Buffer.from(await mp3.arrayBuffer());
   await fs.promises.writeFile(speechFile, buffer);
+  console.log(chalk.bold.yellow('==>'), 'Generating speech...')
 }
 
 async function processMessages(data) {
@@ -139,7 +141,6 @@ async function processAndConcatenateAudio(audioFileOutput) {
       } else {
         resolve();
       }
-
       processedFiles.push({ file: outputFilePath, order: parseInt(file) });
     });
   };
@@ -166,11 +167,12 @@ function audioToLeftChannel(inputFile, outputFile, callback) {
     .complexFilter([
       '[0:a]channelsplit=channel_layout=stereo[left][right]',
       '[right]volume=0[right_mute]',
-      '[left][right_mute]amerge=inputs=2[a]'
+      '[left][right_mute]amerge=inputs=2[a]',
+      // '[a]volume=1.5'  // Increase volume by 50%
     ])
     .outputOptions('-map', '[a]')
     .on('end', () => {
-      console.log(`Processing (left channel) for ${inputFile} finished successfully`);
+      console.log(chalk.bold.yellow('==>'), 'Processing left channel...')
       callback();
     })
     .on('error', (err) => {
@@ -187,11 +189,12 @@ function audioToRightChannel(inputFile, outputFile, callback) {
     .complexFilter([
       '[0:a]channelsplit=channel_layout=stereo[left][right]',
       '[left]volume=0[left_mute]',
-      '[left_mute][right]amerge=inputs=2[a]'
+      '[left_mute][right]amerge=inputs=2[a]',
+      // '[a]volume=1.5'  // Increase volume by 50%
     ])
     .outputOptions('-map', '[a]')
     .on('end', () => {
-      console.log(`Processing (right channel) for ${inputFile} finished successfully`);
+      console.log(chalk.bold.yellow('==>'), 'Processing right channel...')
       callback();
     })
     .on('error', (err) => {
