@@ -52,7 +52,7 @@ async function getCurrentVersion() {
 
 function writeCurrentVersion(version) {
     fs.writeFileSync(versionFilePath, version, 'utf-8');
-    console.log(`Current version (${version}) written to version.log`);
+    console.log(chalk.bold.yellow('==>'), `Current version (${version}) written to version.log`);
 }
 
 async function checkForUpdates() {
@@ -85,13 +85,13 @@ async function updateRepository() {
         await downloadFile(downloadUrl, zipPath);
         await extractZip(zipPath, updateDir);
         // fs.unlinkSync(zipPath);  // Clean up the zip file
-        console.log('Repository updated.');
-        console.log(`Update directory: ${updateDir}`);
-        console.log(`Version file path: ${versionFilePath}`);
+        console.log(chalk.bold.yellow('==>'), 'Repository updated.');
+        console.log(chalk.bold.yellow('==>'), `Update directory: ${updateDir}`);
+        console.log(chalk.bold.yellow('==>'), `Version file path: ${versionFilePath}`);
 
     } catch (error) {
         writeLog(error)
-        console.error('Error updating the repository.');
+        console.error(chalk.bold.yellow('==>'), 'Error updating the repository.');
     }
 }
 
@@ -116,7 +116,7 @@ async function extractZip(zipPath, dest) {
     for (const file of files) {
         const srcPath = path.resolve(extractedDir, file);
         const destPath = path.resolve(dest, file);
-        console.log(`Updating ${destPath}...`);  // Add logging for debugging
+        console.log(chalk.bold.yellow('==>'), `Updating ${destPath}...`);  // Add logging for debugging
         if (fs.existsSync(destPath)) {
             fs.rmSync(destPath, { recursive: true, force: true }); // Remove existing file/folder
         }
