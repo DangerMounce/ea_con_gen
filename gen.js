@@ -70,9 +70,9 @@ if (args.length === 0) {
 // deal with the instruction
 if (instruction.toLowerCase() === "add") {
     await checkFilesAndFoldersExsists();
-await ensureEnvFileAndApiKey();
-await clearLog()
-await deleteDsStoreFile()
+    await ensureEnvFileAndApiKey();
+    await clearLog()
+    await deleteDsStoreFile()
     // Adding a new API Key
     // Check if arguments are no more than 3
     if (args.length > 3) {
@@ -85,9 +85,9 @@ await deleteDsStoreFile()
     }
 } else if (instruction.toLowerCase() === "del") {
     await checkFilesAndFoldersExsists();
-await ensureEnvFileAndApiKey();
-await clearLog()
-await deleteDsStoreFile()
+    await ensureEnvFileAndApiKey();
+    await clearLog()
+    await deleteDsStoreFile()
     await checkForUpdates()
     // Deleting an existing API key
     // Check if arguments are no more than 3
@@ -102,9 +102,9 @@ await deleteDsStoreFile()
     showHelp()
 } else if (instruction.toLowerCase() === "contacts") {
     await checkFilesAndFoldersExsists();
-await ensureEnvFileAndApiKey();
-await clearLog()
-await deleteDsStoreFile()
+    await ensureEnvFileAndApiKey();
+    await clearLog()
+    await deleteDsStoreFile()
     await checkForUpdates()
     await checkForChatUpdates()
     titleText()
@@ -145,15 +145,15 @@ await deleteDsStoreFile()
 } else if (instruction.toLowerCase() === "log") {
     const logFilePath = path.join('modules', 'log.json');
 
-  fs.readFile(logFilePath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Error reading the log file:', err.message);
-      return;
-    }
+    fs.readFile(logFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading the log file:', err.message);
+            return;
+        }
 
-    console.log('Log file contents:');
-    console.log(data);
-  });
+        console.log('Log file contents:');
+        console.log(data);
+    });
 } else {
     nodeArguments('Invalid Arguments.')
 }
