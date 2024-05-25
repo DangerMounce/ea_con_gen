@@ -86,6 +86,7 @@ async function concatenateAudioFiles(fileList, outputFile) {
       .outputOptions('-c', 'copy')
       .on('end', () => {
         fs.unlinkSync(inputListFile);
+        console.log(chalk.bold.yellow('Call generating.'))
         resolve();
       })
       .on('error', (err) => {
@@ -174,7 +175,7 @@ function audioToLeftChannel(inputFile, outputFile, callback) {
     ])
     .outputOptions('-map', '[a]')
     .on('end', () => {
-      console.log(chalk.bold.yellow('==>'), 'Processing left channel...')
+      console.log(chalk.bold.yellow('==>'), 'Conversation being captured...')
       callback();
     })
     .on('error', (err) => {
@@ -197,7 +198,7 @@ function audioToRightChannel(inputFile, outputFile, callback) {
     ])
     .outputOptions('-map', '[a]')
     .on('end', () => {
-      console.log(chalk.bold.yellow('==>'), 'Processing right channel...')
+      console.log(chalk.bold.yellow('==>'), 'Conversation being captured...')
       callback();
     })
     .on('error', (err) => {
@@ -214,6 +215,7 @@ export async function generateAudio(data) {
     await processMessages(data);
     const audioFileOutput = await generateAudioFilename();
     await processAndConcatenateAudio(audioFileOutput);
+    writeLog({"Call" : "generated"})
     return audioFileOutput;
   } catch (error) {
     console.error('Error during audio generation process:', error);
