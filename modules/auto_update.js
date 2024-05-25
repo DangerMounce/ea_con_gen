@@ -61,7 +61,7 @@ async function checkForUpdates() {
     if (currentVersion !== latestVersion) {
         console.clear('')
         console.log('')
-        console.log(chalk.yellow('A new version of ea Con Gen is available.'));
+        console.log(chalk.yellow('Hey 👋 - an update for ea_con_gen is available.'));
         console.log('')
         const updateAgreed = await promptUserToUpdate();
         if (updateAgreed) {
@@ -69,8 +69,8 @@ async function checkForUpdates() {
             writeCurrentVersion(latestVersion);
             await displayChangeLog()
             console.log('')
-            console.log(chalk.bold.green(`Update completed successfully.`));
-            console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
+            console.log(chalk.bold.green(`Update completed successfully. 🫡`));
+            console.log(chalk.bold.green(`Please restart the script to apply the updates.🫣`));
             process.exit(1)
         }
         return;
@@ -85,13 +85,13 @@ async function updateRepository() {
         await downloadFile(downloadUrl, zipPath);
         await extractZip(zipPath, updateDir);
         // fs.unlinkSync(zipPath);  // Clean up the zip file
-        console.log(chalk.bold.yellow('==>'), 'Repository updated.');
-        console.log(chalk.bold.yellow('==>'), `Update directory: ${updateDir}`);
-        console.log(chalk.bold.yellow('==>'), `Version file path: ${versionFilePath}`);
+        console.log(chalk.bold.yellow('🗄️==>'), 'Repository updated.');
+        console.log(chalk.bold.yellow('🗂️==>'), `Update directory: ${updateDir}`);
+        console.log(chalk.bold.yellow('🤔==>'), `Version file path: ${versionFilePath}`);
 
     } catch (error) {
         writeLog(error)
-        console.error(chalk.bold.yellow('==>'), 'Error updating the repository.');
+        console.error(chalk.bold.yellow('💀==>'), 'Error updating the repository.');
     }
 }
 
@@ -116,7 +116,7 @@ async function extractZip(zipPath, dest) {
     for (const file of files) {
         const srcPath = path.resolve(extractedDir, file);
         const destPath = path.resolve(dest, file);
-        console.log(chalk.bold.yellow('==>'), `Updating ${destPath}...`);  // Add logging for debugging
+        console.log(chalk.bold.yellow('👍==>'), `Updating ${destPath}...`);  // Add logging for debugging
         if (fs.existsSync(destPath)) {
             fs.rmSync(destPath, { recursive: true, force: true }); // Remove existing file/folder
         }

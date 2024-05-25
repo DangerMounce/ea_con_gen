@@ -29,10 +29,10 @@ import { writeLog, clearLog } from './generate_log.js';
 import { statusMessage } from './library_sync.js';
 
 
-const ea_con_gen = "ea Con Gen"
+const ea_con_gen = "ea_con_gen"
 const helpVersion = '14.0' // when updating, prev version in here so that we know how old help is.
 
-const version = '14.2' 
+const version = '14.2.2' 
 
 // This function returns the current date
 export function getDate() {
@@ -136,7 +136,7 @@ export function getStatus() {
 // Clears console and puts title back up
 export function titleText() {
     console.clear('')
-    console.log(chalk.bold.blue(`${ea_con_gen} Ver: ${version}`))
+    console.log(chalk.bold.green(`${ea_con_gen} Ver: ${version}`))
     console.log(chalk.bold.yellow(statusMessage))
     console.log('')
 

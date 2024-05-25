@@ -54,7 +54,7 @@ async function generateSpeech(message, voice, speaker, index) {
   });
   const buffer = Buffer.from(await mp3.arrayBuffer());
   await fs.promises.writeFile(speechFile, buffer);
-  console.log(chalk.bold.yellow('==>'), 'Generating speech...')
+  console.log(chalk.bold.yellow('==>'), 'Generating conversation...')
   writeLog([`Generated speech for message ${index}: ${speechFile}`]);
 }
 
@@ -86,7 +86,7 @@ async function concatenateAudioFiles(fileList, outputFile) {
       .outputOptions('-c', 'copy')
       .on('end', () => {
         fs.unlinkSync(inputListFile);
-        console.log(chalk.bold.yellow('Call generating.'))
+        console.log(chalk.bold.yellow('Call generated.'))
         resolve();
       })
       .on('error', (err) => {
