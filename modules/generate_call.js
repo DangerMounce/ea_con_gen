@@ -53,7 +53,7 @@ export async function generateCall(agents) {
     callTemplate.data.assigned_at = getDate()
     callTemplate.data.solved_at = getDate()
     callTemplate.data.channel = "Telephony"
-    callTemplate.data.handling_time = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
+
 
     const directoryPath = './calls/';
     const callFiles = [];
@@ -77,6 +77,7 @@ export async function generateCall(agents) {
     });
     callTemplate.data.metadata.Filename = await fileNameOnly(callFile)
     callTemplate.data.audio_file_path = await uploadAudio(callFile);
+    callTemplate.data.handling_time = await getMP3Duration(callFile) // Math.floor(Math.random() * (200 - 100 + 1)) + 100;
     return callTemplate
 }
 
@@ -92,7 +93,7 @@ export async function generateNewCall(agents) {
     callTemplate.data.assigned_at = getDate();
     callTemplate.data.solved_at = getDate();
     callTemplate.data.channel = "Telephony";
-    callTemplate.data.handling_time = Math.floor(Math.random() * (200 - 100 + 1)) + 100;
+
 
     const callFile = `./calls/${audioToBeUploaded}`;
     const duration = await getMP3Duration(callFile);
@@ -103,5 +104,6 @@ export async function generateNewCall(agents) {
     }
     callTemplate.data.metadata.Filename = "Auto Gen";
     callTemplate.data.audio_file_path = await uploadAudio(callFile);
+    callTemplate.data.handling_time = await getMP3Duration(callFile)  // Math.floor(Math.random() * (200 - 100 + 1)) + 100;
     return callTemplate;
 }
