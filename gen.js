@@ -61,10 +61,7 @@ export let contractName = args[1] // Can only be a contract name
 export let apiKey = args[2] // Can only be an api key
 export let API_URL = null
 
-await checkFilesAndFoldersExsists();
-await ensureEnvFileAndApiKey();
-await clearLog()
-await deleteDsStoreFile()
+
 
 if (args.length === 0) {
     nodeArguments('Missing arguments')
@@ -72,6 +69,10 @@ if (args.length === 0) {
 
 // deal with the instruction
 if (instruction.toLowerCase() === "add") {
+    await checkFilesAndFoldersExsists();
+await ensureEnvFileAndApiKey();
+await clearLog()
+await deleteDsStoreFile()
     // Adding a new API Key
     // Check if arguments are no more than 3
     if (args.length > 3) {
@@ -83,6 +84,10 @@ if (instruction.toLowerCase() === "add") {
         addNewApiKey(contractName, apiKey)
     }
 } else if (instruction.toLowerCase() === "del") {
+    await checkFilesAndFoldersExsists();
+await ensureEnvFileAndApiKey();
+await clearLog()
+await deleteDsStoreFile()
     await checkForUpdates()
     // Deleting an existing API key
     // Check if arguments are no more than 3
@@ -96,6 +101,10 @@ if (instruction.toLowerCase() === "add") {
     // Show help screen
     showHelp()
 } else if (instruction.toLowerCase() === "contacts") {
+    await checkFilesAndFoldersExsists();
+await ensureEnvFileAndApiKey();
+await clearLog()
+await deleteDsStoreFile()
     await checkForUpdates()
     await checkForChatUpdates()
     titleText()
