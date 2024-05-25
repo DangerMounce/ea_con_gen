@@ -4,7 +4,7 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 14.1           
+                                 /____/  Ver 14.2           
 
 In this update:
 
@@ -12,7 +12,9 @@ In this update:
 When creating new chats, the audio file is now genereated with the agent audio on one channel and the customer audio on the other.
 This improves transcripton and audio insights on these calls.
 
+🗂️ Viewing data log
+Along with improved error/success logging, view the data log by "node gen log"
+
 📋 Minor Changes...
 More detail in the processing queues.
 Handling time of phone call reflects duration of converstion.
-Improved error/success logging.
