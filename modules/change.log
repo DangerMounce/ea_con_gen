@@ -7,6 +7,7 @@
                                  /____/  Ver 14.0           
 
 In this update:
+<<<<<<< HEAD
 
 Multi Channel Call Generation... 
 When creating new chats, the audio file is now genereated with the agent audio on one channel and the customer audio on the other.
@@ -16,3 +17,7 @@ Minor Changes...
 More detail in the processing queues.
 Handling time of phone call reflects duration of converstion.
 Improved error/success logging.
+=======
+Bug Fix: 
+When clearing chat directory, message would display saying no such file exists.
+>>>>>>> 129e8a9ff060b694410465dbc8e84396f8bb0ab8
