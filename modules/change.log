@@ -4,7 +4,7 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 14.3           
+                                 /____/  Ver 14.3.1           
 
 In this update:
 
@@ -25,3 +25,6 @@ Removed ea_con_gen and version number from titleText.  Version can now be checke
 - Force update
 Force the app and contact librarys to update with 'node gen update'
 When you run the updated script, you will be prompted to update the contact librarys. 
+
+- View Change Log
+Viewing the current change log can be done with 'node gen changelog'
