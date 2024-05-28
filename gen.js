@@ -2,6 +2,7 @@ import { time } from 'console';
 import fetch from 'node-fetch';
 import btoa from 'btoa';
 import fs from 'fs';
+import chalk from 'chalk';
 import path from 'path';
 import {
     checkFilesAndFoldersExsists,
@@ -17,10 +18,11 @@ import {
     updateOpenAIKeyInEnv,
     clearDirectory,
     deleteFile,
-    displayChangeLog
+    displayChangeLog,
+    showVersion
 } from './modules/utils.js';
 
-import { checkForChatUpdates, statusMessage } from './modules/library_sync.js'
+import { checkForChatUpdates, checkForCallUpdates, statusMessage } from './modules/library_sync.js'
 
 await ensureEnvFileAndApiKey();
 
@@ -36,7 +38,7 @@ import {
 
 import {
     getAgentDetails,
-    sendContacts
+    sendContacts,
 } from './modules/api_utils.js'
 
 import {
@@ -45,6 +47,7 @@ import {
 } from './modules/auto_update.js';
 
 import { writeLog, clearLog } from './modules/generate_log.js'
+import { version } from 'os';
 
 let password = null;
 export let agentList = [];
@@ -71,7 +74,6 @@ if (args.length === 0) {
 if (instruction.toLowerCase() === "add") {
     await checkFilesAndFoldersExsists();
     await ensureEnvFileAndApiKey();
-    await clearLog()
     await deleteDsStoreFile()
     // Adding a new API Key
     // Check if arguments are no more than 3
@@ -86,7 +88,6 @@ if (instruction.toLowerCase() === "add") {
 } else if (instruction.toLowerCase() === "del") {
     await checkFilesAndFoldersExsists();
     await ensureEnvFileAndApiKey();
-    await clearLog()
     await deleteDsStoreFile()
     await checkForUpdates()
     // Deleting an existing API key
@@ -107,6 +108,7 @@ if (instruction.toLowerCase() === "add") {
     await deleteDsStoreFile()
     await checkForUpdates()
     await checkForChatUpdates()
+    await checkForCallUpdates()
     titleText()
     API_URL = await promptCluster()
     titleText()
@@ -135,12 +137,18 @@ if (instruction.toLowerCase() === "add") {
         await clearDirectory("tickets")
         const chatVersionLogPath = path.join('./modules/chatVersion.log');
         await deleteFile(chatVersionLogPath);
+        await writeLog('==>Chat directory cleared')
+        process.exit(0)
+    } else if (contractName === 'log') {
+        await clearLog()
+        console.log('Log cleared')
         process.exit(0)
     } else {
-        // await clearDirectory("calls")
-        // const callVersionLogPath = path.join('./modules/callVersion.log');
-        // await deleteFile(callVersionLogPath);
-        // process.exit(0)
+        await clearDirectory("calls")
+        const callVersionLogPath = path.join('./modules/callVersion.log');
+        await deleteFile(callVersionLogPath);
+        await writeLog('==>Calls directory cleared')
+        process.exit(0)
     }
 } else if (instruction.toLowerCase() === "log") {
     const logFilePath = path.join('modules', 'log.json');
@@ -154,6 +162,9 @@ if (instruction.toLowerCase() === "add") {
         console.log('Log file contents:');
         console.log(data);
     });
+} else if (instruction.toLowerCase() === "ver") {
+    await writeLog('==>showVesion')
+    showVersion();
 } else {
     nodeArguments('Invalid Arguments.')
 }

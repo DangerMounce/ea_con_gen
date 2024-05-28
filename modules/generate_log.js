@@ -35,6 +35,10 @@ export async function writeLog(data) {
     });
 }
 
+
+let logTimeStamp = await getDateAndTime()
+await writeLog({"Timestamp:" : logTimeStamp})
+
 export async function clearLog() {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const logPath = path.join(__dirname, 'log.json');

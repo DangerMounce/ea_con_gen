@@ -26,13 +26,13 @@ import {
 } from './generate_call.js'
 
 import { writeLog, clearLog } from './generate_log.js';
-import { statusMessage } from './library_sync.js';
+import { callStatusMessage, statusMessage } from './library_sync.js';
 
 
 const ea_con_gen = "ea_con_gen"
 const helpVersion = '14.0' // when updating, prev version in here so that we know how old help is.
 
-const version = '14.2.2' 
+const appVersion = '14.3' 
 
 // This function returns the current date
 export function getDate() {
@@ -105,14 +105,14 @@ export function delay(seconds) {
 //This function looks for DS_Store in folders and deletes it
 export async function deleteDsStoreFile() {
     const directories = ['../calls', '../tickets']
-    writeLog({".DS_Store" : "checked"})
+    writeLog(`==>Checked for .DS_Store`)
     for (const dir of directories) {
         const filePath = `${dir}/.DS_Store`;
         try {
             await access(filePath);  // Check if the file exists
             await unlink(filePath);  // Delete the file
             let dsData = ({dir,'DS_Store' : "deleted"})
-            writeLog(dsData)
+            writeLog(`==>Removed .DS_Store`)
         } catch (error) {
             // If the file does not exist, access will throw an error
             if (error.code === 'ENOENT') {
@@ -136,8 +136,9 @@ export function getStatus() {
 // Clears console and puts title back up
 export function titleText() {
     console.clear('')
-    console.log(chalk.bold.green(`${ea_con_gen} Ver: ${version}`))
-    console.log(chalk.bold.yellow(statusMessage))
+    // console.log(chalk.bold.green(`${ea_con_gen} Ver: ${version}`))
+    console.log(chalk.bold.cyan(statusMessage))
+    console.log(chalk.bold.green(callStatusMessage))
     console.log('')
 
 }
@@ -333,8 +334,7 @@ export async function createContact() {
     if (contactType === "Stored Calls") {
         if (callDirectoryEmpty) {
             console.log(chalk.red('No calls found in directory.'))
-            let dsData = ({"Stored Calls" : "empty"})
-            writeLog(dsData)
+            await writeLog('==>No calls found in directory')
             process.exit(1)
         } else {
             contactTemplate = await generateCall(agentList)
@@ -342,8 +342,7 @@ export async function createContact() {
     } else if (contactType === "Stored Tickets") {
         if (ticketDirectoryEmpty) {
             console.log(chalk.red('No chats found in directory.'))
-            let dsData = ({"Stored Chats" : "empty"})
-            writeLog(dsData)
+            await writeLog('==>No chats found in directory')
             process.exit(1)
         } else {
             contactTemplate = await generateChat(agentList)
@@ -357,14 +356,12 @@ export async function createContact() {
     else { // If Stored Calls & Tickets
         if (callDirectoryEmpty) {
             console.log(chalk.red('No calls found in directory.'))
-            let dsData = ({"Stored Calls" : "empty"})
-            writeLog(dsData)
+            await writeLog('==>No calls found in directory')
             process.exit(1)
         }
         if (ticketDirectoryEmpty) {
             console.log(chalk.red('No chats found in directory.'))
-            let dsData = ({"Stored Chats" : "empty"})
-            writeLog(dsData)
+            await writeLog('==>No calls found in directory')
             process.exit(1)
         }
         const randomChoice = Math.floor(Math.random() * 2)
@@ -374,6 +371,7 @@ export async function createContact() {
             contactTemplate = await generateCall(agentList)
         }
     }
+    await writeLog('==> CONTACT TEMPLATE:')
     writeLog(contactTemplate)
     return contactTemplate
 }
@@ -397,7 +395,7 @@ export async function showSelectionSummary() {
         {"Contact Source" : contactType},
         {"Number of Contacts" : contactsToCreate},
         {"Time Interval" : timeInterval})
-    writeLog(dsData)
+    await writeLog(dsData)
 }
 
 export function isCallsFolderEmpty() {
@@ -474,14 +472,14 @@ export async function ensureEnvFileAndApiKey() {
             if (!envContent.includes('OPENAI_API_KEY')) {
                 // If key does not exist, append it
                 fs.appendFileSync(envPath, placeholderKey);
-                writeLog('OPENAI_API_KEY added to existing .env file.');
+                writeLog('==>OPENAI_API_KEY added to existing .env file.');
             } else {
-                writeLog('OPENAI_API_KEY already exists in .env file.');
+                writeLog('==>OPENAI_API_KEY already exists in .env file.');
             }
         } else {
             // If .env does not exist, create it and add the placeholder key
             fs.writeFileSync(envPath, placeholderKey);
-            writeLog('.env file created with OPENAI_API_KEY placeholder.');
+            writeLog('==>.env file created with OPENAI_API_KEY placeholder.');
         }
     } catch (error) {
         console.error('Error handling .env file:', error);
@@ -560,4 +558,9 @@ export async function displayChangeLog() {
     } catch (error) {
         console.error(`Change Log not found.`);
     }
+}
+
+export function showVersion() {
+    console.log(chalk.bold.green('ea_con_gen'), chalk.bold.cyan('Ver:', appVersion))
+    process.exit(1)
 }
