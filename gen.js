@@ -23,7 +23,7 @@ import {
 } from './modules/utils.js';
 
 import { checkForChatUpdates, checkForCallUpdates, statusMessage } from './modules/library_sync.js';
-import { parseCSVFile, checkAndInstallCsvParser } from './modules/call_script.js'
+import { parseCSVFile } from './modules/call_script.js'
 
 await ensureEnvFileAndApiKey();
 
