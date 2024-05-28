@@ -17,6 +17,21 @@ const projectDir = path.join(__dirname, '..'); // Move up to the project root
 const callsDir = path.join(projectDir, 'calls');
 const repoRoot = path.resolve(__dirname, '..', '..');
 
+
+
+
+function talkingChatting () {
+  const talkingChatting = ["chatting", "talking", "yapping", "blah-blahing"]
+  let rand = Math.floor(Math.random() * 2)
+  return talkingChatting[rand]
+}
+
+function agentCustomer () {
+  const agentCustomer = ["AGENT", "CUSTOMER"]
+  let rand = Math.floor(Math.random() * 2)
+  return agentCustomer[rand]
+}
+
 // Log the path of the .env file being loaded
 // console.log(`Loading .env from: ${path.join('.env')}`);
 
@@ -54,7 +69,7 @@ async function generateSpeech(message, voice, speaker, index) {
   });
   const buffer = Buffer.from(await mp3.arrayBuffer());
   await fs.promises.writeFile(speechFile, buffer);
-  console.log(chalk.bold.yellow('==>'), 'Generating conversation...')
+  console.log(chalk.bold.yellow('==>'), agentCustomer(), talkingChatting())
   writeLog([`Generated speech for message ${index}: ${speechFile}`]);
 }
 
@@ -175,7 +190,7 @@ function audioToLeftChannel(inputFile, outputFile, callback) {
     ])
     .outputOptions('-map', '[a]')
     .on('end', () => {
-      console.log(chalk.bold.yellow('==>'), 'Conversation being captured...')
+      console.log(chalk.bold.yellow('==>'), agentCustomer(), talkingChatting())
       callback();
     })
     .on('error', (err) => {
@@ -198,7 +213,7 @@ function audioToRightChannel(inputFile, outputFile, callback) {
     ])
     .outputOptions('-map', '[a]')
     .on('end', () => {
-      console.log(chalk.bold.yellow('==>'), 'Conversation being captured...')
+      console.log(chalk.bold.yellow('==>'), agentCustomer(), talkingChatting())
       callback();
     })
     .on('error', (err) => {
