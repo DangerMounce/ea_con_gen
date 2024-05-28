@@ -107,3 +107,4 @@ export async function generateNewCall(agents) {
     callTemplate.data.handling_time = await getMP3Duration(callFile)  // Math.floor(Math.random() * (200 - 100 + 1)) + 100;
     return callTemplate;
 }
+
