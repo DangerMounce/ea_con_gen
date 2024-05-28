@@ -98,6 +98,10 @@ if (instruction.toLowerCase() === "add") {
     } else {
         deleteApiKey(contractName)
     }
+} else if (instruction.toLowerCase() === "changelog") {
+    // Show  changelog
+    await displayChangeLog()
+    process.exit(0)
 } else if (instruction.toLowerCase() === "help") {
     // Show help screen
     showHelp()
