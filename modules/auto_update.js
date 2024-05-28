@@ -135,8 +135,8 @@ async function extractZip(zipPath, dest) {
 
 async function forceUpdate() {
     const updateAgreed = await promptUserToUpdate();
-    const chatVersionFilePath = path.join(modulesDir, 'chatVersion.log');
-    const callVersionFilePath = path.join(modulesDir, 'callVersion.log');
+    const chatVersionFilePath = path.join('chatVersion.log');
+    const callVersionFilePath = path.join('callVersion.log');
 
     if (updateAgreed) {
         await updateRepository();
