@@ -172,7 +172,6 @@ if (instruction.toLowerCase() === "add") {
     await writeLog('==>showVesion')
     showVersion();
 } else if (instruction.toLowerCase() === "create") {
-    await checkAndInstallCsvParser()
     const data = await parseCSVFile('script.csv')
     await writeLog('==> Message Array from CSV:')
     await writeLog(data)
