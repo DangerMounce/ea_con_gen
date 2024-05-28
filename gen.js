@@ -22,7 +22,8 @@ import {
     showVersion
 } from './modules/utils.js';
 
-import { checkForChatUpdates, checkForCallUpdates, statusMessage } from './modules/library_sync.js'
+import { checkForChatUpdates, checkForCallUpdates, statusMessage } from './modules/library_sync.js';
+import { parseCSVFile } from './modules/call_script.js'
 
 await ensureEnvFileAndApiKey();
 
@@ -48,6 +49,7 @@ import {
 
 import { writeLog, clearLog } from './modules/generate_log.js'
 import { version } from 'os';
+import { generateAudio } from './modules/audio_generator.js';
 
 let password = null;
 export let agentList = [];
@@ -169,6 +171,20 @@ if (instruction.toLowerCase() === "add") {
 } else if (instruction.toLowerCase() === "ver") {
     await writeLog('==>showVesion')
     showVersion();
+} else if (instruction.toLowerCase() === "create") {
+    const data = await parseCSVFile('script.csv')
+    await writeLog('==> Message Array from CSV:')
+    await writeLog(data)
+    console.log(chalk.bold('Transcript loaded from CSV:'))
+    data.forEach(item => {
+        if (item.speaker_is_customer) {
+            console.log(chalk.bold.green('Customer:'), item.message);
+        } else {
+            console.log(chalk.bold.yellow('Agent:'), item.message);
+        }
+    });
+    const createConfirmation = await promptYesOrNo()
+    generateAudio(data)
 } else {
     nodeArguments('Invalid Arguments.')
 }

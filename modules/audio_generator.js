@@ -69,7 +69,7 @@ async function generateSpeech(message, voice, speaker, index) {
   });
   const buffer = Buffer.from(await mp3.arrayBuffer());
   await fs.promises.writeFile(speechFile, buffer);
-  console.log(chalk.bold.yellow('==>'), agentCustomer(), talkingChatting())
+  console.log(chalk.bold.yellow('💬'), agentCustomer(), talkingChatting())
   writeLog([`Generated speech for message ${index}: ${speechFile}`]);
 }
 
@@ -190,7 +190,7 @@ function audioToLeftChannel(inputFile, outputFile, callback) {
     ])
     .outputOptions('-map', '[a]')
     .on('end', () => {
-      console.log(chalk.bold.yellow('==>'), agentCustomer(), talkingChatting())
+      console.log(chalk.bold.yellow('💬'), agentCustomer(), talkingChatting())
       callback();
     })
     .on('error', (err) => {
@@ -213,7 +213,7 @@ function audioToRightChannel(inputFile, outputFile, callback) {
     ])
     .outputOptions('-map', '[a]')
     .on('end', () => {
-      console.log(chalk.bold.yellow('==>'), agentCustomer(), talkingChatting())
+      console.log(chalk.bold.yellow('💬'), agentCustomer(), talkingChatting())
       callback();
     })
     .on('error', (err) => {
@@ -226,11 +226,14 @@ function audioToRightChannel(inputFile, outputFile, callback) {
 
 // Generate audio files based on conversation data
 export async function generateAudio(data) {
+  writeLog("==> Data for audio generation:")
+  writeLog(data)
   try {
     await processMessages(data);
     const audioFileOutput = await generateAudioFilename();
     await processAndConcatenateAudio(audioFileOutput);
-    writeLog({"Call" : "generated"})
+    console.log(chalk.bold.yellow(audioFileOutput))
+    writeLog(`==> Audio file generated: ${audioFileOutput}`)
     return audioFileOutput;
   } catch (error) {
     console.error('Error during audio generation process:', error);

@@ -4,9 +4,13 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 14.3.1           
+                                 /____/  Ver 14.3.2           
 
 In this update:
+
+- Generate an MP3 call file directly from a script.  Save "script.csv" to the root folder.  CSV must be formatted as follows:
+Headers: message, speaker_is_customer.  In subsequent rows, the response should be added and speaker_is_customer is indicated with
+true or false (boolean).  csv-parser is required. 'npm install csv-parser' and 'node gen create" to run. Also requires an OpenAI API key.
 
 - Call and Chat Library Syncing
 When new calls or chats have been added to the repositary, you will be prompted to update.  This will sync your local contact folder with the repositary.
@@ -23,7 +27,7 @@ Log can be cleared with 'node gen clear log'
 Removed ea_con_gen and version number from titleText.  Version can now be checked with 'node gen ver'.
 
 - Force update
-Force the app and contact librarys to update with 'node gen update'
+Force the app, and contact librarys, to update with 'node gen update'
 When you run the updated script, you will be prompted to update the contact librarys. 
 
 - View Change Log
