@@ -13,7 +13,7 @@ import {
     generateUuid,
     ensureEnvFileAndApiKey
 } from './utils.js'
-
+import { writeLog } from './generate_log.js';
 
 await ensureEnvFileAndApiKey();
 
@@ -39,7 +39,8 @@ export async function generateChatTranscript() {
         const responseMessage = chatCompletion.choices[0].message.content // Just gets the message
         let transcriptArray = await formatChatHistory(responseMessage) // Returns the responses in an array
         const formattedChatData = transcriptArray.map(formatChatMessage);
-        // writeHistory(formattedChatData)
+        writeLog(`==> Formatted Chat Data:`)
+        writeLog(formattedChatData)
         return formattedChatData
     } catch (error) {
         console.error(chalk.white('Error - main() -'),chalk.red(error))

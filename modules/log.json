@@ -1,27 +1,168 @@
 "==>OPENAI_API_KEY already exists in .env file."
-{
-  "Timestamp:": "Tue 28 May - 17:11"
-}
-"==>OPENAI_API_KEY already exists in .env file."
-"==>OPENAI_API_KEY already exists in .env file."
-"==>Chat directory cleared"
 "==>OPENAI_API_KEY already exists in .env file."
 {
-  "Timestamp:": "Tue 28 May - 17:11"
+  "Log Created": "Tue 28 May - 21:24"
 }
-"==>OPENAI_API_KEY already exists in .env file."
-"==>OPENAI_API_KEY already exists in .env file."
-"==>Calls directory cleared"
-"==>OPENAI_API_KEY already exists in .env file."
+"==>Checked for .DS_Store"
+"==>Current ea_con_gen version: 129e8a9ff060b694410465dbc8e84396f8bb0ab8"
+"==>latest ea_con_gen version: cf0390d34806f35cbbd5cdeee4d2630f914a0256"
+"==>Update offered"
+"==>Update not agreed"
+"==>New chats are available"
+"==>Latest Chat Version: 37100dc09c3bcd297debdaab9240b6b9da9b795d"
+"==>Prompted user to update chat library"
+"==>File already exists: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/callVersion.log"
+"==>Call Library up to date"
 {
-  "Timestamp:": "Tue 28 May - 17:11"
+  "Time Interval": 1
 }
-"==>OPENAI_API_KEY already exists in .env file."
-"==>OPENAI_API_KEY already exists in .env file."
-"==>showVesion"
-"==>OPENAI_API_KEY already exists in .env file."
 {
-  "Timestamp:": "Tue 28 May - 17:11"
+  "Time Interval": 1
 }
-"==>OPENAI_API_KEY already exists in .env file."
-"==>OPENAI_API_KEY already exists in .env file."
+"==> Data for audio generation:"
+[
+  {
+    "message": "Hello! Welcome to Better Deal Insurance. My name is Chris. How can I assist you today?",
+    "speaker_is_customer": false
+  },
+  {
+    "message": "Hi Chris! I'm glad I found you. I have a question about my insurance policy.",
+    "speaker_is_customer": true
+  },
+  {
+    "message": "Of course! I'd be happy to help. Before we proceed, can you confirm your full name for security purposes?",
+    "speaker_is_customer": false
+  },
+  {
+    "message": "Sure, my name is Sarah Johnson.",
+    "speaker_is_customer": true
+  },
+  {
+    "message": "Great, thank you for completing security. How can I assist you with your policy today, Sarah?",
+    "speaker_is_customer": false
+  },
+  {
+    "message": "I recently had to make a claim, but I'm not satisfied with the outcome. Is there anything that can be done to help?",
+    "speaker_is_customer": true
+  },
+  {
+    "message": "I'm deeply sorry to hear that, Sarah. Let's see what we can do. Could you provide me with your date of birth for additional checks?",
+    "speaker_is_customer": false
+  },
+  {
+    "message": "Sure, my date of birth is 10/05/1990.",
+    "speaker_is_customer": true
+  },
+  {
+    "message": "Thank you for confirming. I understand this must be a difficult time for you. Let's work together to find a way forward. A possible resolution could be reviewing your claim details. Does this work for you?",
+    "speaker_is_customer": false
+  },
+  {
+    "message": "Yes, that sounds like a good start. I appreciate your support in this matter.",
+    "speaker_is_customer": true
+  },
+  {
+    "message": "I'm glad we could help. Let's take a look at your claim together. Could you please confirm your first line of address and postcode?",
+    "speaker_is_customer": false
+  },
+  {
+    "message": "My address is 123 Green Street, AB1 2CD.",
+    "speaker_is_customer": true
+  },
+  {
+    "message": "That's all correct. Thank you for providing that information. Let me review your claim details now.",
+    "speaker_is_customer": false
+  },
+  {
+    "message": "Thank you, Chris. I really appreciate your help and understanding.",
+    "speaker_is_customer": true
+  },
+  {
+    "message": "You're welcome, Sarah. I'm here to assist you every step of the way. Is there anything else I can help with today?",
+    "speaker_is_customer": false
+  },
+  {
+    "message": "Not at the moment, thank you. I feel heard and supported. Have a great day, Chris!",
+    "speaker_is_customer": true
+  },
+  {
+    "message": "Thank you, Sarah. I'm glad that I was able to help. Have a wonderful day too!",
+    "speaker_is_customer": false
+  }
+]
+[
+  "Generated speech for message 1: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/1_agent.mp3"
+]
+[
+  "Generated speech for message 2: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/2_customer.mp3"
+]
+[
+  "Generated speech for message 3: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/3_agent.mp3"
+]
+[
+  "Generated speech for message 4: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/4_customer.mp3"
+]
+[
+  "Generated speech for message 5: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/5_agent.mp3"
+]
+[
+  "Generated speech for message 6: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/6_customer.mp3"
+]
+[
+  "Generated speech for message 7: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/7_agent.mp3"
+]
+[
+  "Generated speech for message 8: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/8_customer.mp3"
+]
+[
+  "Generated speech for message 9: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/9_agent.mp3"
+]
+[
+  "Generated speech for message 10: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/10_customer.mp3"
+]
+[
+  "Generated speech for message 11: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/11_agent.mp3"
+]
+[
+  "Generated speech for message 12: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/12_customer.mp3"
+]
+[
+  "Generated speech for message 13: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/13_agent.mp3"
+]
+[
+  "Generated speech for message 14: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/14_customer.mp3"
+]
+[
+  "Generated speech for message 15: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/15_agent.mp3"
+]
+[
+  "Generated speech for message 16: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/16_customer.mp3"
+]
+[
+  "Generated speech for message 17: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/17_agent.mp3"
+]
+"==> Audio file generated: 8265cf14-1d30-11ef-a50f-325096b39f47.mp3"
+{
+  "Audio Upload": "quality/143e3003-d490-4691-a058-9c889fc4cd79/bd50e518-8cda-4023-9b33-93887cd41243.mp3"
+}
+"==> CONTACT TEMPLATE:"
+{
+  "data": {
+    "reference": "82e62c40-1d30-11ef-8d88-325096b39f47",
+    "agent_id": "8748a57e-1c45-422a-8cbe-9d4eca1f2db8",
+    "agent_email": "jake.randall@evaluagentacademy.inc.test",
+    "contact_date": "2024-05-28T20:26:06Z",
+    "channel": "Telephony",
+    "assigned_at": "2024-05-28T20:26:06Z",
+    "solved_at": "2024-05-28T20:26:06Z",
+    "external_url": "https://www.evaluagent.com",
+    "responses_stored_externally": "true",
+    "handling_time": 96,
+    "customer_telephone_number": "01753 877212",
+    "audio_file_path": "quality/143e3003-d490-4691-a058-9c889fc4cd79/bd50e518-8cda-4023-9b33-93887cd41243.mp3",
+    "metadata": {
+      "Filename": "Auto Gen",
+      "Contact": "Call"
+    }
+  }
+}
