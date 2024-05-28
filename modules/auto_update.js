@@ -5,7 +5,8 @@ import { fileURLToPath } from 'url';
 import AdmZip from 'adm-zip';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import {displayChangeLog} from './utils.js'
+import { displayChangeLog } from './utils.js'
+import { writeLog } from './generate_log.js';
 
 // Configuration
 const repoOwner = 'DangerMounce';
@@ -39,12 +40,14 @@ async function promptUserToUpdate() {
 async function getLatestVersion() {
     const response = await fetch(gitHubUrl);
     const data = await response.json();
+    await writeLog(`==>latest ea_con_gen version: ${data.sha}`)
     return data.sha;
 }
 
 async function getCurrentVersion() {
     if (fs.existsSync(versionFilePath)) {
         const version = fs.readFileSync(versionFilePath, 'utf-8').trim();
+        await writeLog(`==>Current ea_con_gen version: ${version}`)
         return version;
     }
     return null;
@@ -59,12 +62,14 @@ async function checkForUpdates() {
     const currentVersion = await getCurrentVersion();
     const latestVersion = await getLatestVersion();
     if (currentVersion !== latestVersion) {
+        await writeLog(`==>Update offered`)
         console.clear('')
         console.log('')
         console.log(chalk.yellow('Hey 👋 - an update for ea_con_gen is available.'));
         console.log('')
         const updateAgreed = await promptUserToUpdate();
         if (updateAgreed) {
+            await writeLog(`==>Update agreed`)
             await updateRepository();
             writeCurrentVersion(latestVersion);
             await displayChangeLog()
@@ -73,9 +78,10 @@ async function checkForUpdates() {
             console.log(chalk.bold.green(`Please restart the script to apply the updates.🫣`));
             process.exit(1)
         }
+        await writeLog('==>Update not agreed')
         return;
     } else {
-        // console.log('You are using the latest version.');
+        await writeLog(`==>latest ea_con_gen version up to date`)
     }
 }
 
@@ -129,13 +135,28 @@ async function extractZip(zipPath, dest) {
 
 async function forceUpdate() {
     const updateAgreed = await promptUserToUpdate();
-        if (updateAgreed) {
-            await updateRepository();
-            // writeCurrentVersion(latestVersion);
-            console.log(chalk.white(`Update completed successfully.`));
-            console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
-            process.exit(0)
+    const chatVersionFilePath = path.join(modulesDir, 'chatVersion.log');
+    const callVersionFilePath = path.join(modulesDir, 'callVersion.log');
+
+    if (updateAgreed) {
+        await updateRepository();
+        // writeCurrentVersion(latestVersion);
+
+        console.log(chalk.white(`Update completed successfully.`));
+        console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
+        process.exit(0)
+    }
+
+    const files = [chatVersionFilePath, callVersionFilePath];
+    
+    files.forEach(file => {
+        if (fs.existsSync(file)) {
+            fs.unlinkSync(file);
+            console.log(chalk.green(`Deleted file: ${file}`));
+        } else {
+            console.log(chalk.yellow(`File not found: ${file}`));
         }
+    });
 }
 
 export { checkForUpdates, forceUpdate };
