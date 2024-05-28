@@ -47,4 +47,23 @@ export async function parseCSVFile(filePath) {
     });
 }
 
-
+export function checkAndInstallCsvParser() {
+    try {
+        require.resolve('csv-parser');
+        // console.log('csv-parser is already installed.');
+    } catch (e) {
+        console.log('csv-parser is not installed. Installing...');
+        exec('npm install csv-parser', (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error installing csv-parser: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.error(`npm stderr: ${stderr}`);
+                return;
+            }
+            console.log(`npm stdout: ${stdout}`);
+            console.log('csv-parser installed successfully.');
+        });
+    }
+}
