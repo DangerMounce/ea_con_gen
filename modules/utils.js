@@ -32,7 +32,7 @@ import { callStatusMessage, statusMessage } from './library_sync.js';
 const ea_con_gen = "ea_con_gen"
 const helpVersion = '14.0' // when updating, prev version in here so that we know how old help is.
 
-const appVersion = '14.3.3' 
+const appVersion = '14.3.4' 
 
 // This function returns the current date
 export function getDate() {
@@ -87,12 +87,24 @@ export function showHelp() {
     console.log('Displays log.')
 }
 
+function isUUID(str) {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(str);
+}
+
 //This function returns the filename without the extension for the metadata
 export async function fileNameOnly(filename) {
     // Remove the directory path
     let base = filename.split('/').pop();
     // Remove the file extension
     base = base.split('.').slice(0, -1).join('.');
+
+    // Check if the base is a UUID and change it to "Auto-Gen" if it is
+    if (isUUID(base)) {
+        base = "Auto-Gen";
+    }
+
+    await writeLog('==> fileNameOnly: filename->', filename);
     return base;
 }
 

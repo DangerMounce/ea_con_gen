@@ -136,6 +136,7 @@ async function forceUpdate() {
 
         console.log(chalk.white(`Update completed successfully.`));
         console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
+        console.log('Type: cd ..')
         process.exit(0)
     }
 
