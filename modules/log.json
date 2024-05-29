@@ -1,81 +1,844 @@
 "==>OPENAI_API_KEY already exists in .env file."
-"==>OPENAI_API_KEY already exists in .env file."
 {
-  "Log Created": "Tue 28 May - 21:42"
+  "Log Created": "Wed 29 May - 16:30"
 }
+"==>OPENAI_API_KEY already exists in .env file."
 "==>Checked for .DS_Store"
 "==>Current ea_con_gen version: d34cff332a50bf994afca9b5368d75b716829cc3"
-"==>latest ea_con_gen version: d34cff332a50bf994afca9b5368d75b716829cc3"
-"==>latest ea_con_gen version up to date"
-"==>New chats are available"
+"==>latest ea_con_gen version: b4642acac8fb2e2c165d1eaba0188b80a0b399fc"
+"==>Update offered"
+"==>Update not agreed"
+"==>Current Chat Version: 37100dc09c3bcd297debdaab9240b6b9da9b795d"
 "==>Latest Chat Version: 37100dc09c3bcd297debdaab9240b6b9da9b795d"
-"==>Prompted user to update chat library"
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/08a89500-16b7-11ef-a23d-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/1879c330-19b6-11ef-ba9b-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/215bb7c0-19b5-11ef-b290-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/22da7326-19b4-11ef-bb20-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/0ff10e22-19b5-11ef-9829-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/08d6c7c0-19b6-11ef-976b-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/2aa3c4e8-19b6-11ef-891f-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/316c5746-19b5-11ef-93b0-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/3ee10f3a-19b4-11ef-a399-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/4180c20c-19b5-11ef-9f66-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/4bbb5ecc-19b4-11ef-8d67-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/4bf53500-19b6-11ef-9034-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/5287eada-19b5-11ef-ba5c-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/58344826-19b4-11ef-9cc8-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/5cd1b24a-19b6-11ef-bab1-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/61a0e3aa-19b5-11ef-8325-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/62e56214-19b4-11ef-a60a-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/63429d2c-16ac-11ef-a445-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/39ebc82e-19b6-11ef-9a95-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/6dc9792a-19b6-11ef-b2a1-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/70edd5d0-19b4-11ef-ab42-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/7352f610-19b5-11ef-8b08-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/7c858406-19b4-11ef-a24b-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/7f5e0d18-19b6-11ef-b8bb-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/84384d54-19b5-11ef-a774-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/8817c31a-19b4-11ef-9033-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/9075ffa2-19b6-11ef-913a-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/90edca5c-16b7-11ef-b002-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/94b58544-19b4-11ef-aa34-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/9513b686-19b5-11ef-a518-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/9c64f3ca-16b6-11ef-a4f8-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/a0df082a-19b6-11ef-8400-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/a24052ac-19b4-11ef-983e-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/307deb5c-19b4-11ef-848b-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/b06e304c-19b4-11ef-9ec4-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/b1273f54-19b6-11ef-b747-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/b64d12fc-19b5-11ef-8523-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/bcd4dae8-19b4-11ef-aa09-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/c2dee9f4-19b6-11ef-85a9-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/c7bda7cc-19b5-11ef-b2e5-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/c959d5e8-19b4-11ef-babb-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/cee19b42-16f1-11ef-b938-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/d1dd26c8-19b6-11ef-b845-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/a640d8ee-19b5-11ef-a689-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/6ca29052-16ac-11ef-b669-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/e116b83e-19b6-11ef-8599-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/e509cf64-19b4-11ef-8bab-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/e7cec0b4-19b5-11ef-b3ff-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/d7a68550-19b5-11ef-a22e-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/d5a1a772-19b4-11ef-9d18-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/f17c064a-19b4-11ef-b9ca-325096b39f47.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_general.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_general_complaint.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_general_finanical_difficulty.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_general_pass.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_lineitem_empathy.json..."
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_lineitem_solutions.json..."
-"==>Deleted zip file: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/repo.zip"
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/f7875156-19b5-11ef-81a0-325096b39f47.json..."
-"==>Version file path: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/chatVersion.log"
-"==>Update directory: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets"
-"==>Chat repository updated successfully."
+"==>Chat library up to date"
 "==>File already exists: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/callVersion.log"
-"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/f19a6976-19b6-11ef-a894-325096b39f47.json..."
-"==>Current Version writte to chatVersion.log"
 "==>Call Library up to date"
-"==>Call library updated agreed"
-"Deleted zip file: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/repo.zip"
-"==>Call repository updated successfully."
+{
+  "Time Interval": 5
+}
+{
+  "Time Interval": 5
+}
+"==> fileNameOnly: filename->"
+"==> CONTACT TEMPLATE:"
+{
+  "data": {
+    "reference": "740a936e-1dd0-11ef-a134-325096b39f47",
+    "agent_id": "d9aa695e-7c36-463b-8556-a825823f28d5",
+    "agent_email": "jacob.cunningham@evaluagentacademy.inc.test",
+    "contact_date": "2024-05-29T15:31:00Z",
+    "channel": "Chat",
+    "assigned_at": "2024-05-29T15:31:00Z",
+    "solved_at": "2024-05-29T15:31:00Z",
+    "external_url": "https://www.evaluagent.com",
+    "responses_stored_externally": "true",
+    "responses": [
+      {
+        "speaker_email": "jacob.cunningham@evaluagentacademy.inc.test",
+        "response_id": "1",
+        "message": "Hello! Welcome to Better Deal Insurance. My name is Chris. How can I assist you today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T09:59:00.870Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "2",
+        "message": "Hi Chris! I'm a happy customer of Better Deal Insurance. I need help with an issue regarding my policy.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:00:00.870Z"
+      },
+      {
+        "speaker_email": "jacob.cunningham@evaluagentacademy.inc.test",
+        "response_id": "3",
+        "message": "I'm glad to hear you're happy with our service! I'd be happy to help. Before we proceed, can you confirm your full name for security purposes?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:01:00.870Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "4",
+        "message": "Sure, my name is Sarah Johnson.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:02:00.870Z"
+      },
+      {
+        "speaker_email": "jacob.cunningham@evaluagentacademy.inc.test",
+        "response_id": "5",
+        "message": "Great, thank you for completing security, Sarah. How can I assist you with your policy today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:03:00.870Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "6",
+        "message": "I recently had an accident and need to make a claim, but I'm encountering some issues with the process.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:04:00.870Z"
+      },
+      {
+        "speaker_email": "jacob.cunningham@evaluagentacademy.inc.test",
+        "response_id": "7",
+        "message": "I'm deeply sorry to hear about your accident, Sarah. Let's see how we can help. Can you also confirm your date of birth for additional checks?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:05:00.870Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "8",
+        "message": "My date of birth is 15/08/1990.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:06:00.870Z"
+      },
+      {
+        "speaker_email": "jacob.cunningham@evaluagentacademy.inc.test",
+        "response_id": "9",
+        "message": "Thank you for providing that, Sarah. I will do my best to assist you. Could you please share the first line of your address and postcode?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:07:00.870Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "10",
+        "message": "Certainly, my address is 123 Oak Street, AB01 2CD.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:08:00.870Z"
+      },
+      {
+        "speaker_email": "jacob.cunningham@evaluagentacademy.inc.test",
+        "response_id": "11",
+        "message": "Thank you for completing security checks, Sarah. I appreciate your cooperation. How can we proceed with your claim issue?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:09:00.870Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "12",
+        "message": "I've been trying to submit the claim online, but the website keeps giving me an error message and won't let me proceed.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:10:00.870Z"
+      },
+      {
+        "speaker_email": "jacob.cunningham@evaluagentacademy.inc.test",
+        "response_id": "13",
+        "message": "I apologize for the inconvenience, Sarah. Let's work together to find a solution. A possible resolution could be to escalate this to our technical team to investigate the website issue. How does that sound?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:11:00.870Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "14",
+        "message": "That works for me, Chris. I appreciate your help in resolving this matter.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:12:00.870Z"
+      },
+      {
+        "speaker_email": "jacob.cunningham@evaluagentacademy.inc.test",
+        "response_id": "15",
+        "message": "I'm glad we could help find a way forward, Sarah. I will escalate this to our technical team for further investigation. Is there anything else I can assist you with today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:13:00.870Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "16",
+        "message": "No, that's all for now. Thank you for your assistance, Chris.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:14:00.870Z"
+      },
+      {
+        "speaker_email": "jacob.cunningham@evaluagentacademy.inc.test",
+        "response_id": "17",
+        "message": "You are welcome, Sarah. If you need any further support, please don't hesitate to reach out. Have a great day!",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:15:00.870Z"
+      }
+    ],
+    "metadata": {
+      "Filename": "Auto-Gen",
+      "Status": "Pending",
+      "AgentResponses": 9,
+      "Contact": "Ticket"
+    }
+  }
+}
+{
+  "Server Response": "Success"
+}
+"==> fileNameOnly: filename->"
+"==> CONTACT TEMPLATE:"
+{
+  "data": {
+    "reference": "77949bce-1dd0-11ef-8204-325096b39f47",
+    "agent_id": "096f09d4-4371-485c-a62a-f66ced64d784",
+    "agent_email": "harriet.kay@evaluagentacademy.inc.test",
+    "contact_date": "2024-05-29T15:31:06Z",
+    "channel": "Chat",
+    "assigned_at": "2024-05-29T15:31:06Z",
+    "solved_at": "2024-05-29T15:31:06Z",
+    "external_url": "https://www.evaluagent.com",
+    "responses_stored_externally": "true",
+    "responses": [
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "1",
+        "message": "Hello! Thank you for contacting Better Deal Insurance. This is Chris. How can I assist you today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:16:04.330Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "2",
+        "message": "Finally, I've been waiting for ages. I need to make a claim on my policy. Can you help me with that?",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:17:04.330Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "3",
+        "message": "Of course, I can assist you with that. Before proceeding, can you confirm your full name for security?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:18:04.330Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "4",
+        "message": "Ugh, it's Sarah Williams.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:19:04.330Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "5",
+        "message": "Thank you for completing security. Can you also provide your date of birth, Sarah?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:20:04.330Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "6",
+        "message": "It's 15/09/1985.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:21:04.330Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "7",
+        "message": "Great, thank you. To proceed, can you confirm the first line of your address and the postcode?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:22:04.330Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "8",
+        "message": "It's 17 Oak Street, LS1 2HG.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:23:04.330Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "9",
+        "message": "Perfect, thank you for completing security. How can I assist you with your claim today, Sarah?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:24:04.330Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "10",
+        "message": "I need to make a claim for the car accident I was in last week. It's been such a nightmare.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:25:04.330Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "11",
+        "message": "I'm deeply sorry to hear about your accident, Sarah. Let me see what we can do to help.",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:26:04.330Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "12",
+        "message": "Well, it's about time. I need some action on this.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:27:04.330Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "13",
+        "message": "I completely understand, Sarah. Let me look into this for you. One possible resolution could be expediting the claim process. How does that sound to you?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:28:04.330Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "14",
+        "message": "That's all sorted. Please allow me a moment to process this for you.",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:29:04.330Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "15",
+        "message": "About time. I hope this gets sorted quickly.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:30:04.330Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "16",
+        "message": "Glad we could help. Is there anything else I can assist you with today, Sarah?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:31:04.330Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "17",
+        "message": "No, that's all for now.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:32:04.330Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "18",
+        "message": "Thank you for choosing Better Deal Insurance. Have a great day, Sarah!",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:33:04.330Z"
+      }
+    ],
+    "metadata": {
+      "Filename": "Auto-Gen",
+      "Status": "New",
+      "AgentResponses": 10,
+      "Contact": "Ticket"
+    }
+  }
+}
+{
+  "Server Response": "Success"
+}
+"==> fileNameOnly: filename->"
+"==> CONTACT TEMPLATE:"
+{
+  "data": {
+    "reference": "7b189f66-1dd0-11ef-ad53-325096b39f47",
+    "agent_id": "096f09d4-4371-485c-a62a-f66ced64d784",
+    "agent_email": "harriet.kay@evaluagentacademy.inc.test",
+    "contact_date": "2024-05-29T15:31:12Z",
+    "channel": "Chat",
+    "assigned_at": "2024-05-29T15:31:12Z",
+    "solved_at": "2024-05-29T15:31:12Z",
+    "external_url": "https://www.evaluagent.com",
+    "responses_stored_externally": "true",
+    "responses": [
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "1",
+        "message": "Hello! Thank you for contacting Better Deal Insurance. My name is Chris. How can I assist you today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:15:36.882Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "2",
+        "message": "Finally, I've been waiting for ages to speak with someone. I need to make a claim on my policy.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:16:36.882Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "3",
+        "message": "I understand your urgency in making a claim. Before we proceed, can you confirm your full name for security purposes?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:17:36.882Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "4",
+        "message": "It's John Smith.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:18:36.882Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "5",
+        "message": "Thank you for completing security, John. Can you also provide me with your date of birth?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:19:36.882Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "6",
+        "message": "25/05/1983",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:20:36.882Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "7",
+        "message": "Great, thank you for that. To proceed, can you confirm the first line of your address and postcode?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:21:36.882Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "8",
+        "message": "12 Oak Street, PO19 7TY",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:22:36.882Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "9",
+        "message": "Thank you for completing security. How may I assist you with your claim today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:23:36.882Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "10",
+        "message": "I was involved in a car accident yesterday and need to file a claim as soon as possible.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:24:36.882Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "11",
+        "message": "I'm deeply sorry to hear about the accident, John. I can imagine it's a difficult time for you. Let's see what we can do to help. One possible resolution could be to start the claims process for you. Would that work for you?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:25:36.882Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "12",
+        "message": "Yes, that would be great. I just want to get everything sorted out quickly.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:26:36.882Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "13",
+        "message": "I'm glad we could help you with that. Let me gather some details from you to start the process. Could you please provide me with the details of the accident and the other party involved?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:27:36.882Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "14",
+        "message": "Sure, the accident happened at the junction of Maple Lane and Pine Street. The other party's details are...",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:28:36.882Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "15",
+        "message": "Thank you for sharing that information, John. I'll start the claims process based on the details provided. Please allow me a moment to get everything in order.",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:29:36.882Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "16",
+        "message": "Do you have an estimate of how long this will take? I need to get a rental car sorted out as soon as possible.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:30:36.882Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "17",
+        "message": "I completely understand your urgency, John. I will do my best to expedite the process for you. Thank you for your patience.",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:31:36.882Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "18",
+        "message": "Thank you for your help. I appreciate it.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:32:36.882Z"
+      },
+      {
+        "speaker_email": "harriet.kay@evaluagentacademy.inc.test",
+        "response_id": "19",
+        "message": "You are welcome, John. If you have any more questions or need further assistance, please don't hesitate to reach out. Take care.",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:33:36.882Z"
+      }
+    ],
+    "metadata": {
+      "Filename": "Auto-Gen",
+      "Status": "New",
+      "AgentResponses": 10,
+      "Contact": "Ticket"
+    }
+  }
+}
+{
+  "Server Response": "Success"
+}
+"==> fileNameOnly: filename->"
+"==> CONTACT TEMPLATE:"
+{
+  "data": {
+    "reference": "7e99ec26-1dd0-11ef-bc4b-325096b39f47",
+    "agent_id": "64b6c522-5c54-4161-9d3c-f5e962b6813a",
+    "agent_email": "hector.teamleader.agent@evaluagent.co.test",
+    "contact_date": "2024-05-29T15:31:18Z",
+    "channel": "Chat",
+    "assigned_at": "2024-05-29T15:31:18Z",
+    "solved_at": "2024-05-29T15:31:18Z",
+    "external_url": "https://www.evaluagent.com",
+    "responses_stored_externally": "true",
+    "responses": [
+      {
+        "speaker_email": "hector.teamleader.agent@evaluagent.co.test",
+        "response_id": "1",
+        "message": "Hello! Welcome to Better Deal Insurance live chat service. This is Chris. How may I assist you today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T18:50:11.923Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "2",
+        "message": "Hi Chris! I'm so pleased with the service I've received from Better Deal Insurance.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T18:51:11.923Z"
+      },
+      {
+        "speaker_email": "hector.teamleader.agent@evaluagent.co.test",
+        "response_id": "3",
+        "message": "Thank you for your kind words! I'm glad to hear that. Before we proceed, can you confirm your full name for security purposes?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T18:52:11.923Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "4",
+        "message": "Of course, my full name is Sarah Johnson.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T18:53:11.923Z"
+      },
+      {
+        "speaker_email": "hector.teamleader.agent@evaluagent.co.test",
+        "response_id": "5",
+        "message": "Thank you for completing security, Sarah Johnson. Can you now provide me with your date of birth?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T18:54:11.923Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "6",
+        "message": "My date of birth is 15/07/1990.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T18:55:11.923Z"
+      },
+      {
+        "speaker_email": "hector.teamleader.agent@evaluagent.co.test",
+        "response_id": "7",
+        "message": "That's all correct, Sarah Johnson. Lastly, can you confirm your first line of address and postcode?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T18:56:11.923Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "8",
+        "message": "Sure, it's 123 Green Street, AB1 2CD.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T18:57:11.923Z"
+      },
+      {
+        "speaker_email": "hector.teamleader.agent@evaluagent.co.test",
+        "response_id": "9",
+        "message": "Thank you for completing security. How can I assist you further today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T18:58:11.923Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "10",
+        "message": "I recently had an issue with my policy renewal, and I'm not satisfied with the proposed solution.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T18:59:11.923Z"
+      },
+      {
+        "speaker_email": "hector.teamleader.agent@evaluagent.co.test",
+        "response_id": "11",
+        "message": "I'm sorry to hear that. Let's see if we can find a way forward. A possible resolution could be reviewing your policy options and making necessary changes. Does this work for you?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T19:00:11.923Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "12",
+        "message": "I'm not sure if that would solve my issue. I was expecting a different outcome.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T19:01:11.923Z"
+      },
+      {
+        "speaker_email": "hector.teamleader.agent@evaluagent.co.test",
+        "response_id": "13",
+        "message": "I understand your concern. What would be your preference in this situation? We can present some options for you to consider.",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T19:02:11.923Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "14",
+        "message": "I appreciate that. I would prefer to explore other options before making a decision.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T19:03:11.923Z"
+      },
+      {
+        "speaker_email": "hector.teamleader.agent@evaluagent.co.test",
+        "response_id": "15",
+        "message": "Absolutely, we're here to help. Let's work together to find a solution that meets your needs. Thank you for your patience, Sarah Johnson.",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T19:04:11.923Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "16",
+        "message": "Thank you, Chris. I value your support during this difficult time. I feel heard and supported.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T19:05:11.923Z"
+      },
+      {
+        "speaker_email": "hector.teamleader.agent@evaluagent.co.test",
+        "response_id": "17",
+        "message": "You're welcome, Sarah Johnson. I'm glad that I was able to help. If you need any further assistance, please don't hesitate to reach out.",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T19:06:11.923Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "18",
+        "message": "I will, thank you. Have a great day, Chris!",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-28T19:07:11.923Z"
+      }
+    ],
+    "metadata": {
+      "Filename": "Auto-Gen",
+      "Status": "Pending",
+      "AgentResponses": 9,
+      "Contact": "Ticket"
+    }
+  }
+}
+{
+  "Server Response": "Success"
+}
+"==> fileNameOnly: filename->"
+"==> CONTACT TEMPLATE:"
+{
+  "data": {
+    "reference": "823254e0-1dd0-11ef-ab5e-325096b39f47",
+    "agent_id": "8748a57e-1c45-422a-8cbe-9d4eca1f2db8",
+    "agent_email": "jake.randall@evaluagentacademy.inc.test",
+    "contact_date": "2024-05-29T15:31:24Z",
+    "channel": "Chat",
+    "assigned_at": "2024-05-29T15:31:24Z",
+    "solved_at": "2024-05-29T15:31:24Z",
+    "external_url": "https://www.evaluagent.com",
+    "responses_stored_externally": "true",
+    "responses": [
+      {
+        "speaker_email": "jake.randall@evaluagentacademy.inc.test",
+        "response_id": "1",
+        "message": "Hello! Thank you for reaching out to Better Deal Insurance. My name is Chris. How can I assist you today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:11:20.297Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "2",
+        "message": "Finally, I've been waiting forever to speak with someone. My claim hasn't been processed yet, and it's been weeks!",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:12:20.297Z"
+      },
+      {
+        "speaker_email": "jake.randall@evaluagentacademy.inc.test",
+        "response_id": "3",
+        "message": "I'm really sorry to hear about the delay in processing your claim. Before we proceed, can you confirm your full name for security purposes?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:13:20.297Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "4",
+        "message": "Ugh, it's Sarah Jones.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:14:20.297Z"
+      },
+      {
+        "speaker_email": "jake.randall@evaluagentacademy.inc.test",
+        "response_id": "5",
+        "message": "Thank you for completing security, Sarah. Can you now provide me with your date of birth?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:15:20.297Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "6",
+        "message": "It's 15/03/1990.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:16:20.297Z"
+      },
+      {
+        "speaker_email": "jake.randall@evaluagentacademy.inc.test",
+        "response_id": "7",
+        "message": "Great, thank you. To proceed, can you confirm the first line of your address and the postcode?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:17:20.297Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "8",
+        "message": "It's 123 Green Street, AB1 2CD.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:18:20.297Z"
+      },
+      {
+        "speaker_email": "jake.randall@evaluagentacademy.inc.test",
+        "response_id": "9",
+        "message": "Perfect. Just one more, can you confirm your email address, please?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:19:20.297Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "10",
+        "message": "sarah.jones@email.com",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:20:20.297Z"
+      },
+      {
+        "speaker_email": "jake.randall@evaluagentacademy.inc.test",
+        "response_id": "11",
+        "message": "Thank you for completing security. I understand the frustration with the delay in processing your claim. Let's find a way forward. A possible resolution could be escalating this to our claims team for urgent review. Does this work for you, Sarah?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:21:20.297Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "12",
+        "message": "Well, it's about time you took some action. Yes, that sounds alright.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:22:20.297Z"
+      },
+      {
+        "speaker_email": "jake.randall@evaluagentacademy.inc.test",
+        "response_id": "13",
+        "message": "I'm glad we could help. I'll ensure this is escalated for you. Please allow 1-2 business days for a follow-up. Is there anything else you need assistance with today?",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:23:20.297Z"
+      },
+      {
+        "speaker_email": "customer@example.com",
+        "response_id": "14",
+        "message": "No, that's all for now. About time something is being done. Thanks for your help.",
+        "speaker_is_customer": true,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:24:20.297Z"
+      },
+      {
+        "speaker_email": "jake.randall@evaluagentacademy.inc.test",
+        "response_id": "15",
+        "message": "You are welcome, Sarah. If you have any further questions in the future, don't hesitate to reach out. Have a great day!",
+        "speaker_is_customer": false,
+        "channel": "Chat",
+        "message_created_at": "2024-05-24T10:25:20.297Z"
+      }
+    ],
+    "metadata": {
+      "Filename": "Auto-Gen",
+      "Status": "New",
+      "AgentResponses": 8,
+      "Contact": "Ticket"
+    }
+  }
+}
