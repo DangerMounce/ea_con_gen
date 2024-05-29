@@ -4,9 +4,12 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 14.3.4           
+                                 /____/  Ver 14.3.5           
 
 In this update:
+
+👉 NPM Package Installer Script
+Where ea_con_gen updates require additional packages, using "node install" will download and install the required packages.
 
 👉 Auto-Gen meta-data
 AI genereated contacts are saved with a UUID as the filename in the relevant call/ticket directory.
