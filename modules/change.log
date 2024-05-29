@@ -4,13 +4,15 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 14.3.6           
+                                 /____/  Ver 14.3.7           
 
 In this update:
 
+👉 Guidance on adding API keys
+If there's no API keys in the keyFile, guidance now added on how to add contracts.
+
 👉 Chat Repo Updating Fix
 Chat updates were not being triggered upon first installation.
-
 
 👉 NPM Package Installer Script
 Where ea_con_gen updates require additional packages, using "node install" will download and install the required packages.
