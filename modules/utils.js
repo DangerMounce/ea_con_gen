@@ -32,7 +32,7 @@ import { callStatusMessage, statusMessage } from './library_sync.js';
 const ea_con_gen = "ea_con_gen"
 const helpVersion = '14.0' // when updating, prev version in here so that we know how old help is.
 
-const appVersion = '14.3.6' 
+const appVersion = '14.3.7' 
 
 // This function returns the current date
 export function getDate() {
@@ -296,7 +296,8 @@ export async function apiKeyMenu() {
     // List all keys in a numbered menu format
     const keys = Object.keys(keyFileData);
     if (keys.length === 0) {
-        console.log(chalk.yellow('No API keys found in keyFile.json.'));
+        console.log(chalk.red('No API keys found in keyFile.json.'));
+        console.log(chalk.bold.yellow('node gen add [CONTRACT NAME] [APIKEY]'))
         process.exit(1)
     } else {
         console.clear('')
