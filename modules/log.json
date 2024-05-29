@@ -1,168 +1,81 @@
 "==>OPENAI_API_KEY already exists in .env file."
 "==>OPENAI_API_KEY already exists in .env file."
 {
-  "Log Created": "Tue 28 May - 21:24"
+  "Log Created": "Tue 28 May - 21:42"
 }
 "==>Checked for .DS_Store"
-"==>Current ea_con_gen version: 129e8a9ff060b694410465dbc8e84396f8bb0ab8"
-"==>latest ea_con_gen version: cf0390d34806f35cbbd5cdeee4d2630f914a0256"
-"==>Update offered"
-"==>Update not agreed"
+"==>Current ea_con_gen version: d34cff332a50bf994afca9b5368d75b716829cc3"
+"==>latest ea_con_gen version: d34cff332a50bf994afca9b5368d75b716829cc3"
+"==>latest ea_con_gen version up to date"
 "==>New chats are available"
 "==>Latest Chat Version: 37100dc09c3bcd297debdaab9240b6b9da9b795d"
 "==>Prompted user to update chat library"
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/08a89500-16b7-11ef-a23d-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/1879c330-19b6-11ef-ba9b-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/215bb7c0-19b5-11ef-b290-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/22da7326-19b4-11ef-bb20-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/0ff10e22-19b5-11ef-9829-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/08d6c7c0-19b6-11ef-976b-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/2aa3c4e8-19b6-11ef-891f-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/316c5746-19b5-11ef-93b0-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/3ee10f3a-19b4-11ef-a399-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/4180c20c-19b5-11ef-9f66-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/4bbb5ecc-19b4-11ef-8d67-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/4bf53500-19b6-11ef-9034-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/5287eada-19b5-11ef-ba5c-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/58344826-19b4-11ef-9cc8-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/5cd1b24a-19b6-11ef-bab1-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/61a0e3aa-19b5-11ef-8325-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/62e56214-19b4-11ef-a60a-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/63429d2c-16ac-11ef-a445-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/39ebc82e-19b6-11ef-9a95-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/6dc9792a-19b6-11ef-b2a1-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/70edd5d0-19b4-11ef-ab42-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/7352f610-19b5-11ef-8b08-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/7c858406-19b4-11ef-a24b-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/7f5e0d18-19b6-11ef-b8bb-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/84384d54-19b5-11ef-a774-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/8817c31a-19b4-11ef-9033-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/9075ffa2-19b6-11ef-913a-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/90edca5c-16b7-11ef-b002-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/94b58544-19b4-11ef-aa34-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/9513b686-19b5-11ef-a518-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/9c64f3ca-16b6-11ef-a4f8-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/a0df082a-19b6-11ef-8400-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/a24052ac-19b4-11ef-983e-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/307deb5c-19b4-11ef-848b-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/b06e304c-19b4-11ef-9ec4-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/b1273f54-19b6-11ef-b747-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/b64d12fc-19b5-11ef-8523-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/bcd4dae8-19b4-11ef-aa09-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/c2dee9f4-19b6-11ef-85a9-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/c7bda7cc-19b5-11ef-b2e5-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/c959d5e8-19b4-11ef-babb-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/cee19b42-16f1-11ef-b938-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/d1dd26c8-19b6-11ef-b845-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/a640d8ee-19b5-11ef-a689-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/6ca29052-16ac-11ef-b669-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/e116b83e-19b6-11ef-8599-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/e509cf64-19b4-11ef-8bab-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/e7cec0b4-19b5-11ef-b3ff-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/d7a68550-19b5-11ef-a22e-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/d5a1a772-19b4-11ef-9d18-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/f17c064a-19b4-11ef-b9ca-325096b39f47.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_general.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_general_complaint.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_general_finanical_difficulty.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_general_pass.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_lineitem_empathy.json..."
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/insurance_lineitem_solutions.json..."
+"==>Deleted zip file: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/repo.zip"
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/f7875156-19b5-11ef-81a0-325096b39f47.json..."
+"==>Version file path: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/chatVersion.log"
+"==>Update directory: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets"
+"==>Chat repository updated successfully."
 "==>File already exists: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/callVersion.log"
+"==>Adding /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/tickets/f19a6976-19b6-11ef-a894-325096b39f47.json..."
+"==>Current Version writte to chatVersion.log"
 "==>Call Library up to date"
-{
-  "Time Interval": 1
-}
-{
-  "Time Interval": 1
-}
-"==> Data for audio generation:"
-[
-  {
-    "message": "Hello! Welcome to Better Deal Insurance. My name is Chris. How can I assist you today?",
-    "speaker_is_customer": false
-  },
-  {
-    "message": "Hi Chris! I'm glad I found you. I have a question about my insurance policy.",
-    "speaker_is_customer": true
-  },
-  {
-    "message": "Of course! I'd be happy to help. Before we proceed, can you confirm your full name for security purposes?",
-    "speaker_is_customer": false
-  },
-  {
-    "message": "Sure, my name is Sarah Johnson.",
-    "speaker_is_customer": true
-  },
-  {
-    "message": "Great, thank you for completing security. How can I assist you with your policy today, Sarah?",
-    "speaker_is_customer": false
-  },
-  {
-    "message": "I recently had to make a claim, but I'm not satisfied with the outcome. Is there anything that can be done to help?",
-    "speaker_is_customer": true
-  },
-  {
-    "message": "I'm deeply sorry to hear that, Sarah. Let's see what we can do. Could you provide me with your date of birth for additional checks?",
-    "speaker_is_customer": false
-  },
-  {
-    "message": "Sure, my date of birth is 10/05/1990.",
-    "speaker_is_customer": true
-  },
-  {
-    "message": "Thank you for confirming. I understand this must be a difficult time for you. Let's work together to find a way forward. A possible resolution could be reviewing your claim details. Does this work for you?",
-    "speaker_is_customer": false
-  },
-  {
-    "message": "Yes, that sounds like a good start. I appreciate your support in this matter.",
-    "speaker_is_customer": true
-  },
-  {
-    "message": "I'm glad we could help. Let's take a look at your claim together. Could you please confirm your first line of address and postcode?",
-    "speaker_is_customer": false
-  },
-  {
-    "message": "My address is 123 Green Street, AB1 2CD.",
-    "speaker_is_customer": true
-  },
-  {
-    "message": "That's all correct. Thank you for providing that information. Let me review your claim details now.",
-    "speaker_is_customer": false
-  },
-  {
-    "message": "Thank you, Chris. I really appreciate your help and understanding.",
-    "speaker_is_customer": true
-  },
-  {
-    "message": "You're welcome, Sarah. I'm here to assist you every step of the way. Is there anything else I can help with today?",
-    "speaker_is_customer": false
-  },
-  {
-    "message": "Not at the moment, thank you. I feel heard and supported. Have a great day, Chris!",
-    "speaker_is_customer": true
-  },
-  {
-    "message": "Thank you, Sarah. I'm glad that I was able to help. Have a wonderful day too!",
-    "speaker_is_customer": false
-  }
-]
-[
-  "Generated speech for message 1: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/1_agent.mp3"
-]
-[
-  "Generated speech for message 2: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/2_customer.mp3"
-]
-[
-  "Generated speech for message 3: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/3_agent.mp3"
-]
-[
-  "Generated speech for message 4: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/4_customer.mp3"
-]
-[
-  "Generated speech for message 5: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/5_agent.mp3"
-]
-[
-  "Generated speech for message 6: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/6_customer.mp3"
-]
-[
-  "Generated speech for message 7: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/7_agent.mp3"
-]
-[
-  "Generated speech for message 8: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/8_customer.mp3"
-]
-[
-  "Generated speech for message 9: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/9_agent.mp3"
-]
-[
-  "Generated speech for message 10: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/10_customer.mp3"
-]
-[
-  "Generated speech for message 11: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/11_agent.mp3"
-]
-[
-  "Generated speech for message 12: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/12_customer.mp3"
-]
-[
-  "Generated speech for message 13: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/13_agent.mp3"
-]
-[
-  "Generated speech for message 14: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/14_customer.mp3"
-]
-[
-  "Generated speech for message 15: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/15_agent.mp3"
-]
-[
-  "Generated speech for message 16: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/16_customer.mp3"
-]
-[
-  "Generated speech for message 17: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/audio_output/17_agent.mp3"
-]
-"==> Audio file generated: 8265cf14-1d30-11ef-a50f-325096b39f47.mp3"
-{
-  "Audio Upload": "quality/143e3003-d490-4691-a058-9c889fc4cd79/bd50e518-8cda-4023-9b33-93887cd41243.mp3"
-}
-"==> CONTACT TEMPLATE:"
-{
-  "data": {
-    "reference": "82e62c40-1d30-11ef-8d88-325096b39f47",
-    "agent_id": "8748a57e-1c45-422a-8cbe-9d4eca1f2db8",
-    "agent_email": "jake.randall@evaluagentacademy.inc.test",
-    "contact_date": "2024-05-28T20:26:06Z",
-    "channel": "Telephony",
-    "assigned_at": "2024-05-28T20:26:06Z",
-    "solved_at": "2024-05-28T20:26:06Z",
-    "external_url": "https://www.evaluagent.com",
-    "responses_stored_externally": "true",
-    "handling_time": 96,
-    "customer_telephone_number": "01753 877212",
-    "audio_file_path": "quality/143e3003-d490-4691-a058-9c889fc4cd79/bd50e518-8cda-4023-9b33-93887cd41243.mp3",
-    "metadata": {
-      "Filename": "Auto Gen",
-      "Contact": "Call"
-    }
-  }
-}
+"==>Call library updated agreed"
+"Deleted zip file: /Users/chrismounce/Desktop/Projects/sandbox/ea_con_gen/modules/repo.zip"
+"==>Call repository updated successfully."
