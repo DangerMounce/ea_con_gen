@@ -14,7 +14,7 @@ const branchName = 'main';
 const gitHubUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branchName}`;
 const downloadUrl = `https://github.com/${repoOwner}/${repoName}/archive/refs/heads/${branchName}.zip`;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// const updateDir = path.resolve(__dirname, '..');  // Assuming `auto_update.js` is in the `modules` directory
+const updateDir = path.resolve(__dirname, '..');  // Assuming `auto_update.js` is in the `modules` directory
 const versionFilePath = path.resolve(updateDir, 'version.log');
 
 async function promptUserToUpdate() {
