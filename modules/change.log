@@ -4,9 +4,13 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 14.3.5           
+                                 /____/  Ver 14.3.6           
 
 In this update:
+
+👉 Chat Repo Updating Fix
+Chat updates were not being triggered upon first installation.
+
 
 👉 NPM Package Installer Script
 Where ea_con_gen updates require additional packages, using "node install" will download and install the required packages.
@@ -14,30 +18,3 @@ Where ea_con_gen updates require additional packages, using "node install" will 
 👉 Auto-Gen meta-data
 AI genereated contacts are saved with a UUID as the filename in the relevant call/ticket directory.
 When these are randomly selected for upload, the filename meta-data will now be "Auto-Gen" rather than the UUID.
-
-👉 Force update
-If an error is preventing the current version of ea_con_gen from running correctly.  An update from the repo can be forced.
-To force an update:
-'cd modules'
-'node force'
-
-👉 Call and Chat Library Syncing
-When new calls or chats have been added to the repositary, you will be prompted to update.  This will sync your local contact folder with the repositary.
-Any existing files you have will not be overwritten.  Library status will be shown on the cluster selection menu.
-
-👉 node gen clear [chats / calls]
-This will clear the selected contact folder.  Files will be deleted.
-
-👉 Improved logging
-The format of the log is now a plain text file for easier viewing and no longer clears at the start of each run.  Log can now be viewed with 'node gen log'
-Log can be cleared with 'node gen clear log'
-
-👉 Version number
-Removed ea_con_gen and version number from titleText.  Version can now be checked with 'node gen ver'.
-
-👉 Force update
-Force the app, and contact librarys, to update with 'node gen update'
-When you run the updated script, you will be prompted to update the contact librarys. 
-
-👉 View Change Log
-Viewing the current change log can be done with 'node gen changelog'
