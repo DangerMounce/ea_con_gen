@@ -14,7 +14,7 @@ async function installNpmPackages() {
     const packages = [
         'btoa', 'chalk', 'fs', 'openai', 'dotenv',
         'fluent-ffmpeg', 'ffmpeg-static', 'ffprobe-static',
-        'path', 'axios', 'form-data', 'readline-sync', 'music-metadata', "csv-parser"
+        'path', 'axios', 'form-data', 'readline-sync', 'music-metadata', 'csv-parser'
     ];
     const packagesString = packages.join(' ');
 
