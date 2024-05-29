@@ -296,7 +296,8 @@ export async function apiKeyMenu() {
     // List all keys in a numbered menu format
     const keys = Object.keys(keyFileData);
     if (keys.length === 0) {
-        console.log(chalk.yellow('No API keys found in keyFile.json.'));
+        console.log(chalk.red('No API keys found in keyFile.json.'));
+        console.log(chalk.bold.yellow('node gen add [CONTRACT NAME] [APIKEY]'))
         process.exit(1)
     } else {
         console.clear('')
