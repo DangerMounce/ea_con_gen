@@ -67,6 +67,16 @@ function writeCurrentVersion(version) {
 }
 
 async function checkForChatUpdates() {
+    const logFilePath = path.join(__dirname, '../modules/chatVersion.log');
+
+    // Check if the file exists
+    if (!fs.existsSync(logFilePath)) {
+        // Create the file
+        fs.writeFileSync(logFilePath, '', 'utf8');
+        writeLog(`==>Created file: ${logFilePath}`);
+    } else {
+        writeLog(`==>File already exists: ${logFilePath}`);
+    }
     const currentVersion = await getCurrentVersion();
     const latestVersion = await getLatestVersion();
     if (currentVersion !== latestVersion) {
