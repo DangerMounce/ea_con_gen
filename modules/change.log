@@ -4,9 +4,14 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 14.3.7           
+                                 /____/  Ver 14.4           
 
 In this update:
+
+👉 [node gen import]
+Imports conversation from script.csv located in root directory.  CSV headers must be "message" (message response) and "speaker_is_customer" (true/false).
+
+👉 If the number of contacts to create is only 1, there will be no prompt for a time interval.
 
 👉 Guidance on adding API keys
 If there's no API keys in the keyFile, guidance now added on how to add contracts.
@@ -15,7 +20,7 @@ If there's no API keys in the keyFile, guidance now added on how to add contract
 Chat updates were not being triggered upon first installation.
 
 👉 NPM Package Installer Script
-Where ea_con_gen updates require additional packages, using "node install" will download and install the required packages.
+Where ea_con_gen updates require additional packages, using [node install] will download and install the required packages.
 
 👉 Auto-Gen meta-data
 AI genereated contacts are saved with a UUID as the filename in the relevant call/ticket directory.

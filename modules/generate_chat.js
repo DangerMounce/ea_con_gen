@@ -5,12 +5,18 @@ import {
     getDate,
     fileNameOnly,
     getStatus
-} from './utils.js'
+} from './utils.js';
+
+import { writeLog } from './generate_log.js';
 
 import {
     generateChatTranscript,
     writeChatDataToFile
 } from './chat_gen.js'
+
+import {
+    buildChatTemplate
+} from './converter.js'
 
 // Chat Template
 export let chatTemplate = {
@@ -99,5 +105,43 @@ export async function generateNewChat(agents) {
             response.speaker_email = chatTemplate.data.agent_email;
         }
     });
+    return chatTemplate
+}
+
+//This function creates the chat contact template using the import from the CSV
+export async function generateChatFromCSV(agents, data, mData) {
+    const fsPromises = fs.promises;
+    const agentNumber = Math.floor(Math.random() * agents.length)
+    chatTemplate.data.reference = await generateUuid()
+    chatTemplate.data.agent_id = agents[agentNumber].agent_id
+    chatTemplate.data.agent_email = agents[agentNumber].email
+    chatTemplate.data.contact_date = getDate()
+    chatTemplate.data.channel = "Chat"
+    chatTemplate.data.assigned_at = getDate()
+    chatTemplate.data.solved_at = getDate()
+    chatTemplate.data.responses = await buildChatTemplate(data)
+    chatTemplate.data.responses.forEach(response => {
+        if (!response.speaker_is_customer) {
+            response.speaker_email = chatTemplate.data.agent_email;
+        }
+    });
+
+    // Meta data is here.  mData
+    writeLog('==> mData')
+    await writeLog(mData)
+    if (mData.length > 0) {
+        const metadata = mData[0]; // Assuming you only want the first object in the array
+        for (const key in metadata) {
+          if (metadata.hasOwnProperty(key)) {
+            chatTemplate.data.metadata[key] = metadata[key];
+          }
+        }
+      }
+
+    // Gives the Agent Responses in the meta data
+    const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
+    chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
+    writeLog('==>chatTemplate')
+    await writeLog(chatTemplate)
     return chatTemplate
 }

@@ -46,12 +46,12 @@ export async function promptContactType() {
                     {
                         name: 'Existing Calls',
                         value: 'Stored Calls',
-                        disabled: isStoredCallsFeatureDisabled ? chalk.bold.red('not available') : false
+                        disabled: isStoredCallsFeatureDisabled ? chalk.bold.red('no calls found') : false
                     },
                     {
                         name: 'Existing Tickets',
                         value: 'Stored Tickets',
-                        disabled: isStoredTicketsFeatureDisabled ? chalk.bold.red('not available') : false
+                        disabled: isStoredTicketsFeatureDisabled ? chalk.bold.red('no tickets found') : false
                     },
                     {
                         name: 'Stored Calls & Tickets',
@@ -61,12 +61,12 @@ export async function promptContactType() {
                     {
                         name: 'New Tickets',
                         value: 'New Tickets',
-                        disabled: clientIsValid ? chalk.bold.red('not available - API key missing') : false
+                        disabled: clientIsValid ? chalk.bold.red('no OpenAI API key') : false
                     },
                     {
                         name: 'New Calls',
                         value: 'New Calls',
-                        disabled: clientIsValid ? chalk.bold.red('not available - API key missing') : false
+                        disabled: clientIsValid ? chalk.bold.red('no OpenAI API key') : false
                     },
                     {
                         name: chalk.green('Exit'),
@@ -225,6 +225,31 @@ export async function promptForOpenAiKey() {
         return response.openAiApiKey
     } catch (error) {
         console.error(chalk.red(`Error: ${error.message}`))
+        process.exit(1)
+    }
+}
+
+// Function to prompt the user for a Yes or No response
+export async function readyToUpload() {
+    console.log('')
+  
+    try {
+        const answers = await inquirer.prompt([
+            {
+                type: 'confirm',
+                name: 'confirmation',
+                message: 'Ready to upload this conversation?',
+                default: false // Set default value as needed
+            }
+        ]);
+
+        const confirmation = answers.confirmation;
+        if (!confirmation) {
+            process.exit(1)
+        } else {
+            return}
+    } catch (error) {
+        console.error(chalk.red(`Error: ${error.message}`));
         process.exit(1)
     }
 }
