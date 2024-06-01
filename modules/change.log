@@ -4,12 +4,14 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 14.4           
+                                 /____/  Ver 15.0           
 
 In this update:
 
 👉 [node gen import]
-Imports conversation from script.csv located in root directory.  CSV headers must be "message" (message response) and "speaker_is_customer" (true/false).
+Upload chats in CSV files and place in the imports folder.  node gen import will build a queue and create a chat conversation with each of them.
+CSV headers must be "message" (message response) and "speaker_is_customer" (true/false).  Metadata can also be included in the subsequent columns.
+Metadata categories must be in the rows after converastion data.  Related data should be in the 2nd row of it's category data.
 
 👉 If the number of contacts to create is only 1, there will be no prompt for a time interval.
 

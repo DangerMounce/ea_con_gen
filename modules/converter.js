@@ -15,7 +15,7 @@ const csvFilePath = path.join('script.csv');
 export async function parseCSVFile(filePath) {
     // Check if the file exists
     if (!fs.existsSync(filePath)) {
-        await writeLog(`==> script.csv not found at ${filePath}`);
+        await writeLog(`==> Target CSV not found at ${filePath}`);
         throw new Error(`File not found: ${filePath}`);
     }
 
@@ -64,9 +64,9 @@ export async function parseCSVFile(filePath) {
 }
 
 // This function creates the response array needed for the chat template.
-async function createResponseArray() {
+async function createResponseArray(targetFile) {
     try {
-        const { results, additionalData } = await parseCSVFile(csvFilePath);
+        const { results, additionalData } = await parseCSVFile(targetFile);
         // console.log('Parsed CSV data:', results, additionalData);
         writeLog([results, additionalData])
         return [results, additionalData]
@@ -77,8 +77,8 @@ async function createResponseArray() {
     }
 }
 
-export async function importConversationAndMetaData() {
-    const responseData = await createResponseArray();
+export async function importConversationAndMetaData(targetFile) {
+    const responseData = await createResponseArray(targetFile);
     const responseArray = responseData[0];
     const metaDataArray = responseData[1];
     
@@ -106,3 +106,4 @@ export async function buildChatTemplate(chatResponses) {
         };
     });
 }
+

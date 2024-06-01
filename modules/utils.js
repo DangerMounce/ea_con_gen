@@ -576,3 +576,21 @@ export function showVersion() {
     console.log(chalk.bold.green('ea_con_gen'), chalk.bold.cyan('Ver:', appVersion))
     process.exit(1)
 }
+
+export function getImportFileList() {
+    const importFolderPath = path.join( 'import');
+    const fileNamesArray = [];
+
+    return new Promise((resolve, reject) => {
+        fs.readdir(importFolderPath, (err, files) => {
+            if (err) {
+                reject(`Unable to scan directory: ${err}`);
+            } else {
+                files.forEach((file) => {
+                    fileNamesArray.push(file);
+                });
+                resolve(fileNamesArray);
+            }
+        });
+    });
+}
