@@ -21,7 +21,8 @@ import {
     deleteFile,
     displayChangeLog,
     showVersion,
-    getImportFileList
+    getImportFileList,
+    displayReadyMe
 } from './modules/utils.js';
 
 import { generateChatFromCSV } from './modules/generate_chat.js'
@@ -120,7 +121,8 @@ if (instruction.toLowerCase() === "add") {
     process.exit(0)
 } else if (instruction.toLowerCase() === "help") {
     // Show help screen
-    showHelp()
+    displayReadyMe()
+    // showHelp()
 } else if (instruction.toLowerCase() === "contacts") {
     await checkFilesAndFoldersExsists();
     await ensureEnvFileAndApiKey();
