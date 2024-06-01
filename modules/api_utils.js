@@ -83,41 +83,39 @@ export async function sendCsvContact(chatTemplate) {
     console.log('');
     console.log(chalk.bold.blue(`Status:`));
 
-        const conUrl = `${API_URL}/quality/imported-contacts`;
-        // Use process.stdout.write to avoid new line
-        process.stdout.write(chalk.yellow(`CSV Import | ${chatTemplate.data.reference} | ${chatTemplate.data.metadata["Contact"]} (${chatTemplate.data.metadata["Filename"]}) |  (${chatTemplate.data.agent_email.split('@')[0]}) | - `));
+    const conUrl = `${API_URL}/quality/imported-contacts`;
 
-        try {
-            const response = await fetch(conUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Basic " + btoa(apiKey)
-                },
-                body: JSON.stringify(chatTemplate)
-            });
-            const result = await response.json();
-            if (result.message) {
-                let serverResponse = result.message;
-                writeLog({"Server Response" : serverResponse})
-                // Append server response on the same line
-                console.log(chalk.bold.green(serverResponse));
-            } else {
-                let serverResponse = result.errors[0].title;
-                let logData = { "failed": result };
-                writeLog(logData)
-                // Append error response on the same line
-                console.log(chalk.bold.red(serverResponse));
-            }
-                console.log('\n' + chalk.bold.green(`Job complete.`));
-                writeLog("Job Complete")
-                process.exit(0); 
-            
-        } catch (error) {
-            let dsData = {'ERROR': error.message}
-            console.error(chalk.bold.red(`\nError: ${error.message}`));
+    // Use process.stdout.write to avoid new line
+    process.stdout.write(chalk.yellow(`CSV Import | ${chatTemplate.data.reference} | ${chatTemplate.data.metadata["Contact"]} (${chatTemplate.data.metadata["Filename"]}) |  (${chatTemplate.data.agent_email.split('@')[0]}) | - `));
+
+    try {
+        const response = await fetch(conUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Basic " + btoa(apiKey)
+            },
+            body: JSON.stringify(chatTemplate)
+        });
+
+        const result = await response.json();
+        if (result.message) {
+            let serverResponse = result.message;
+            writeLog({ "Server Response": serverResponse });
+            // Append server response on the same line
+            console.log(chalk.bold.green(serverResponse));
+        } else {
+            let serverResponse = result.errors[0].title;
+            let logData = { "failed": result };
+            writeLog(logData);
+            // Append error response on the same line
+            console.log(chalk.bold.red(serverResponse));
         }
+    } catch (error) {
+        let dsData = { 'ERROR': error.message };
+        console.error(chalk.bold.red(`\nError: ${error.message}`));
     }
+}
 
 // Need to get the agent ID and the agent list
 export async function getAgentDetails(key) {
