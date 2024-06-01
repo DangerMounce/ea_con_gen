@@ -238,7 +238,55 @@ export async function readyToUpload() {
             {
                 type: 'confirm',
                 name: 'confirmation',
-                message: 'Ready to upload this conversation?',
+                message: chalk.bold.green('Ready to upload?'),
+                default: false // Set default value as needed
+            }
+        ]);
+
+        const confirmation = answers.confirmation;
+        if (!confirmation) {
+            process.exit(1)
+        } else {
+            return}
+    } catch (error) {
+        console.error(chalk.red(`Error: ${error.message}`));
+        process.exit(1)
+    }
+}
+
+export async function readyToProcessQueue() {
+    console.log('')
+  
+    try {
+        const answers = await inquirer.prompt([
+            {
+                type: 'confirm',
+                name: 'confirmation',
+                message: chalk.bold.green('Ready to begin processing queue?'),
+                default: false // Set default value as needed
+            }
+        ]);
+
+        const confirmation = answers.confirmation;
+        if (!confirmation) {
+            process.exit(1)
+        } else {
+            return}
+    } catch (error) {
+        console.error(chalk.red(`Error: ${error.message}`));
+        process.exit(1)
+    }
+}
+
+export async function readyForNextOne() {
+    console.log('')
+  
+    try {
+        const answers = await inquirer.prompt([
+            {
+                type: 'confirm',
+                name: 'confirmation',
+                message: chalk.bold.green('Ready for next one?'),
                 default: false // Set default value as needed
             }
         ]);

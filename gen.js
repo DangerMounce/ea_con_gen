@@ -4,6 +4,7 @@ import btoa from 'btoa';
 import fs from 'fs';
 import chalk from 'chalk';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import {
     checkFilesAndFoldersExsists,
     showHelp,
@@ -20,6 +21,7 @@ import {
     deleteFile,
     displayChangeLog,
     showVersion,
+    getImportFileList
 } from './modules/utils.js';
 
 import { generateChatFromCSV } from './modules/generate_chat.js'
@@ -40,7 +42,9 @@ import {
     promptYesOrNo,
     promptCluster,
     promptForOpenAiKey,
-    readyToUpload
+    readyToUpload,
+    readyToProcessQueue,
+    readyForNextOne
 } from './modules/user_prompts.js';
 
 import {
@@ -72,6 +76,9 @@ export const instruction = args[0] // Can be "init", "add", "del", "help" or "co
 export let contractName = args[1] // Can only be a contract name
 export let apiKey = args[2] // Can only be an api key
 export let API_URL = null
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const importDir = path.join(__dirname, 'import');
 
 
 
@@ -194,30 +201,58 @@ if (instruction.toLowerCase() === "add") {
     agentList = await getAgentDetails(apiKey)
     titleText()
     console.log(chalk.bold.white('Contract Name:', chalk.blue(contractName)))
-    const conversationData = await importConversationAndMetaData()
-    const responses = conversationData[0]
-    const metaDataInCsv = conversationData[1]
-    await writeLog('==> Message Array from CSV:')
-    await writeLog(responses)
-    console.log('')
-    console.log(chalk.bold.underline('Transcript loaded from CSV:'))
-    responses.forEach(response => {
-        if (response.speaker_is_customer) {
-            console.log(chalk.bold.green('Customer:'), response.message);
-        } else {
-            console.log(chalk.bold.yellow('Agent:'), response.message);
-        }
-    });
-    const metaDataAndConversation = await importConversationAndMetaData()
-    const metaData = metaDataAndConversation[1][0]
-    console.log(chalk.bold.magenta('Meta-Data:'))
-    console.log(metaData)
-    const createConfirmation = await readyToUpload()
+    const importFileList = await getImportFileList()
+    console.log(chalk.bold.white(`Files in the import queue:`, chalk.blue(importFileList.length)))
+    if (importFileList.length === 0) {
+        console.log(chalk.bold.red('No files found in the import folder.'))
+        process.exit(0)
+    }
+    const createConfirmation = await readyToProcessQueue() // Ready to start processing the queue?
 
-    //Upload - processing queue start
-    const chatTemplate = await generateChatFromCSV(agentList, responses, metaData)
-    contactsToCreate = 1
-    sendCsvContact(chatTemplate)
+    // For each file, do all of this but with each item in the array
+    for (let i = 0; i < importFileList.length; i++) {
+        // Read the filename
+        let fileName = importFileList[i]
+        console.log(fileName)
+        const targetFile = path.join(importDir, fileName)
+        // Call importConversationAndMetaData and await its result
+        try {
+            console.clear('')
+            console.log('')
+            console.log(`${chalk.bold.white(importFileList.indexOf(fileName) + 1)}/${chalk.bold.white(importFileList.length)} - ${fileName}`)
+            const conversationData = await importConversationAndMetaData(targetFile);
+            const responses = conversationData[0]
+            const metaDataInFile = conversationData[1]
+            await writeLog('==> Message Array from CSV:')
+            await writeLog(responses)
+            await writeLog(metaDataInFile)
+            console.log('')
+            console.log(chalk.bold.underline('Transcript loaded from CSV:'))
+            responses.forEach(response => {
+                if (response.speaker_is_customer) {
+                    console.log(chalk.bold.green('Customer:'), response.message);
+                } else {
+                    console.log(chalk.bold.yellow('Agent:'), response.message);
+                }
+            });
+            console.log('')
+            console.log(chalk.bold.cyan('Meta-Data:'))
+            console.log(metaDataInFile)
+
+            await readyToUpload()
+
+            //Upload - processing queue start
+            const chatTemplate = await generateChatFromCSV(agentList, responses, metaDataInFile)
+            contactsToCreate = 1
+            await sendCsvContact(chatTemplate)
+            await readyForNextOne()
+        } catch (error) {
+            console.error(`Error processing file ${fileName}:`, error);
+
+        }
+    }
+    console.log('Processing Complete')
+
 } else {
     nodeArguments('Invalid Arguments.')
 }
