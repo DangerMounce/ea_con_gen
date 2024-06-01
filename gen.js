@@ -24,7 +24,10 @@ import {
 
 import { generateChatFromCSV } from './modules/generate_chat.js'
 
-import { importConversation } from './modules/converter.js'
+import {
+    importConversation,
+    importMetaData
+} from './modules/converter.js'
 
 import { checkForChatUpdates, checkForCallUpdates, statusMessage } from './modules/library_sync.js';
 
@@ -132,10 +135,10 @@ if (instruction.toLowerCase() === "add") {
     titleText()
     contactsToCreate = await promptNumberOfContacts()
 
-    if (contactsToCreate >1) {
+    if (contactsToCreate > 1) {
         titleText()
         timeInterval = await promptTimeInterval()
-    } else { timeInterval = 0}
+    } else { timeInterval = 0 }
     showSelectionSummary()
     await promptYesOrNo()
     showSelectionSummary()
@@ -193,6 +196,7 @@ if (instruction.toLowerCase() === "add") {
     titleText()
     console.log(chalk.bold.white('Contract Name:', chalk.blue(contractName)))
     const responses = await importConversation()
+    const metaDataInCsv = await importMetaData()
     await writeLog('==> Message Array from CSV:')
     await writeLog(responses)
     console.log('')
@@ -204,8 +208,10 @@ if (instruction.toLowerCase() === "add") {
             console.log(chalk.bold.yellow('Agent:'), response.message);
         }
     });
+    const metaData = await importMetaData()
+    console.log(metaData[0])
     const createConfirmation = await readyToUpload()
-    const chatTemplate = await generateChatFromCSV(agentList, responses)
+    const chatTemplate = await generateChatFromCSV(agentList, responses, metaData)
     contactsToCreate = 1
     sendCsvContact(chatTemplate)
 } else {

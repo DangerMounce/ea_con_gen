@@ -1,5 +1,5 @@
-﻿messages,speaker_is_customer
-"Hello, My name is Chris.",FALSE
-Hello Chris.  My name is Bob.,TRUE
-What can I do?,FALSE
-nothing!,TRUE
+﻿messages,speaker_is_customer,meta_data_name
+agent message,FALSE,meta_data_value
+customer message,TRUE,
+agent message,FALSE,
+customer message,TRUE,
