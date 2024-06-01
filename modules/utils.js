@@ -33,7 +33,7 @@ import { callStatusMessage, statusMessage } from './library_sync.js';
 const ea_con_gen = "ea_con_gen"
 const helpVersion = '14.0' // when updating, prev version in here so that we know how old help is.
 
-const appVersion = '15.0' 
+const appVersion = '15.0.1' 
 
 // This function returns the current date
 export function getDate() {
@@ -193,7 +193,7 @@ async function ensureFileExists(file) {
 //Checks for required folders
 export async function checkFilesAndFoldersExsists() {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const directories = ['../calls', '../tickets'];
+    const directories = ['../calls', '../tickets', '../import'];
     const keyFilePath = path.join(__dirname, '../keyFile.json');
     const outputLogPath = path.join(__dirname, '../modules/log.json');
     directories.forEach(directory => {
