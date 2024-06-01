@@ -5,7 +5,9 @@ import {
     getDate,
     fileNameOnly,
     getStatus
-} from './utils.js'
+} from './utils.js';
+
+import { writeLog } from './generate_log.js';
 
 import {
     generateChatTranscript,
@@ -107,7 +109,7 @@ export async function generateNewChat(agents) {
 }
 
 //This function creates the chat contact template using the import from the CSV
-export async function generateChatFromCSV(agents, data) {
+export async function generateChatFromCSV(agents, data, mData) {
     const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
     chatTemplate.data.reference = await generateUuid()
@@ -123,9 +125,23 @@ export async function generateChatFromCSV(agents, data) {
             response.speaker_email = chatTemplate.data.agent_email;
         }
     });
-    chatTemplate.data.metadata.Filename = "test" // await fileNameOnly(responseFile);
-    chatTemplate.data.metadata.Status = getStatus()
+
+    // Meta data is here.  mData
+    writeLog('==> mData')
+    await writeLog(mData)
+    if (mData.length > 0) {
+        const metadata = mData[0]; // Assuming you only want the first object in the array
+        for (const key in metadata) {
+          if (metadata.hasOwnProperty(key)) {
+            chatTemplate.data.metadata[key] = metadata[key];
+          }
+        }
+      }
+
+    // Gives the Agent Responses in the meta data
     const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
     chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
+    writeLog('==>chatTemplate')
+    await writeLog(chatTemplate)
     return chatTemplate
 }
