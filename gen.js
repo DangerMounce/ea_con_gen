@@ -19,11 +19,14 @@ import {
     clearDirectory,
     deleteFile,
     displayChangeLog,
-    showVersion
+    showVersion,
 } from './modules/utils.js';
 
+import { generateChatFromCSV } from './modules/generate_chat.js'
+
+import { importConversation } from './modules/converter.js'
+
 import { checkForChatUpdates, checkForCallUpdates, statusMessage } from './modules/library_sync.js';
-import { parseCSVFile } from './modules/call_script.js'
 
 await ensureEnvFileAndApiKey();
 
@@ -34,12 +37,14 @@ import {
     promptTimeInterval,
     promptYesOrNo,
     promptCluster,
-    promptForOpenAiKey
+    promptForOpenAiKey,
+    readyToUpload
 } from './modules/user_prompts.js';
 
 import {
     getAgentDetails,
     sendContacts,
+    sendCsvContact
 } from './modules/api_utils.js'
 
 import {
@@ -110,7 +115,6 @@ if (instruction.toLowerCase() === "add") {
 } else if (instruction.toLowerCase() === "contacts") {
     await checkFilesAndFoldersExsists();
     await ensureEnvFileAndApiKey();
-    await clearLog()
     await deleteDsStoreFile()
     await checkForUpdates()
     await checkForChatUpdates()
@@ -127,8 +131,11 @@ if (instruction.toLowerCase() === "add") {
     contactType = await promptContactType()
     titleText()
     contactsToCreate = await promptNumberOfContacts()
-    titleText()
-    timeInterval = await promptTimeInterval()
+
+    if (contactsToCreate >1) {
+        titleText()
+        timeInterval = await promptTimeInterval()
+    } else { timeInterval = 0}
     showSelectionSummary()
     await promptYesOrNo()
     showSelectionSummary()
@@ -171,24 +178,39 @@ if (instruction.toLowerCase() === "add") {
 } else if (instruction.toLowerCase() === "ver") {
     await writeLog('==>showVesion')
     showVersion();
-} else if (instruction.toLowerCase() === "create") {
-    const data = await parseCSVFile('script.csv')
+} else if (instruction.toLowerCase() === "import") {
+    await checkFilesAndFoldersExsists();
+    await ensureEnvFileAndApiKey();
+    await checkForUpdates()
+    titleText()
+    API_URL = await promptCluster()
+    titleText()
+    contractNameAndApiKey = await apiKeyMenu()
+    titleText()
+    contractName = contractNameAndApiKey[0]
+    apiKey = contractNameAndApiKey[1]
+    agentList = await getAgentDetails(apiKey)
+    titleText()
+    console.log(chalk.bold.white('Contract Name:', chalk.blue(contractName)))
+    const responses = await importConversation()
     await writeLog('==> Message Array from CSV:')
-    await writeLog(data)
-    console.log(chalk.bold('Transcript loaded from CSV:'))
-    data.forEach(item => {
-        if (item.speaker_is_customer) {
-            console.log(chalk.bold.green('Customer:'), item.message);
+    await writeLog(responses)
+    console.log('')
+    console.log(chalk.bold.underline('Transcript loaded from CSV:'))
+    responses.forEach(response => {
+        if (response.speaker_is_customer) {
+            console.log(chalk.bold.green('Customer:'), response.message);
         } else {
-            console.log(chalk.bold.yellow('Agent:'), item.message);
+            console.log(chalk.bold.yellow('Agent:'), response.message);
         }
     });
-    const createConfirmation = await promptYesOrNo()
-    generateAudio(data)
+    const createConfirmation = await readyToUpload()
+    const chatTemplate = await generateChatFromCSV(agentList, responses)
+    contactsToCreate = 1
+    sendCsvContact(chatTemplate)
 } else {
     nodeArguments('Invalid Arguments.')
 }
-
 
 
 

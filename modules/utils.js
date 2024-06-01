@@ -17,6 +17,7 @@ import {
 
 import {
     generateChat,
+    generateChatFromCSV,
     generateNewChat
 } from './generate_chat.js'
 
@@ -364,9 +365,7 @@ export async function createContact() {
         contactTemplate = await generateNewChat(agentList)
     } else if (contactType === "New Calls") {
         contactTemplate = await generateNewCall(agentList)
-    }
-    
-    else { // If Stored Calls & Tickets
+    } else if (contactType === "Stored Calls & Tickets") { // If Stored Calls & Tickets
         if (callDirectoryEmpty) {
             console.log(chalk.red('No calls found in directory.'))
             await writeLog('==>No calls found in directory')
@@ -383,7 +382,7 @@ export async function createContact() {
         } else {
             contactTemplate = await generateCall(agentList)
         }
-    }
+    } else contactTemplate = await generateChatFromCSV(agentList)
     await writeLog('==> CONTACT TEMPLATE:')
     writeLog(contactTemplate)
     return contactTemplate
