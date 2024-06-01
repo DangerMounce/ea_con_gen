@@ -572,6 +572,16 @@ export async function displayChangeLog() {
     }
 }
 
+export async function displayReadyMe() {
+    const filePath = path.join('README.md');
+    try {
+        const data = await fs.promises.readFile(filePath, 'utf8');
+        console.log(data);
+    } catch (error) {
+        console.error(`README not found.`);
+    }
+}
+
 export function showVersion() {
     console.log(chalk.bold.green('ea_con_gen'), chalk.bold.cyan('Ver:', appVersion))
     process.exit(1)

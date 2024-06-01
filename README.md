@@ -30,6 +30,7 @@ Navigate to the script directory and run the script with the following commands:
 `node gen add [CONTRACT NAME] [API KEY]` - Add a contract name and api key to the keyFile.<br>
 `node gen del [CONTRACT NAME]` - Delete a contract and API key from the keyFile.<br>
 `node gen contacts` Initiate the contact generation process.<br>
+`node gen import` Creates and exports chat conversation from any files stored in the import directory.<br>
 
 ## Commands Overview
 `node gen`...<br>
