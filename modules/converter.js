@@ -77,27 +77,19 @@ async function createResponseArray() {
     }
 }
 
-// This function does all the business
-export async function importConversation() {
+export async function importConversationAndMetaData() {
     const responseData = await createResponseArray();
     const responseArray = responseData[0];
     const metaDataArray = responseData[1];
-
-    if (!Array.isArray(responseArray)) {
-        throw new Error('Failed to create response array');
+    
+    if (!Array.isArray(responseArray) || !Array.isArray(metaDataArray)) {
+        throw new Error('Failed to create import array array')
     }
-    const chatArray = await buildChatTemplate(responseArray);
-    return chatArray;
+
+    return [responseArray, metaDataArray]
+
 }
 
-export async function importMetaData(){
-    const responseData = await createResponseArray();
-    const metaDataArray = responseData[1];
-    if (!Array.isArray(metaDataArray)) {
-        throw new Error('Failed to create response array');
-    }
-    return metaDataArray;
-}
 
 // This function builds the required chat template from the responses in the CSV
 export async function buildChatTemplate(chatResponses) {

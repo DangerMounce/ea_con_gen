@@ -25,8 +25,7 @@ import {
 import { generateChatFromCSV } from './modules/generate_chat.js'
 
 import {
-    importConversation,
-    importMetaData
+    importConversationAndMetaData
 } from './modules/converter.js'
 
 import { checkForChatUpdates, checkForCallUpdates, statusMessage } from './modules/library_sync.js';
@@ -195,8 +194,9 @@ if (instruction.toLowerCase() === "add") {
     agentList = await getAgentDetails(apiKey)
     titleText()
     console.log(chalk.bold.white('Contract Name:', chalk.blue(contractName)))
-    const responses = await importConversation()
-    const metaDataInCsv = await importMetaData()
+    const conversationData = await importConversationAndMetaData()
+    const responses = conversationData[0]
+    const metaDataInCsv = conversationData[1]
     await writeLog('==> Message Array from CSV:')
     await writeLog(responses)
     console.log('')
@@ -208,9 +208,13 @@ if (instruction.toLowerCase() === "add") {
             console.log(chalk.bold.yellow('Agent:'), response.message);
         }
     });
-    const metaData = await importMetaData()
-    console.log(metaData[0])
+    const metaDataAndConversation = await importConversationAndMetaData()
+    const metaData = metaDataAndConversation[1][0]
+    console.log(chalk.bold.magenta('Meta-Data:'))
+    console.log(metaData)
     const createConfirmation = await readyToUpload()
+
+    //Upload - processing queue start
     const chatTemplate = await generateChatFromCSV(agentList, responses, metaData)
     contactsToCreate = 1
     sendCsvContact(chatTemplate)
