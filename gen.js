@@ -36,7 +36,6 @@ import { checkForChatUpdates, checkForCallUpdates, statusMessage } from './modul
 await ensureEnvFileAndApiKey();
 
 import {
-    promptForPassword,
     promptContactType,
     promptNumberOfContacts,
     promptTimeInterval,
