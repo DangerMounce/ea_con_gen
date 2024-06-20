@@ -11,24 +11,7 @@ import {
 
 import { clientIsValid } from './chat_gen.js'
 
-// Prompts for the password to encrypt the keyfile
-export async function promptForPassword() {
-    try {
-        const response = await inquirer.prompt([
-            {
-                name: 'password',
-                type: 'password',
-                message: 'Enter password for the keyFile:',
-                mask: '*'
-            }
-        ])
-        console.log('')
-        return response.password
-    } catch (error) {
-        console.error(chalk.red(`Error: ${error.message}`))
-        process.exit(1)
-    }
-}
+
 
 // Function to prompt the user to select "Calls", "Tickets", or "Both"
 export async function promptContactType() {
@@ -41,7 +24,7 @@ export async function promptContactType() {
             {
                 type: 'list',
                 name: 'contactType',
-                message: 'Select contact source:',
+                message: chalk.bold.yellow('Select contact source:'),
                 choices: [
                     {
                         name: 'Existing Calls',
