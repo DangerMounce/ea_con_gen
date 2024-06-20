@@ -4,26 +4,11 @@
  / _ \/ __ `/  / ___/ __ \/ __ \   / __ `/ _ \/ __ \
 /  __/ /_/ /  / /__/ /_/ / / / /  / /_/ /  __/ / / /
 \___/\__,_/   \___/\____/_/ /_/   \__, /\___/_/ /_/ 
-                                 /____/  Ver 15.0.1       
+                                 /____/  Ver 15.0.2       
 
 In this update:
 
-👉 [node gen import]
-Upload chats in CSV files and place in the imports folder.  node gen import will build a queue and create a chat conversation with each of them.
-CSV headers must be "message" (message response) and "speaker_is_customer" (true/false).  Metadata can also be included in the subsequent columns.
-Metadata categories must be in the rows after converastion data.  Related data should be in the 2nd row of it's category data.
-
-👉 If the number of contacts to create is only 1, there will be no prompt for a time interval.
-
-👉 Guidance on adding API keys
-If there's no API keys in the keyFile, guidance now added on how to add contracts.
-
-👉 Chat Repo Updating Fix
-Chat updates were not being triggered upon first installation.
-
-👉 NPM Package Installer Script
-Where ea_con_gen updates require additional packages, using [node install] will download and install the required packages.
-
-👉 Auto-Gen meta-data
-AI genereated contacts are saved with a UUID as the filename in the relevant call/ticket directory.
-When these are randomly selected for upload, the filename meta-data will now be "Auto-Gen" rather than the UUID.
+🐛 [node gen import]
+E-Mail addresses of agents are required when uploading contacts.
+Fixed bug where no upload status message is shown when agents don't have email addresses.
+These uploads will return as a bad request but will not interrupt processing the queue.
