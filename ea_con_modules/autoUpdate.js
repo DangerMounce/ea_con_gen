@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import AdmZip from 'adm-zip';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
+import { spinner } from './progress.js';
 
 
 
@@ -71,11 +72,10 @@ async function checkForUpdates() {
         console.log('')
         const updateAgreed = await promptUserToUpdate();
         if (updateAgreed) {
+            spinner.updatingApp()
             await updateRepository();
             writeCurrentVersion(latestVersion);
-            console.log('')
-            console.log(chalk.bold.green(`Update completed successfully. 🫡`));
-            console.log(chalk.bold.green(`Please restart the script to apply the updates.🫣`));
+            spinner.stopAnimation()
             process.exit(1)
         }
         return;
@@ -88,11 +88,6 @@ async function updateRepository() {
         const zipPath = path.resolve(__dirname, 'repo.zip');
         await downloadFile(downloadUrl, zipPath);
         await extractZip(zipPath, updateDir);
-        // fs.unlinkSync(zipPath);  // Clean up the zip file
-        console.log(chalk.bold.yellow('==>'), 'Repository updated.');
-        console.log(chalk.bold.yellow('==>'), `Update directory: ${updateDir}`);
-        console.log(chalk.bold.yellow('==>'), `Version file path: ${versionFilePath}`);
-
     } catch (error) {
     }
 }

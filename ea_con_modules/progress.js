@@ -19,6 +19,15 @@ const frames = [
 let index = 0;
 let intervalId;
 
+const updatingApp = () => {
+    intervalId = setInterval(() => {
+        const frame = frames[index = ++index % frames.length];
+
+        logUpdate(chalk.bold.yellow(`Updating ea_con_gen ${frame}`)
+        );
+    }, 80);
+}
+
 const sendingContactAnimation = () => {
     intervalId = setInterval(() => {
         const frame = frames[index = ++index % frames.length];
@@ -45,5 +54,6 @@ const stopAnimation = () => {
 export const spinner = {
     connectingToEndPoint,
     stopAnimation,
-    sendingContactAnimation
+    sendingContactAnimation,
+    updatingApp
 }
