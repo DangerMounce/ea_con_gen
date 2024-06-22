@@ -1,0 +1,5 @@
+﻿messages,speaker_is_customer,meta_data_name,meta_data_name,meta_data_name
+agent message,FALSE,meta_data_value,meta_data_value,meta_data_value
+customer message,TRUE,,,
+agent message,FALSE,,,
+customer message,TRUE,,,

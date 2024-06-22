@@ -1,3 +1,5 @@
+// This module handles all the functions relating to automatically updating when the main branch has ipdated
+
 import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
@@ -7,14 +9,18 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 
 
+
 // Configuration
 const repoOwner = 'DangerMounce';
 const repoName = 'ea_con_gen';
-const branchName = 'main';
+
+const branchName = 'version_16.1' // 'main'
+
+
 const gitHubUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branchName}`;
 const downloadUrl = `https://github.com/${repoOwner}/${repoName}/archive/refs/heads/${branchName}.zip`;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const updateDir = path.resolve(__dirname, '..');  // Assuming `auto_update.js` is in the `modules` directory
+const updateDir = path.resolve(__dirname, '..');  //`auto_update.js` is in the `modules` directory
 const versionFilePath = path.resolve(updateDir, 'version.log');
 
 async function promptUserToUpdate() {
@@ -23,7 +29,7 @@ async function promptUserToUpdate() {
             {
                 type: 'confirm',
                 name: 'confirmation',
-                message: chalk.bold.yellow('Force update?'),
+                message: chalk.bold.yellow('Update?'),
                 default: false // Set default value as needed
             }
         ]);
@@ -89,7 +95,6 @@ async function updateRepository() {
         console.log(chalk.bold.yellow('==>'), `Version file path: ${versionFilePath}`);
 
     } catch (error) {
-        console.error(chalk.bold.yellow('==>'), 'Error updating the repository.');
     }
 }
 
@@ -114,7 +119,6 @@ async function extractZip(zipPath, dest) {
     for (const file of files) {
         const srcPath = path.resolve(extractedDir, file);
         const destPath = path.resolve(dest, file);
-        console.log(chalk.bold.yellow('==>'), `Updating ${destPath}...`);  // Add logging for debugging
         if (fs.existsSync(destPath)) {
             fs.rmSync(destPath, { recursive: true, force: true }); // Remove existing file/folder
         }
@@ -136,12 +140,11 @@ async function forceUpdate() {
 
         console.log(chalk.white(`Update completed successfully.`));
         console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
-        console.log('Type: cd ..')
         process.exit(0)
     }
 
     const files = [chatVersionFilePath, callVersionFilePath];
-    
+
     files.forEach(file => {
         if (fs.existsSync(file)) {
             fs.unlinkSync(file);
@@ -152,4 +155,7 @@ async function forceUpdate() {
     });
 }
 
-forceUpdate()
+export const update = {
+    forceUpdate,
+    checkForUpdates
+}
