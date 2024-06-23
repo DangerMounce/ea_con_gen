@@ -177,12 +177,13 @@ export async function displayChangeLog() {
 }
 
 async function handleFirstRun() {
-    const firstRunFilePath = path.join(__dirname, 'ea_con_mdodules', 'first.run');
-    const changeLogFilePath = path.join(__dirname, 'ea_con_modules', 'change.log');
+    const firstRunFilePath = path.join(__dirname,'first.run')
 
     try {
         // Check if the "first.run" file exists
         if (fs.existsSync(firstRunFilePath)) {
+            await display.figletText('ea_con_gen')
+            console.log('')
             await displayChangeLog();
 
             // Delete the "first.run" file
