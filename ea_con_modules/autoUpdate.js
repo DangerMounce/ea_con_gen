@@ -182,6 +182,7 @@ async function handleFirstRun() {
     try {
         // Check if the "first.run" file exists
         if (fs.existsSync(firstRunFilePath)) {
+            console.clear()
             await display.figletText('ea_con_gen')
             console.log('')
             await displayChangeLog();
