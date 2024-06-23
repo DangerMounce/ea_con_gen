@@ -78,13 +78,13 @@ async function checkForUpdates() {
             writeCurrentVersion(latestVersion);
             spinner.stopAnimation()
             console.clear()
-            await display.figletText('ea_con_gen')
-            console.log('')
-            await displayChangeLog()
-            console.log('')
-            console.log(chalk.bold.yellow(`Update completed successfully.`));
-            console.log(chalk.bold.yellow(`Please restart the script to apply the updates.`));
-            process.exit(1)
+            await display.figletText('ea_con_gen');
+            console.log('');
+            await displayChangeLog(); // Await this function to ensure the change log is displayed
+            console.log('');
+            console.log(chalk.bold.yellow('Update completed successfully.'));
+            console.log(chalk.bold.yellow('Please restart the script to apply the updates.'));
+            process.exit(1);
         }
         return;
     } else {
@@ -156,9 +156,20 @@ export async function displayChangeLog() {
     const filePath = path.join('ea_con_modules', 'change.log');
     try {
         const data = await fs.promises.readFile(filePath, 'utf8');
-        console.log(data);
+        const lines = data.split('\n');
+        lines.forEach(line => {
+            if (line.includes('ERROR')) {
+                console.log(chalk.red(line));
+            } else if (line.includes('WARNING')) {
+                console.log(chalk.yellow(line));
+            } else if (line.includes('INFO')) {
+                console.log(chalk.blue(line));
+            } else {
+                console.log(line);
+            }
+        });
     } catch (error) {
-        console.error(`Change Log not found.`);
+        console.error('Change Log not found.');
     }
 }
 
