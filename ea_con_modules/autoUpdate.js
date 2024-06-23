@@ -78,7 +78,7 @@ async function checkForUpdates() {
             writeCurrentVersion(latestVersion);
             spinner.stopAnimation()
             console.clear()
-            display.figletText('ea_con_gen')
+            await display.figletText('ea_con_gen')
             console.log('')
             displayChangeLog()
             console.log('')

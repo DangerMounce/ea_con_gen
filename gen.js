@@ -69,9 +69,17 @@ switch (instruction) {
     case "sync":
         utils.syncLibraries()
         break;
+    case "changelog":
+        console.clear()
+        await display.figletText('ea_con_gen')
+        console.log('')
+        update.displayChangeLog()
+        break;
     case "contacts1":
-        console.log(args);
-        // Add any additional logic for case 3 here
+        console.clear()
+        display.figletText('ea_con_gen')
+        console.log('')
+        displayChangeLog()
         break;
     default:
         display.showError('Invalid arguments')
