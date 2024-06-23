@@ -1,3 +1,12 @@
 Version 16.1
 
 chalk.bold.yellow('Hello')
+
+INFO
+Hello there
+
+ERROR
+Hello there
+
+WARNING
+Hello there
