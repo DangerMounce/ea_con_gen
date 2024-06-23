@@ -8,6 +8,7 @@ import AdmZip from 'adm-zip';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { spinner } from './progress.js';
+import { display } from './display.js'
 
 
 
@@ -77,7 +78,10 @@ async function checkForUpdates() {
             writeCurrentVersion(latestVersion);
             spinner.stopAnimation()
             console.clear()
-            // Display the change log
+            display.figletText('ea_con_gen')
+            console.log('')
+            displayChangeLog()
+            console.log('')
             console.log(chalk.bold.yellow(`Update completed successfully.`));
             console.log(chalk.bold.yellow(`Please restart the script to apply the updates.`));
             process.exit(1)
@@ -148,7 +152,18 @@ async function forceUpdate() {
     });
 }
 
+export async function displayChangeLog() {
+    const filePath = path.join('ea_con_modules', 'change.log');
+    try {
+        const data = await fs.promises.readFile(filePath, 'utf8');
+        console.log(data);
+    } catch (error) {
+        console.error(`Change Log not found.`);
+    }
+}
+
 export const update = {
     forceUpdate,
-    checkForUpdates
+    checkForUpdates,
+    displayChangeLog
 }
