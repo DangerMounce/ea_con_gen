@@ -2,11 +2,11 @@ Version 16.1
 
 chalk.bold.yellow('Hello')
 
-INFO
+🐛 Bug Fixes
 Hello there
 
-ERROR
+🤓 Enhancements
 Hello there
 
-WARNING
+👀 Info
 Hello there
