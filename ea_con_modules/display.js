@@ -70,6 +70,7 @@ export const display = {
     statusMessage,
     message,
     summary,
-    getReadyToUpload
+    getReadyToUpload,
+    figletText
 };
 
