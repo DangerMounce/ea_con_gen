@@ -75,7 +75,11 @@ async function checkForUpdates() {
             spinner.updatingApp()
             await updateRepository();
             writeCurrentVersion(latestVersion);
-            console.log('hello')
+            spinner.stopAnimation()
+            console.clear()
+            // Display the change log
+            console.log(chalk.bold.yellow(`Update completed successfully.`));
+            console.log(chalk.bold.yellow(`Please restart the script to apply the updates.`));
             process.exit(1)
         }
         return;
@@ -130,10 +134,6 @@ async function forceUpdate() {
 
     if (updateAgreed) {
         await updateRepository();
-        // writeCurrentVersion(latestVersion);
-        console.log(chalk.white(`Update completed successfully.`));
-        console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
-        process.exit(0)
     }
 
     const files = [chatVersionFilePath, callVersionFilePath];
