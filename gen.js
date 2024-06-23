@@ -11,6 +11,8 @@ import { utils } from './ea_con_modules/utils.js';
 import { sync } from './ea_con_modules/librarySync.js'
 import { update } from './ea_con_modules/autoUpdate.js';
 
+await update.checkForUpdates()
+
 const args = process.argv.slice(2);
 export const instruction = args[0].toLowerCase()
 instructions.contractName = args[1]
