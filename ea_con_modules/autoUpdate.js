@@ -80,7 +80,7 @@ async function checkForUpdates() {
             console.clear()
             await display.figletText('ea_con_gen')
             console.log('')
-            displayChangeLog()
+            await displayChangeLog()
             console.log('')
             console.log(chalk.bold.yellow(`Update completed successfully.`));
             console.log(chalk.bold.yellow(`Please restart the script to apply the updates.`));
