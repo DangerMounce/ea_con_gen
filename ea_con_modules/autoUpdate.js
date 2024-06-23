@@ -158,12 +158,14 @@ export async function displayChangeLog() {
         const data = await fs.promises.readFile(filePath, 'utf8');
         const lines = data.split('\n');
         lines.forEach(line => {
-            if (line.includes('ERROR')) {
-                console.log(chalk.red(line));
-            } else if (line.includes('WARNING')) {
-                console.log(chalk.yellow(line));
-            } else if (line.includes('INFO')) {
-                console.log(chalk.blue(line));
+            if (line.includes('Enhancements')) {
+                console.log(chalk.bold.green(line));
+            } else if (line.includes('Bug Fixes')) {
+                console.log(chalk.bold.green(line));
+            } else if (line.includes('Info')) {
+                console.log(chalk.bold.green(line));
+            } else if (line.includes('Version')) {
+                console.log(chalk.bold.yellow(line))
             } else {
                 console.log(line);
             }
