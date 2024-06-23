@@ -59,7 +59,7 @@ async function getCurrentVersion() {
 
 function writeCurrentVersion(version) {
     fs.writeFileSync(versionFilePath, version, 'utf-8');
-    console.log(chalk.bold.yellow('==>'), `Current version (${version}) written to version.log`);
+    // console.log(chalk.bold.yellow('==>'), `Current version (${version}) written to version.log`);
 }
 
 async function checkForUpdates() {
@@ -75,6 +75,7 @@ async function checkForUpdates() {
             spinner.updatingApp()
             await updateRepository();
             writeCurrentVersion(latestVersion);
+            console.log('hello')
             process.exit(1)
         }
         return;
@@ -130,8 +131,6 @@ async function forceUpdate() {
     if (updateAgreed) {
         await updateRepository();
         // writeCurrentVersion(latestVersion);
-        spinner.stopAnimation()
-        console.clear()
         console.log(chalk.white(`Update completed successfully.`));
         console.log(chalk.bold.green(`Please restart the script to apply the updates.`));
         process.exit(0)
