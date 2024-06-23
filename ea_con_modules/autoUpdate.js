@@ -9,6 +9,7 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { spinner } from './progress.js';
 import { display } from './display.js'
+import { menu } from './menus.js';
 
 
 
@@ -80,7 +81,7 @@ async function checkForUpdates() {
             console.clear()
             await display.figletText('ea_con_gen');
             console.log('');
-            await displayChangeLog(); // Await this function to ensure the change log is displayed
+            // await displayChangeLog(); // Await this function to ensure the change log is displayed
             console.log('');
             console.log(chalk.bold.yellow('Update completed successfully.'));
             console.log(chalk.bold.yellow('Please restart the script to apply the updates.'));
@@ -175,8 +176,32 @@ export async function displayChangeLog() {
     }
 }
 
+async function handleFirstRun() {
+    const firstRunFilePath = path.join(__dirname, 'ea_con_mdodules', 'first.run');
+    const changeLogFilePath = path.join(__dirname, 'ea_con_modules', 'change.log');
+
+    try {
+        // Check if the "first.run" file exists
+        if (fs.existsSync(firstRunFilePath)) {
+            await displayChangeLog();
+
+            // Delete the "first.run" file
+            fs.unlink(firstRunFilePath, (err) => {
+                if (err) {
+                } else {
+                }
+            });
+            console.log('')
+            await menu.yesOrNo('Continue?')
+        } else {
+        }
+    } catch (error) {
+    }
+}
+
 export const update = {
     forceUpdate,
     checkForUpdates,
-    displayChangeLog
+    displayChangeLog,
+    handleFirstRun
 }
