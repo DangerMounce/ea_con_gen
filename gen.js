@@ -11,7 +11,7 @@ import { utils } from './ea_con_modules/utils.js';
 import { sync } from './ea_con_modules/librarySync.js'
 import { update } from './ea_con_modules/autoUpdate.js';
 
-await update.checkForUpdates()
+await update.handleFirstRun()
 
 const args = process.argv.slice(2);
 export const instruction = args[0].toLowerCase()
@@ -62,6 +62,11 @@ switch (instruction) {
         utils.instructionContacts()
         break;
     case "import":
+        if (!isDeveloper) {
+            await update.checkForUpdates()
+            await sync.checkForCallUpdates()
+            await sync.checkForChatUpdates()
+        }
         if (args.length != 1) {
             display.showError('Invalid arguments')
         } else {
@@ -72,6 +77,11 @@ switch (instruction) {
         utils.syncLibraries()
         break;
     case "changelog":
+        if (!isDeveloper) {
+            await update.checkForUpdates()
+            await sync.checkForCallUpdates()
+            await sync.checkForChatUpdates()
+        }
         console.clear()
         await display.figletText('ea_con_gen')
         console.log('')
