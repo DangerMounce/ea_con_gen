@@ -11,6 +11,7 @@ import chalk from 'chalk'
 import { writeToLog } from './contactGenerator.js';
 import { sync, library} from './librarySync.js';
 import fs from 'fs'
+import { ai } from './openAiContacts.js';
 
 async function instructionContacts() {
     // Select the cluster
@@ -103,8 +104,33 @@ async function deleteFile(filePath) {
     });
 }
 
+async function newContact() {
+    // Select the cluster
+    apiUrl.ea = await menu.clusterSelection()
+    // Select the contract
+    await menu.contractSelection()
+    // Get the agent list
+    console.clear()
+    spinner.connectingToEndPoint()
+    eaApi.agentList = await eaApi.getAgentDetails()
+    spinner.stopAnimation()
+    // Select the contact type
+    instructions.contactType = await menu.newContactSelection()
+    // Select the language
+    ai.language = await menu.languageSelection()
+    // Select the number of contacts
+    instructions.numberOfContacts = await menu.numberOfContactsToCreate()
+    // Get time interval if number of contacts is more than 1
+    if (instructions.numberOfContacts > 1) {
+        instructions.timeInterval = await menu.delayBetweenContacts()
+    }
+    await display.summary()
+    await menu.yesOrNo('Ready to begin upload?')
+}
+
 export const utils = {
     instructionContacts,
     instructionImport,
-    syncLibraries
+    syncLibraries,
+    newContact
 }

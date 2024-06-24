@@ -28,6 +28,15 @@ const updatingApp = () => {
     }, 80);
 }
 
+async function packageCheck () {
+    intervalId = setInterval(() => {
+        const frame = frames[index = ++index % frames.length];
+
+        logUpdate(chalk.bold.yellow(`Running package check ${frame}`)
+        );
+    }, 80);
+}
+
 const sendingContactAnimation = () => {
     intervalId = setInterval(() => {
         const frame = frames[index = ++index % frames.length];
@@ -55,5 +64,6 @@ export const spinner = {
     connectingToEndPoint,
     stopAnimation,
     sendingContactAnimation,
-    updatingApp
+    updatingApp,
+    packageCheck
 }

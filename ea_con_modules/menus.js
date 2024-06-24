@@ -271,6 +271,90 @@ export async function importFolder(numberOfTicketUploads, numberOfCallUploads) {
     }
 }
 
+// Prompt the user for new contact type
+export async function newContactSelection() {
+    console.clear()
+    display.statusMessage()
+    try {
+        const answers = await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'newContactType',
+                message: chalk.bold.yellow('Select Contact Type:'),
+                choices: [
+                    {
+                        name: chalk.bold.cyan('New Calls 🤖'),
+                        value: 'newCalls',
+                    },
+                    {
+                        name: chalk.bold.cyan('New Tickets 🤖'),
+                        value: 'newTickets',
+                    },
+                    {
+                        name: chalk.green('Exit'),
+                        value: 'Exit'
+                    }
+                ]
+            }
+        ]);
+
+        const newContactType = answers.newContactType;
+        if (newContactType === 'Exit') {
+            console.clear('')
+            process.exit(0)
+        } else if (newContactType === 'newCalls') {
+            return 
+        } else if (newContactType === 'newTickets') {
+            return 
+        }
+
+    } catch (error) {
+        display.showError(error)
+    }
+}
+
+// Prompt the user for new contact type
+export async function languageSelection() {
+    console.clear()
+    display.statusMessage()
+    try {
+        const answers = await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'languageSelection',
+                message: chalk.bold.yellow('Select Language for contact:'),
+                choices: [
+                    {
+                        name: chalk.bold.cyan('English 🇬🇧'),
+                        value: 'english',
+                    },
+                    {
+                        name: chalk.bold.cyan('French 🇫🇷'),
+                        value: 'french',
+                    },
+                    {
+                        name: chalk.green('Exit'),
+                        value: 'Exit'
+                    }
+                ]
+            }
+        ]);
+
+        const languageSelection = answers.languageSelection;
+        if (languageSelection === 'Exit') {
+            console.clear('')
+            process.exit(0)
+        } else if (languageSelection === 'english') {
+            return 'English'
+        } else if (languageSelection === 'french') {
+            return 'French'
+        }
+
+    } catch (error) {
+        display.showError(error)
+    }
+}
+
 export const menu = {
     clusterSelection,
     contractSelection,
@@ -278,5 +362,7 @@ export const menu = {
     numberOfContactsToCreate,
     delayBetweenContacts,
     yesOrNo,
-    importFolder
+    importFolder,
+    newContactSelection,
+    languageSelection
 }

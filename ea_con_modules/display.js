@@ -7,6 +7,7 @@ import figlet from 'figlet';
 import gradient from 'gradient-string';
 import inquirer from 'inquirer';
 import { instruction } from '../gen.js';
+import { ai } from './openAiContacts.js';
 
 let message = '';
 
@@ -21,7 +22,8 @@ export async function showError(message) {
 }
 
 export async function statusMessage() {
-    console.log(chalk.white.dim(display.message));
+
+    console.log(chalk.bold.yellow(display.message));
     console.log('');
 }
 
@@ -45,8 +47,11 @@ export async function summary() {
     console.log('')
     console.log(`${chalk.bold.yellow('Contract:')} ${instructions.contractName}`);
     if (instruction != 'import') {
-    console.log(`${chalk.bold.yellow('Contact Type:')} ${instructions.contactType}`);
-    console.log(`${chalk.bold.yellow('Number of Contacts:')} ${instructions.numberOfContacts}`);
+        console.log(`${chalk.bold.yellow('Contact Type:')} ${instructions.contactType}`);
+        if (ai.language != null) {
+            console.log(`${chalk.bold.yellow('Language:')} ${ai.language}`);
+        }
+        console.log(`${chalk.bold.yellow('Number of Contacts:')} ${instructions.numberOfContacts}`);
     }
     if (instructions.numberOfContacts > 1) {
         console.log(`${chalk.bold.yellow('Time Interval:')} ${instructions.numberOfContacts}`);
