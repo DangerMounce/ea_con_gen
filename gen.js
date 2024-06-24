@@ -2,7 +2,8 @@
 // Need tickets, calls folder
 // Custom warning handler
 import { installation } from './ea_con_modules/moduleCheck.js';
-await installation.ensureModulesInstalled()
+import { update } from './ea_con_modules/autoUpdate.js';
+await update.handleFirstRun()
 
 process.removeAllListeners('warning');
 process.on('warning', (warning) => {
@@ -17,11 +18,9 @@ import {
 import { display } from './ea_con_modules/display.js'
 import { utils } from './ea_con_modules/utils.js';
 import { sync } from './ea_con_modules/librarySync.js'
-import { update } from './ea_con_modules/autoUpdate.js';
+
 import { ai } from './ea_con_modules/openAiContacts.js';
 
-
-await update.handleFirstRun()
 
 const args = process.argv.slice(2);
 export const instruction = args[0].toLowerCase()

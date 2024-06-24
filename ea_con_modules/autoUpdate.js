@@ -1,4 +1,6 @@
 // This module handles all the functions relating to automatically updating when the main branch has ipdated
+import { installation } from './moduleCheck.js';
+await installation.ensureModulesInstalled()
 
 import fetch from 'node-fetch';
 import fs from 'fs';
