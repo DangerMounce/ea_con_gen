@@ -1,7 +1,6 @@
 // This module checks for dependencies and install those that are needed
 
-import { execSync } from 'child_process';
-import { spinner } from './progress.js';
+import { execAsync } from 'child_process';
 
 const modules = [
     'path',
@@ -22,30 +21,24 @@ const modules = [
     'readline-sync',
     'openai',
     'dotenv',
-    'child_process' // Corrected typo from 'child-process' to 'child_process'
+    'child_process'
 ];
 
 async function ensureModulesInstalled() {
+
+    const packagesString = modules.join(' ');
+
     try {
-        await spinner.packageCheck();
-        
-        for (const module of modules) {
-            try {
-                require.resolve(module);
-                console.log(`${module} is installed`);
-            } catch (err) {
-                // console.log(`${module} is not installed. Installing...`);
-                try {
-                    const output = execSync(`npm install ${module}`, { stdio: 'pipe' }).toString();
-                    console.log(output);
-                    console.log(`${module} has been installed.`);
-                } catch (installError) {
-                    console.error(`Failed to install ${module}:`, installError);
-                }
-            }
+        console.log(`Installing packages...`);
+        const { stdout, stderr } = await execAsync(`npm install ${packagesString}`);
+        console.log(stdout);
+        if (stderr) {
+            console.error('Errors during npm install:', stderr);
+        } else {
+            console.log('All packages installed successfully.');
         }
-    } finally {
-        spinner.stopAnimation();
+    } catch (error) {
+        console.error('Failed to install packages:', error);
     }
 }
 
