@@ -23,7 +23,7 @@ export async function showError(message) {
 
 export async function statusMessage() {
 
-    console.log(chalk.bold.yellow(display.message));
+    console.log(chalk.bold.red(display.message));
     console.log('');
 }
 

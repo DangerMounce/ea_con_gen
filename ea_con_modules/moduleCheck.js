@@ -1,7 +1,6 @@
 // This module checks for dependencies and install those that are needed
 
-import { exec } from 'child_process';
-const execAsync = promisify(exec);
+import { execSync } from 'child_process';
 
 const modules = [
     'path',
@@ -22,25 +21,26 @@ const modules = [
     'readline-sync',
     'openai',
     'dotenv',
-    'child_process'
+    'child_process',
+    'promisify'
 ];
 
 async function ensureModulesInstalled() {
-
-    const packagesString = modules.join(' ');
-
-    try {
-        console.log(`Installing packages...`);
-        const { stdout, stderr } = await execAsync(`npm install ${packagesString}`);
-        console.log(stdout);
-        if (stderr) {
-            console.error('Errors during npm install:', stderr);
-        } else {
-            console.log('All packages installed successfully.');
+    modules.forEach(module => {
+        try {
+            require.resolve(module);
+            console.log(`${module} is installed`);
+        } catch (err) {
+            console.log(`${module} is not installed. Installing...`);
+            try {
+                const output = execSync(`npm install ${module}`, { stdio: 'pipe' }).toString();
+                console.log(output);
+                console.log(`${module} has been installed.`);
+            } catch (installError) {
+                console.error(`Failed to install ${module}:`, installError);
+            }
         }
-    } catch (error) {
-        console.error('Failed to install packages:', error);
-    }
+    });
 }
 
 
