@@ -1,6 +1,7 @@
 // This module checks for dependencies and install those that are needed
 
-import { execAsync } from 'child_process';
+import { exec } from 'child_process';
+const execAsync = promisify(exec);
 
 const modules = [
     'path',
