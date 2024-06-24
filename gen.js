@@ -1,6 +1,14 @@
 // Check for files and folders
 // Need tickets, calls folder
+// Custom warning handler
+import { installation } from './ea_con_modules/moduleCheck.js';
+await installation.ensureModulesInstalled()
 
+process.removeAllListeners('warning');
+process.on('warning', (warning) => {
+    // Log the warning to the console
+    display.message = `${warning.name} - ${warning.message}`
+});
 
 import {
     fileHandling,
@@ -10,6 +18,8 @@ import { display } from './ea_con_modules/display.js'
 import { utils } from './ea_con_modules/utils.js';
 import { sync } from './ea_con_modules/librarySync.js'
 import { update } from './ea_con_modules/autoUpdate.js';
+import { ai } from './ea_con_modules/openAiContacts.js';
+
 
 await update.handleFirstRun()
 
@@ -23,12 +33,15 @@ await fileHandling.createDirectories()
 
 // If required files don't exist, create them.
 await fileHandling.createFiles()
+// await ai.ensureEnvFileAndApiKey()
 
 // Check for dev token and enable dev mode
 const isDeveloper = await fileHandling.checkFileExists(fileHandling.devToken)
-if (isDeveloper) {
-    display.message = '•͡˘㇁•͡˘ Dev Mode Enabled'
+if (isDeveloper && !display.message.includes("DeprecationWarning")) {
+        display.message = '•͡˘㇁•͡˘ Dev Mode Enabled'
+    
 }
+
 
 export const user = {
     isDeveloper
@@ -86,6 +99,10 @@ switch (instruction) {
         await display.figletText('ea_con_gen')
         console.log('')
         update.displayChangeLog()
+        break;
+    case "new":
+        await ai.ensureEnvFileAndApiKey()
+        utils.newContact()
         break;
     case "contacts1":
         console.clear()
