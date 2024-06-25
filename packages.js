@@ -34,12 +34,14 @@ async function ensureModulesInstalled() {
             try {
                 const output = execSync(`npm install ${module}`, { stdio: 'pipe' }).toString();
                 // console.log(output);
-                console.log(`${module} has been installed.`);
+                console.log(`> ${module} has been installed.`);
             } catch (installError) {
-                console.error(`Failed to install ${module}:`, installError);
+                console.error(`> Failed to install ${module}:`, installError);
             }
         }
     });
+    console.log('')
+    console.log('Installation complete.')
 }
 
 ensureModulesInstalled()
