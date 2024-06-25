@@ -1,14 +1,6 @@
 // Check for files and folders
 // Need tickets, calls folder
 import { update } from './ea_con_modules/autoUpdate.js';
-await update.handleFirstRun()
-
-process.removeAllListeners('warning');
-process.on('warning', (warning) => {
-    // Log the warning to the console
-    display.message = `${warning.name} - ${warning.message}`
-});
-
 import {
     fileHandling,
     instructions
@@ -18,6 +10,13 @@ import { utils } from './ea_con_modules/utils.js';
 import { sync } from './ea_con_modules/librarySync.js'
 
 import { ai } from './ea_con_modules/openAiContacts.js';
+
+process.removeAllListeners('warning');
+process.on('warning', (warning) => {
+    // Log the warning to the console
+    display.message = `${warning.name} - ${warning.message}`
+});
+
 
 
 const args = process.argv.slice(2);
@@ -34,6 +33,12 @@ await fileHandling.createFiles()
 
 // Check for dev token and enable dev mode
 const isDeveloper = await fileHandling.checkFileExists(fileHandling.devToken)
+
+if (!isDeveloper) {
+    await update.handleFirstRun()
+}
+
+
 if (isDeveloper && !display.message.includes("DeprecationWarning")) {
         display.message = '•͡˘㇁•͡˘ Dev Mode Enabled'
     

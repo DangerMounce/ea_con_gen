@@ -11,7 +11,7 @@ const execAsync = promisify(exec);
 // Configuration
 const repoOwner = 'DangerMounce';
 const repoName = 'ea_con_gen';
-const branchName = 'main';
+const branchName = 'version_16.1';
 const downloadUrl = `https://github.com/${repoOwner}/${repoName}/archive/refs/heads/${branchName}.zip`;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const updateDir = __dirname;  // Change this to update directly in the current directory
