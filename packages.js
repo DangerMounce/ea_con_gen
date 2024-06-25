@@ -22,7 +22,8 @@ const modules = [
     'openai',
     'dotenv',
     'child_process',
-    'promisify'
+    'promisify',
+    'btoa'
 ];
 
 async function ensureModulesInstalled() {
