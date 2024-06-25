@@ -8,5 +8,4 @@ ea_con_modules/callVersion.log
 ea_con_modules/chatVersion.log
 ea_con_modules/dataLog.json
 ea_con_modules/keyFile.json
-ea_con_modules/.env
 dev.tok

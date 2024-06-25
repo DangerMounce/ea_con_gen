@@ -1,7 +1,5 @@
 // Check for files and folders
 // Need tickets, calls folder
-// Custom warning handler
-import { installation } from './packages.js';
 import { update } from './ea_con_modules/autoUpdate.js';
 await update.handleFirstRun()
 
