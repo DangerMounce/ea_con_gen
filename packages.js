@@ -29,12 +29,11 @@ async function ensureModulesInstalled() {
     modules.forEach(module => {
         try {
             require.resolve(module);
-            console.log(`${module} is installed`);
         } catch (err) {
-            console.log(`${module} is not installed. Installing...`);
+            console.log(`Installing ${module}`);
             try {
                 const output = execSync(`npm install ${module}`, { stdio: 'pipe' }).toString();
-                console.log(output);
+                // console.log(output);
                 console.log(`${module} has been installed.`);
             } catch (installError) {
                 console.error(`Failed to install ${module}:`, installError);
