@@ -1,5 +1,3 @@
-// This script is for forcing an update if gen.js fails
-
 // This module handles all the functions relating to automatically updating when the main branch has ipdated
 
 import fetch from 'node-fetch';
@@ -7,6 +5,10 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import AdmZip from 'adm-zip';
+import inquirer from 'inquirer';
+
+
+
 
 // Configuration
 const repoOwner = 'DangerMounce';
@@ -21,25 +23,54 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const updateDir = path.resolve(__dirname, '..');  //`auto_update.js` is in the `modules` directory
 const versionFilePath = path.resolve(updateDir, 'version.log');
 
-async function getLatestVersion() {
-    const response = await fetch(gitHubUrl);
-    const data = await response.json();
-    return data.sha;
+async function promptUserToUpdate() {
+    try {
+        const readyToUpdate = await inquirer.prompt([
+            {
+                type: 'confirm',
+                name: 'confirmation',
+                message: 'Are you sure you want to force an update?',
+                default: false // Set default value as needed
+            }
+        ]);
+
+        const confirmation = readyToUpdate.confirmation;
+        return confirmation;
+    } catch (error) {
+        console.error(`Error: ${error.message}`);
+        process.exit(1);
+    }
 }
 
-async function getCurrentVersion() {
-    if (fs.existsSync(versionFilePath)) {
-        const version = fs.readFileSync(versionFilePath, 'utf-8').trim();
-        return version;
-    }
-    return null;
-}
+// async function getLatestVersion() {
+//     const response = await fetch(gitHubUrl);
+//     const data = await response.json();
+//     return data.sha;
+// }
+
+// async function getCurrentVersion() {
+//     if (fs.existsSync(versionFilePath)) {
+//         const version = fs.readFileSync(versionFilePath, 'utf-8').trim();
+//         return version;
+//     }
+//     return null;
+// }
 
 function writeCurrentVersion(version) {
     fs.writeFileSync(versionFilePath, version, 'utf-8');
     // console.log(chalk.bold.yellow('==>'), `Current version (${version}) written to version.log`);
 }
 
+async function checkForUpdates() {
+            await updateRepository();
+            writeCurrentVersion(latestVersion);
+            console.clear()
+            console.log('');
+            console.log('');
+            console.log('Update completed successfully.');
+            console.log('Please restart the script to apply the updates.');
+            process.exit(1);
+}
 
 async function updateRepository() {
     try {
@@ -82,23 +113,10 @@ async function extractZip(zipPath, dest) {
 }
 
 async function forceUpdate() {
-
-    const chatVersionFilePath = path.join('chatVersion.log');
-    const callVersionFilePath = path.join('callVersion.log');
-    await updateRepository();
-
-    const files = [chatVersionFilePath, callVersionFilePath];
-
-    files.forEach(file => {
-        if (fs.existsSync(file)) {
-            fs.unlinkSync(file);
-            console.log(chalk.green(`Deleted file: ${file}`));
-        } else {
-            console.log(chalk.yellow(`File not found: ${file}`));
-        }
-    });
+    const updateAgreed = await promptUserToUpdate();
+    if (updateAgreed) {
+        await updateRepository();
+    }
 }
 
 
-
-forceUpdate()
