@@ -30,7 +30,7 @@ async function ensureModulesInstalled() {
         try {
             require.resolve(module);
         } catch (err) {
-            console.log(`Installing ${module}`);
+            //console.log(`Installing ${module}`);
             try {
                 const output = execSync(`npm install ${module}`, { stdio: 'pipe' }).toString();
                 // console.log(output);
