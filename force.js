@@ -36,7 +36,7 @@ async function updateRepository() {
         await downloadFile(downloadUrl, zipPath);
         await extractZip(zipPath, updateDir);
         fs.unlinkSync(zipPath);  // Clean up the zip file after extraction
-        fs.unlinkSync(installJsPath); // Delete install.js file
+        // fs.unlinkSync(installJsPath); // Delete install.js file
         console.log('Repository installed successfully.');
     } catch (error) {
         console.error('Error installing the repository:', error);
