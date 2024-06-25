@@ -1,4 +1,4 @@
-// This module checks for dependencies and install those that are needed
+// This script checks for dependencies and installs those that are needed
 
 import { execSync } from 'child_process';
 
@@ -43,7 +43,4 @@ async function ensureModulesInstalled() {
     });
 }
 
-
-export const installation = {
-    ensureModulesInstalled
-}
+ensureModulesInstalled()
