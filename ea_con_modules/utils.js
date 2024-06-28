@@ -125,7 +125,7 @@ async function newContact() {
         instructions.timeInterval = await menu.delayBetweenContacts()
     }
     await display.summary()
-    await menu.yesOrNo('Ready to begin upload?')
+    await menu.yesOrNo('Ready to begin?')
 }
 
 export const utils = {

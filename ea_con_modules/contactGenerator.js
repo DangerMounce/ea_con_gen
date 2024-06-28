@@ -7,6 +7,7 @@ import { fileHandling } from './filesAndFolders.js';
 import { display } from './display.js';
 import { eaApi } from './eaApi.js';
 import { importer } from './importer.js';
+import { ai } from './openAiContacts.js';
 
 // Chat Template
 export let chatTemplate = {
@@ -297,6 +298,32 @@ export async function getMP3Duration(filePath) {
         console.error("An error occurred:", error.message);
         return null;
     }
+}
+
+//This function creates a new chat contact template
+export async function generateNewChat() {
+    let agents = eaApi.agentList
+    const fsPromises = fs.promises;
+    const agentNumber = Math.floor(Math.random() * agents.length)
+    chatTemplate.data.reference = await generateUuid()
+    chatTemplate.data.agent_id = agents[agentNumber].agent_id
+    chatTemplate.data.agent_email = agents[agentNumber].email
+    chatTemplate.data.contact_date = getDate()
+    chatTemplate.data.channel = "Chat"
+    chatTemplate.data.assigned_at = getDate()
+    chatTemplate.data.solved_at = getDate()
+    chatTemplate.data.responses = await ai.    generateChatTranscript()
+    chatTemplate.data.metadata.Filename = "Auto-Gen"
+    chatTemplate.data.metadata.Status = getStatus()
+    const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
+    chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
+    await writeChatDataToFile(chatTemplate.data.responses)
+    chatTemplate.data.responses.forEach(response => {
+        if (!response.speaker_is_customer) {
+            response.speaker_email = chatTemplate.data.agent_email;
+        }
+    });
+    return chatTemplate
 }
 
 export const contact = {

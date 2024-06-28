@@ -51,9 +51,32 @@ if (apiKey != 'placeholder-for-api-key') {
     display.showError('OpenAI API Key missing or invalid.')
 }
 
+async function formatChatHistory(responseMessage) {
+    const messageArray = JSON.parse(responseMessage);
+    return messageArray;
+}
+
+export async function generateChatTranscript() {
+    try {
+        const chatCompletion = await openAIClient.chat.completions.create({
+            model: 'gpt-3.5-turbo',
+            messages: prompt
+        });
+        const responseMessage = chatCompletion.choices[0].message.content // Just gets the message
+        let transcriptArray = await formatChatHistory(responseMessage) // Returns the responses in an array
+        const formattedChatData = transcriptArray.map(formatChatMessage);
+        writeLog(`==> Formatted Chat Data:`)
+        writeLog(formattedChatData)
+        return formattedChatData
+    } catch (error) {
+        console.error(chalk.white('Error - main() -'),chalk.red(error))
+    }
+}
+
 
 export const ai = {
     ensureEnvFileAndApiKey,
     apiKey,
-    language
+    language,
+    generateChatTranscript
 }
