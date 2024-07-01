@@ -1,4 +1,4 @@
-import fs, { write } from 'fs';
+import fs, { write } from 'fs'; //
 import path from 'path';
 import csv from 'csv-parser';
 import chalk from 'chalk';

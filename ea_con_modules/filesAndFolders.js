@@ -1,4 +1,4 @@
-// This module handles all folder and file functions
+// This module handles all folder and file functions 
 
 import fs from 'fs';
 import path from 'path';

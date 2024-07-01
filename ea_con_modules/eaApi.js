@@ -1,4 +1,4 @@
-// This module contains all functions a variables relating to the evaluagent API
+// This module contains all functions a variables relating to the evaluagent API 
 
 import chalk from 'chalk';
 import axios from 'axios';

@@ -1,4 +1,4 @@
-// This module contains all functions relating to user prompts and menus
+// This module contains all functions relating to user prompts and menus 
 import inquirer from 'inquirer'
 import chalk from 'chalk'
 import path from 'path'

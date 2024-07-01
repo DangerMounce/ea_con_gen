@@ -17,7 +17,7 @@ import { menu } from './menus.js';
 const repoOwner = 'DangerMounce';
 const repoName = 'ea_con_gen';
 
-const branchName = 'version_16.1' // 'main'
+const branchName = 'main' // 'main'
 
 
 const gitHubUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branchName}`;

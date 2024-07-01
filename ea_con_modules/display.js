@@ -1,4 +1,4 @@
-// This module contains display related functions
+// This module contains display related functions 
 
 import chalk from 'chalk';
 import { yesOrNo } from './menus.js';
