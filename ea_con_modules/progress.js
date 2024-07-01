@@ -1,4 +1,4 @@
-// This module holds functions relating to progress spinners
+// This module holds functions relating to progress spinners 
 
 import logUpdate from "log-update";
 import chalk from 'chalk'

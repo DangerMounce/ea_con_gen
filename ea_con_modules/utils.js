@@ -1,4 +1,4 @@
-// This module contains the high level instruction functions
+// This module contains the high level instruction functions 
 import {
     instructions
 } from './filesAndFolders.js'

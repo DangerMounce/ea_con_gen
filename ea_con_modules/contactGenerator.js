@@ -1,4 +1,4 @@
-// This module contains all functions relating to generating a contact template.
+// This module contains all functions relating to generating a contact template. 
 import fs from 'fs'
 import path from 'path';
 import * as mm from 'music-metadata';

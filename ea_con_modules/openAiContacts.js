@@ -1,4 +1,4 @@
-// This modules contains all conversations relating to openAI generated conversations
+// This modules contains all conversations relating to openAI generated conversations 
 
 import OpenAI from 'openai';
 import readlineSync from 'readline-sync';

@@ -1,4 +1,4 @@
-const customerSentimentArray = [
+const customerSentimentArray = [ //
     "Frustrated",
     "Angry",
     "Anxious",
