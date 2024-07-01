@@ -1,11 +1,11 @@
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'; //
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import AdmZip from 'adm-zip';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { writeLog } from './generate_log.js';
+import { display } from './display.js';
 
 // Configuration
 const repoOwner = 'DangerMounce';
@@ -19,14 +19,18 @@ const callDownloadUrl = `https://github.com/${repoOwner}/${callRepoName}/archive
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const updateChatDir = path.resolve(__dirname, '../tickets/');
 const updateCallDir = path.resolve(__dirname, '../calls/');
-const chatVersionFilePath = path.resolve(updateChatDir, '../modules/chatVersion.log');
-const callVersionFilePath = path.resolve(updateCallDir, '../modules/callVersion.log');
+const chatVersionFilePath = path.resolve(updateChatDir, '../ea_con_modules/chatVersion.log');
+const callVersionFilePath = path.resolve(updateCallDir, '../ea_con_modules/callVersion.log');
+
+export const library = {
+    chatVersionFilePath,
+    callVersionFilePath
+}
 
 export let callStatusMessage = '';
 export let statusMessage = '';
 
 async function promptUserToUpdateChats() {
-    writeLog('==>Prompted user to update chat library')
     try {
         const readyToUpdate = await inquirer.prompt([
             {
@@ -47,14 +51,12 @@ async function promptUserToUpdateChats() {
 async function getLatestVersion() {
     const response = await fetch(gitHubUrl);
     const data = await response.json();
-    writeLog(`==>Latest Chat Version: ${data.sha}`)
     return data.sha;
 }
 
 async function getCurrentVersion() {
     if (fs.existsSync(chatVersionFilePath)) {
         const version = fs.readFileSync(chatVersionFilePath, 'utf-8').trim();
-        writeLog(`==>Current Chat Version: ${version}`)
         return version;
     }
     return null;
@@ -62,25 +64,21 @@ async function getCurrentVersion() {
 
 function writeCurrentVersion(version) {
     fs.writeFileSync(chatVersionFilePath, version, 'utf-8');
-    writeLog('==>Current Version writte to chatVersion.log')
     console.log(`Current version (${version}) written to chatVersion.log`);
 }
 
 async function checkForChatUpdates() {
-    const logFilePath = path.join(__dirname, '../modules/chatVersion.log');
+    const logFilePath = path.join(__dirname, '../ea_con_modules/chatVersion.log');
 
     // Check if the file exists
     if (!fs.existsSync(logFilePath)) {
         // Create the file
         fs.writeFileSync(logFilePath, '', 'utf8');
-        writeLog(`==>Created file: ${logFilePath}`);
     } else {
-        writeLog(`==>File already exists: ${logFilePath}`);
     }
     const currentVersion = await getCurrentVersion();
     const latestVersion = await getLatestVersion();
     if (currentVersion !== latestVersion) {
-        writeLog('==>New chats are available')
         console.clear('');
         console.log('');
         console.log(chalk.bold.cyan('There are new chats available.'));
@@ -89,13 +87,9 @@ async function checkForChatUpdates() {
         if (updateAgreed) {
             await updateRepository();
             writeCurrentVersion(latestVersion);
-            statusMessage = 'Chat repository updated successfully.';
-            writeLog(`==>${statusMessage}`);
         }
         return;
     } else {
-        writeLog('==>Chat library up to date')
-        console.log('You are using the latest version.');
     }
 }
 
@@ -106,17 +100,9 @@ async function updateRepository() {
         await extractZip(zipPath, updateChatDir);
         if (fs.existsSync(zipPath)) {
             fs.unlinkSync(zipPath); // Clean up the zip file
-            writeLog(`==>Deleted zip file: ${zipPath}`)
-            console.log(chalk.green('Deleted zip file:', zipPath));
         }
-        console.log(chalk.green('Repository updated.'));
-        console.log(chalk.green(`Update directory: ${updateChatDir}`));
-        console.log(chalk.green(`Version file path: ${chatVersionFilePath}`));
-        writeLog(`==>Update directory: ${updateChatDir}`)
-        writeLog(`==>Version file path: ${chatVersionFilePath}`)
     } catch (error) {
-        writeLog(`==> Error updating the repository: ${error}`);
-        console.error('Error updating the repository.', error);
+        display.showError(error)
     }
 }
 
@@ -141,7 +127,6 @@ async function extractZip(zipPath, dest) {
     for (const file of files) {
         const srcPath = path.resolve(extractedDir, file);
         const destPath = path.resolve(dest, file);
-        writeLog(`==>Adding ${destPath}...`); // Add logging for debugging
         if (fs.existsSync(destPath)) {
             fs.rmSync(destPath, { recursive: true, force: true }); // Remove existing file/folder
         }
@@ -153,31 +138,25 @@ async function extractZip(zipPath, dest) {
 }
 
 async function checkForCallUpdates() {
-    const logFilePath = path.join(__dirname, '../modules/callVersion.log');
+    const logFilePath = path.join(__dirname, '../ea_con_modules/callVersion.log');
 
     // Check if the file exists
     if (!fs.existsSync(logFilePath)) {
         // Create the file
         fs.writeFileSync(logFilePath, '', 'utf8');
-        writeLog(`==>Created file: ${logFilePath}`);
     } else {
-        writeLog(`==>File already exists: ${logFilePath}`);
     }
     const currentVersion = await getCurrentCallVersion();
     const latestVersion = await getLatestCallVersion();
     if (currentVersion !== latestVersion) {
-        writeLog('==>Call Library up to date')
         console.clear('');
         console.log('');
         console.log(chalk.bold.green('There are new calls available.'));
         console.log('');
         const updateAgreed = await promptUserToUpdateCalls();
         if (updateAgreed) {
-            writeLog('==>Call library updated agreed')
             await updateCallRepository();
             writeCurrentCallVersion(latestVersion);
-            callStatusMessage = 'Call repository updated successfully.';
-            writeLog(`==>${callStatusMessage}`);
         }
         return;
     } else {
@@ -195,7 +174,6 @@ async function getCurrentCallVersion() {
 async function getLatestCallVersion() {
     const response = await fetch(callGitHubUrl);
     const data = await response.json();
-    console.log('==>Latest Call Library version', data.sha);
     return data.sha;
 }
 
@@ -212,8 +190,7 @@ async function promptUserToUpdateCalls() {
 
         return readyToUpdate.confirmation;
     } catch (error) {
-        console.error(chalk.bold.red(`Error: ${error.message}`));
-        process.exit(1);
+        display.showError(error)
     }
 }
 
@@ -224,11 +201,7 @@ async function updateCallRepository() {
         await extractCallZip(zipPath, updateCallDir);
         if (fs.existsSync(zipPath)) {
             fs.unlinkSync(zipPath); // Clean up the zip file
-            console.log(chalk.green('Deleted zip file:', zipPath));
         }
-        console.log(chalk.green('Repository updated.'));
-        console.log(chalk.green(`Update directory: ${updateCallDir}`));
-        console.log(chalk.green(`Version file path: ${callVersionFilePath}`));
     } catch (error) {
         writeLog(error);
         console.error('Error updating the repository.', error);
@@ -264,12 +237,12 @@ async function extractCallZip(zipPath, dest) {
     // Delete the zip file
     if (fs.existsSync(zipPath)) {
         fs.unlinkSync(zipPath);
-        console.log(chalk.green('Deleted zip file:', zipPath));
-        writeLog(`Deleted zip file: ${zipPath}`);
     } else {
         console.log(chalk.red('Zip file not found:', zipPath));
-        writeLog(`Zip file not found: ${zipPath}`);
     }
 }
 
-export { checkForChatUpdates, checkForCallUpdates };
+export const sync = {
+    checkForChatUpdates,
+    checkForCallUpdates
+}
