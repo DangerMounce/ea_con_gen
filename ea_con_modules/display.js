@@ -1,30 +1,70 @@
-// This module contains display related functions 
-
-import chalk from 'chalk';
-import { yesOrNo } from './menus.js';
-import { instructions } from './filesAndFolders.js';
+// This module contains all modules relating to displaying things
+import chalk from 'chalk'
+import logUpdate from 'log-update'
+import { instruction } from './variables.js';
+import { number, importer } from './import.js';
+import { ai } from './AiContacts.js';
 import figlet from 'figlet';
-import gradient from 'gradient-string';
-import inquirer from 'inquirer';
-import { instruction } from '../gen.js';
-import { ai } from './openAiContacts.js';
+import gradient from 'gradient-string'
 
-let message = '';
+let message = ''
+let index = 0;
+let intervalId;
 
-export async function showError(message) {
-    console.clear();
-    console.log('');
-    console.log(`${chalk.bold.red('Oops!')} ${message}`);
-    console.log('');
-    console.log(`${chalk.bold.yellow('Type')} node gen help`);
-    console.log('');
-    process.exit(0);
+const frames = [
+    "-",
+    "\\",
+    "|",
+    "/"
+]
+
+const frame1 = [
+    "∙∙∙",
+    "●∙∙",
+    "∙●∙",
+    "∙∙●",
+    "∙∙∙"
+]
+
+const stopAnimation = () => {
+    clearInterval(intervalId);
+    logUpdate.clear(); // This clears the last update from the console if you are using log-update library
+};
+
+const connectingToEndPoint = () => {
+    intervalId = setInterval(() => {
+        const frame = frames[index = ++index % frames.length];
+
+        logUpdate(chalk.bold.yellow(`Getting agent list ${frame}`)
+        );
+    }, 80);
+};
+
+const generatingChat = () => {
+    intervalId = setInterval(() => {
+        const frame = frame1[index = ++index % frames.length];
+
+        logUpdate(chalk.bold.yellow(`Generating Chat Transcript ${frame}`)
+        );
+    }, 80);
 }
 
-export async function statusMessage() {
+const syncingLibrary = () => {
+    intervalId = setInterval(() => {
+        const frame = frame1[index = ++index % frames.length];
 
-    console.log(chalk.bold.red(display.message));
-    console.log('');
+        logUpdate(chalk.bold.yellow(`Syncing Library ${frame}`)
+        );
+    }, 80);
+}
+
+const generatingCall = () => {
+    intervalId = setInterval(() => {
+        const frame = frame1[index = ++index % frames.length];
+
+        logUpdate(chalk.bold.yellow(`Generating Call ${frame}`)
+        );
+    }, 80);
 }
 
 export function figletText(text) {
@@ -40,42 +80,58 @@ export function figletText(text) {
     });
 }
 
-export async function summary() {
-    console.clear();
-    await statusMessage();
-    await figletText(instruction);
-    console.log('')
-    console.log(`${chalk.bold.yellow('Contract:')} ${instructions.contractName}`);
-    if (instruction != 'import') {
-        console.log(`${chalk.bold.yellow('Contact Type:')} ${instructions.contactType}`);
-        if (ai.language != null) {
-            console.log(`${chalk.bold.yellow('Language:')} ${ai.language}`);
+async function summary() {
+    console.clear()
+    await figletText('ea_con_gen');
+    display.statusMessage()
+    console.log(`${chalk.bold.yellow('Contract:')} ${instruction.contractName}`)
+    if (instruction.main === "contacts") {
+        console.log(`${chalk.bold.yellow('Contact Type:')} ${instruction.contactType}`)
+        console.log(`${chalk.bold.yellow('Number of Contacts:')} ${instruction.numberOfContacts}`)
+        if (instruction.numberOfContacts > 1) {
+            console.log(`${chalk.bold.yellow('Interval between sending contacts:')} ${instruction.interval}`)
         }
-        console.log(`${chalk.bold.yellow('Number of Contacts:')} ${instructions.numberOfContacts}`);
     }
-    if (instructions.numberOfContacts > 1) {
-        console.log(`${chalk.bold.yellow('Time Interval:')} ${instructions.numberOfContacts}`);
+
+    if (instruction.main === "import") {
+        if (instruction.importSource === "Calls") {
+            console.log(`${chalk.bold.yellow('Calls in upload queue:')} ${number.callsToImport.length}`)
+            if (importer.callMetaDataFiles.length != 0) {
+                console.log(`${chalk.bold.yellow('Metadata files found:')} ${importer.callMetaDataFiles.length}`)
+            }
+        } else if (instruction.importSource === "Tickets") {
+            console.log(`${chalk.bold.yellow('Tickets in upload queue:')} ${number.ticketsToImport.length}`)
+        }
     }
+
+    if (instruction.main === "new") {
+        console.log(`${chalk.bold.yellow('Contact Type:')} ${ai.contactType}`)
+        console.log(`${chalk.bold.yellow('Model:')} ${ai.model}`)
+        console.log(`${chalk.bold.yellow('Number of Contacts:')} ${instruction.numberOfContacts}`)
+        if (instruction.numberOfContacts > 1) {
+            console.log(`${chalk.bold.yellow('Interval between sending contacts:')} ${instruction.interval}`)
+        }
+    }
+
 }
 
-export async function getReadyToUpload() {
-    const answers = await inquirer.prompt([
-        {
-            type: 'confirm',
-            name: 'readyToUpload',
-            message: 'Ready to begin upload?',
-            default: false
-        }
-    ]);
-    return answers.readyToUpload;
+
+//Error Message and Quitting
+async function error(message) {
+    console.clear();
+    console.log('');
+    console.log(`${chalk.bold.red('Oops!')} ${message}`);
+    console.log('');
+    process.exit(0);
 }
+
+async function statusMessage() {
+
+    console.log(display.message);
+    console.log('');
+}
+
 
 export const display = {
-    showError,
-    statusMessage,
-    message,
-    summary,
-    getReadyToUpload,
-    figletText
-};
-
+    error, statusMessage, message, connectingToEndPoint, stopAnimation, summary, generatingChat, generatingCall, syncingLibrary
+}

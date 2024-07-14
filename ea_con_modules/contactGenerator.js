@@ -3,11 +3,13 @@ import fs from 'fs'
 import path from 'path';
 import * as mm from 'music-metadata';
 import { fileURLToPath } from 'url';
-import { fileHandling } from './filesAndFolders.js';
-import { display } from './display.js';
-import { eaApi } from './eaApi.js';
-import { importer } from './importer.js';
-import { ai } from './openAiContacts.js';
+import { evaluagent } from './eaApi.js';
+import { importer } from './import.js';
+import { ai } from './AiContacts.js';
+import { aiCall } from './audioGenerator.js';
+
+process.removeAllListeners('warning');
+
 
 // Chat Template
 export let chatTemplate = {
@@ -62,12 +64,12 @@ export async function generateUuid() {
 }
 
 // This function returns the current date
-export function getDate() {
+function getDate() {
     return new Date().toISOString().split('.')[0] + "Z";
 }
 
 //This function returns the filename without the extension for the metadata
-export async function fileNameOnly(filename) {
+async function fileNameOnly(filename) {
     // Remove the directory path
     let base = filename.split('/').pop();
     // Remove the file extension
@@ -81,15 +83,15 @@ export async function fileNameOnly(filename) {
 }
 
 //This function generates a random metadata tag for status
-export function getStatus() {
+function getStatus() {
     let priorities = ['New', 'Open', 'Pending', 'Hold', 'Solved']
     let priority = Math.floor(Math.random() * priorities.length)
     return priorities[priority]
 }
 
-//This function creates the chat contact template
-export async function generateChat() {
-    let agents = eaApi.agentList
+// This function creates a chat contact template
+async function chatContactTemplate() {
+    let agents = evaluagent.agentList
     const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
     chatTemplate.data.reference = await generateUuid()
@@ -119,25 +121,7 @@ export async function generateChat() {
     chatTemplate.data.metadata.Status = getStatus()
     const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
     chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
-    await writeToLog(chatTemplate)
     return chatTemplate
-}
-
-// This function writes the data to data.log
-export async function writeToLog(data) {
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const logPath = fileHandling.dataLog
-    return new Promise((resolve, reject) => {
-        const jsonData = JSON.stringify(data, null, 2);
-        fs.appendFile(logPath, jsonData + '\n', 'utf8', (error) => {
-            if (error) {
-                console.error(chalk.red('Error writing log:', error.message));
-                reject(error);
-            } else {
-                resolve();
-            }
-        });
-    });
 }
 
 // Get the list of files in the chat directory
@@ -169,8 +153,8 @@ function isUUID(str) {
 }
 
 //This function creates the call contact template
-export async function generateCall() {
-    let agents = eaApi.agentList
+export async function callContactTemplate() {
+    let agents = evaluagent.agentList
     const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
     callTemplate.data.reference = await generateUuid()
@@ -196,7 +180,7 @@ export async function generateCall() {
     
     let callFile = callFiles[Math.floor(Math.random() * callFiles.length)]
     callTemplate.data.metadata.Filename = await fileNameOnly(callFile)
-    callTemplate.data.audio_file_path = await eaApi.uploadAudio(callFile);
+    callTemplate.data.audio_file_path = await evaluagent.uploadAudio(callFile)
     callTemplate.data.handling_time = await getMP3Duration(callFile)
     return callTemplate
 }
@@ -223,10 +207,21 @@ async function getCallFileList() {
     return mp3Files;
 }
 
-
+//This function gets the duration of the audio file for the metadata
+export async function getMP3Duration(filePath) {
+    try {
+        const metadata = await mm.parseFile(filePath);
+        const duration = metadata.format.duration; // Duration in seconds
+        const roundedDuration = Math.round(duration); // Round to nearest whole number
+        return roundedDuration;
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+        return null;
+    }
+}
 
 //This function creates the chat contact template using the import from the CSV
-export async function generateChatFromCSV(agents, data, mData) {
+async function csvContactTemplate(agents, data, mData) {
     const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
     chatTemplate.data.reference = await generateUuid()
@@ -259,10 +254,10 @@ export async function generateChatFromCSV(agents, data, mData) {
 }
 
 //This function creates the call contact template
-export async function generateCallFromImport(callFile, metaData) {
-    callFile = `./import_calls/${callFile}`
-    let agents = eaApi.agentList
-    const fsPromises = fs.promises;
+async function callFromImport(callFile, metaData) {
+    callFile = `./call_import/${callFile}`
+    let agents = evaluagent.agentList
+    // const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
     callTemplate.data.reference = await generateUuid()
     callTemplate.data.agent_id = agents[agentNumber].agent_id
@@ -272,37 +267,22 @@ export async function generateCallFromImport(callFile, metaData) {
     callTemplate.data.solved_at = getDate()
     callTemplate.data.channel = "Telephony"
     callTemplate.data.metadata.Filename = await fileNameOnly(callFile)
-    callTemplate.data.audio_file_path = await eaApi.uploadAudio(callFile);
+    callTemplate.data.audio_file_path = await evaluagent.uploadAudio(callFile)
     callTemplate.data.handling_time = await getMP3Duration(callFile)
     if (metaData.length > 0) {
-        const metadataForCall = metaData[0]; // Assuming you only want the first object in the array
+        const metadataForCall = metaData[0]; 
         for (const key in metadataForCall) {
           if (metadataForCall.hasOwnProperty(key)) {
             callTemplate.data.metadata[key] = metadataForCall[key];
           }
         }
       }
-
-    await writeToLog(callTemplate)
     return callTemplate
 }
 
-//This function gets the duration of the audio file for the metadata
-export async function getMP3Duration(filePath) {
-    try {
-        const metadata = await mm.parseFile(filePath);
-        const duration = metadata.format.duration; // Duration in seconds
-        const roundedDuration = Math.round(duration); // Round to nearest whole number
-        return roundedDuration;
-    } catch (error) {
-        console.error("An error occurred:", error.message);
-        return null;
-    }
-}
-
 //This function creates a new chat contact template
-export async function generateNewChat() {
-    let agents = eaApi.agentList
+async function newChat() {
+    const agents = evaluagent.agentList
     const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
     chatTemplate.data.reference = await generateUuid()
@@ -312,12 +292,12 @@ export async function generateNewChat() {
     chatTemplate.data.channel = "Chat"
     chatTemplate.data.assigned_at = getDate()
     chatTemplate.data.solved_at = getDate()
-    chatTemplate.data.responses = await ai.    generateChatTranscript()
+    chatTemplate.data.responses = await ai.generateChatTranscript()
     chatTemplate.data.metadata.Filename = "Auto-Gen"
     chatTemplate.data.metadata.Status = getStatus()
     const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
     chatTemplate.data.metadata.AgentResponses = agentResponsesCount;
-    await writeChatDataToFile(chatTemplate.data.responses)
+    await ai.writeChatDataToFile(chatTemplate.data.responses)
     chatTemplate.data.responses.forEach(response => {
         if (!response.speaker_is_customer) {
             response.speaker_email = chatTemplate.data.agent_email;
@@ -326,12 +306,39 @@ export async function generateNewChat() {
     return chatTemplate
 }
 
-export const contact = {
-    generateChat,
-    generateChatFromCSV,
-    generateCallFromImport
+async function newCall() {
+    let agents = evaluagent.agentList
+    const conversation = await ai.generateChatTranscript()
+    const audioToBeUploaded = await aiCall.generateAudio(conversation);
+    const agentNumber = Math.floor(Math.random() * agents.length);
+    callTemplate.data.reference = await generateUuid();
+    callTemplate.data.agent_id = agents[agentNumber].agent_id;
+    callTemplate.data.agent_email = agents[agentNumber].email;
+    callTemplate.data.contact_date = getDate();
+    callTemplate.data.channel = "Call";
+    callTemplate.data.assigned_at = getDate();
+    callTemplate.data.solved_at = getDate();
+    callTemplate.data.channel = "Telephony";
+
+
+    const callFile = `./calls/${audioToBeUploaded}`;
+    const duration = await getMP3Duration(callFile);
+    if (duration) {
+        let logEntry = {
+            "audio length": duration
+        };
+    }
+    callTemplate.data.metadata.Filename = "Auto Gen";
+    callTemplate.data.audio_file_path = await evaluagent.uploadAudio(callFile);
+    callTemplate.data.handling_time = await getMP3Duration(callFile)  // Math.floor(Math.random() * (200 - 100 + 1)) + 100;
+    return callTemplate;
 }
 
-export const debug = {
-    writeToLog
+export const generate = {
+    chatContactTemplate,
+    callContactTemplate,
+    csvContactTemplate,
+    callFromImport,
+    newChat,
+    newCall
 }

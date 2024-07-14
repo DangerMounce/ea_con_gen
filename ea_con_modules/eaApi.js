@@ -5,32 +5,26 @@ import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
 
-import { instructions } from './filesAndFolders.js';
-import { display } from './display.js';
-import { generateChat, generateCall, writeToLog } from './contactGenerator.js';
-import { debug } from './contactGenerator.js';
+// Importing the stuff we need
+import { instruction, apiKey, api } from './variables.js'; // Variables like instruction, apiKeys and api URLs
+import { display } from './display.js'; // Things relating to displaying info
+import { generate } from './contactGenerator.js';
 
-import { spinner } from './progress.js'
 
 let agentRoleId = null;
 let agentList = []
 
-const eu = 'https://api.evaluagent.com/v1'
-const aus = 'https://api.aus.evaluagent.com/v1'
-const us = 'https://api.us-east.evaluagent.com/v1'
-let ea = null
-
 async function fetchApi(endpoint) {
-    const url = `${apiUrl.ea}${endpoint}`
+    const url = `${api.eaUrl}${endpoint}`
     const response = await axios.get(url, {
-        headers: { Authorization: `Basic ${Buffer.from(instructions.eaApiKey).toString('base64')}`}
+        headers: { Authorization: `Basic ${Buffer.from(apiKey.ea).toString('base64')}` }
     })
     return response.data.data
 }
 
+
 // Get the agent details
-export async function getAgentDetails() {
-    let key = instructions.eaApiKey
+async function getAgents() {
     try {
         const roleResponse = await fetchApi('/org/roles')
         if (roleResponse) {
@@ -49,46 +43,62 @@ export async function getAgentDetails() {
                     agent_id: agent.id
                 }))
             // get rid of any agents that have no email address
-            let filteredList = agentList.filter(agent => agent.email !== 'null');
-            return filteredList
-            
+            agentList = agentList.filter(agent => agent.email !== 'null');
+            return agentList
+
         }
     } catch (error) {
-        display.showError(`Can't retrieve agent details.  Check your API key.`)
+        display.error(error)
     }
 }
 
-// This function sends the contactTemplate
-async function sendContactsToEvaluagent(number) {
+// This function sends the contactTemplate to evaluagent
+async function sendContacts(number) {
     console.log('');
-    console.log(chalk.bold.blue(`Job List:`));
+    console.log(chalk.bold.green(`Job List:`));
     let exportContact = null
     for (let c = 0; c < number; c++) {
-        // const exportContact = await createContact();
-        if (instructions.contactType === "Tickets") {
-            exportContact = await generateChat()
-        } else if (instructions.contactType === "Calls") {
-            exportContact = await generateCall()
-        } else if (instructions.contactType === "Combination") {
-            let contactTypeArray = ["Tickets", "Calls"]
-            const randomContactType = contactTypeArray[Math.floor(Math.random() * contactTypeArray.length)]
-            if (randomContactType === "Tickets") {
-                exportContact = await generateChat()
-            } else if (randomContactType === "Calls") {
-                exportContact = await generateCall()
-            } else {
-                display.showError(`Problem with combination generator.`)
-            }
+
+        switch (instruction.contactType) {
+            case "Tickets":
+                exportContact = await generate.chatContactTemplate()
+                break;
+            case "Calls":
+                exportContact = await generate.callContactTemplate()
+                break;
+            case "Combination":
+                let contactTypeArray = ["Tickets", "Calls"]
+                const randomContactType = contactTypeArray[Math.floor(Math.random() * contactTypeArray.length)]
+                if (randomContactType === "Tickets") {
+                    exportContact = await generate.chatContactTemplate()
+                } else if (randomContactType === "Calls") {
+                    exportContact = await generate.chatContactTemplate()
+                } else {
+                    display.error(`Problem with combination generator.`)
+                }
+                break;
+            case "New Tickets":
+                display.generatingChat()
+                exportContact = await generate.newChat(instruction.numberOfContacts)
+                display.stopAnimation()
+                break;
+            case "New Calls":
+                display.generatingCall()
+                exportContact = await generate.newCall(instruction.numberOfContacts)
+                display.stopAnimation()
+                break;
+            default:
+                break;
         }
 
-        const conUrl = `${apiUrl.ea}/quality/imported-contacts`;
+        const conUrl = `${api.eaUrl}/quality/imported-contacts`;
         process.stdout.write(chalk.yellow(`${c + 1}/${number} | ${exportContact.data.reference} | ${exportContact.data.metadata["Contact"]} (${exportContact.data.metadata["Filename"]}) |  (${exportContact.data.agent_email.split('@')[0]}) | `));
         try {
             const response = await fetch(conUrl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + btoa(instructions.eaApiKey)
+                    Authorization: "Basic " + btoa(apiKey.ea)
                 },
                 body: JSON.stringify(exportContact)
             });
@@ -105,27 +115,27 @@ async function sendContactsToEvaluagent(number) {
 
             if (c + 1 === number) {
                 console.log('\n' + chalk.bold.green(`Job complete.`));
-                process.exit(0); 
+                process.exit(0);
             }
         } catch (error) {
 
-            console.error(chalk.bold.red(`\nError: ${error.message}`));
+            display.error(error)
         }
-         await delay(instructions.timeInterval);
+        await delay(instruction.interval);
     }
 }
 
 //This function returns a delay by the number of seconds
-export function delay(seconds) {
+function delay(seconds) {
     const ms = seconds * 1000
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 //This function uploads the audio file
-export async function uploadAudio(audioSelection) {
-    const url = `${apiUrl.ea}/quality/imported-contacts/upload-audio`;
+async function uploadAudio(audioSelection) {
+    const url = `${api.eaUrl}/quality/imported-contacts/upload-audio`;
     const headers = {
-        'Authorization': 'Basic ' + Buffer.from(instructions.eaApiKey).toString('base64')
+        'Authorization': 'Basic ' + Buffer.from(apiKey.ea).toString('base64')
     };
 
     const formData = new FormData();
@@ -146,7 +156,7 @@ export async function sendCsvContact(chatTemplate) {
     console.log('');
     console.log(chalk.bold.blue(`Status:`));
 
-    const conUrl = `${apiUrl.ea}/quality/imported-contacts`;
+    const conUrl = `${api.eaUrl}/quality/imported-contacts`;
     const agentEmail = chatTemplate.data.agent_email || 'email_required@example.com'; // Provide a default value
     const agentName = agentEmail.split('@')[0]; // Extract the part before @
 
@@ -158,7 +168,7 @@ export async function sendCsvContact(chatTemplate) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Basic " + btoa(instructions.eaApiKey)
+                Authorization: "Basic " + btoa(apiKey.ea)
             },
             body: JSON.stringify(chatTemplate)
         });
@@ -168,7 +178,6 @@ export async function sendCsvContact(chatTemplate) {
             // Append server response on the same line
             console.log(chalk.bold.green(serverResponse));
         } else {
-            await debug.writeToLog(result)
             let serverResponse = result.errors[0].title;
             // Append error response on the same line
             console.log(chalk.bold.red(serverResponse));
@@ -180,11 +189,11 @@ export async function sendCsvContact(chatTemplate) {
 }
 
 // This function sends the imported contact
-export async function sendImportedContact(chatTemplate) {
+async function sendImportedContact(chatTemplate) {
     console.log('');
     console.log(chalk.bold.blue(`Status:`));
 
-    const conUrl = `${apiUrl.ea}/quality/imported-contacts`;
+    const conUrl = `${api.eaUrl}/quality/imported-contacts`;
     const agentEmail = chatTemplate.data.agent_email || 'email_required@example.com'; // Provide a default value
     const agentName = agentEmail.split('@')[0]; // Extract the part before @
 
@@ -196,7 +205,7 @@ export async function sendImportedContact(chatTemplate) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Basic " + btoa(instructions.eaApiKey)
+                Authorization: "Basic " + btoa(apiKey.ea)
             },
             body: JSON.stringify(chatTemplate)
         });
@@ -209,8 +218,6 @@ export async function sendImportedContact(chatTemplate) {
             await debug.writeToLog(result)
             let serverResponse = result.errors[0].title;
             // Append error response on the same line
-            await writeToLog(serverResponse)
-            await writeToLog(data.handling)
             console.log(chalk.bold.red(serverResponse));
         }
         console.log('\n' + chalk.bold.green(`Job complete.`));
@@ -220,18 +227,11 @@ export async function sendImportedContact(chatTemplate) {
 }
 
 
-export const apiUrl = {
-    eu,
-    aus,
-    us,
-    ea
-}
-
-export const eaApi = {
-    getAgentDetails,
-    agentList,
+export const evaluagent = {
+    getAgents,
     agentRoleId,
-    sendContactsToEvaluagent,
+    agentList,
+    sendContacts,
     uploadAudio,
     sendCsvContact,
     sendImportedContact

@@ -5,15 +5,14 @@ import path from 'path'
 import { fileURLToPath } from 'url';
 import fs from 'fs'
 
-import { apiUrl } from './eaApi.js';
+import { api, instruction } from './variables.js';
 import { display } from './display.js';
-import {
-    instructions,
-    fileHandling
-} from './filesAndFolders.js';
+import { file, dirs, init } from './fileHandling.js';
+import { importer, number } from './import.js';
 
-// Prompt the user for cluster
-export async function clusterSelection() {
+
+// Prompt for cluster
+async function clusterSelection() {
     console.clear()
     display.statusMessage()
     try {
@@ -44,30 +43,28 @@ export async function clusterSelection() {
         ]);
 
         const clusterType = answers.clusterType;
-        console.log(clusterType)
-        console.log(clusterType)
         if (clusterType === 'Exit') {
             console.clear('')
             process.exit(0)
         } else if (clusterType === 'EU Cluster') {
-            return apiUrl.eu
+            return api.euUrl
         } else if (clusterType === 'Austrailian Cluster') {
-            return apiUrl.aus
+            return api.ausUrl
         } else if (clusterType === 'North American Cluster') {
-            return apiUrl.us
+            return api.usUrl
         }
 
     } catch (error) {
-        display.showError(error)
+        display.error(error)
     }
 }
 
 // Prompt for contract selection
-export async function contractSelection() {
+async function contractSelection() {
+    let keyFilePath = file.keyFile
     console.clear()
     display.statusMessage()
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const keyFilePath = './ea_con_modules/keyFile.json'
     // Read the existing content of the keyFile.json
     let keyFileData = {};
     try {
@@ -93,24 +90,17 @@ export async function contractSelection() {
             }
         ]);
         const selectedKey = answers.selectedKey;
-        instructions.contractName = selectedKey;
-        instructions.eaApiKey = keyFileData[selectedKey];
+        instruction.contractName = selectedKey;
+        return keyFileData[selectedKey]
     }
 }
 
-// Function to prompt the user to select "Calls", "Tickets", or "Both"
-export async function storedContactType() {
-    // Validate
-    const conversationDirectories = await fileHandling.checkConversationsInDirectories();
-    const callsAvailable = conversationDirectories.hasMp3Files;
-    const ticketsAvailable = conversationDirectories.hasJsonFiles;
-    let bothAvailable = callsAvailable && ticketsAvailable;
+// Function to prompt for stored contact type
+async function storedContactType() {
+    //validation required
 
-    if (!callsAvailable || !ticketsAvailable) {
-        display.message = `Calls in directory: ${callsAvailable} | Tickets in directory: ${ticketsAvailable}`;
-    }
-    console.clear();
-    display.statusMessage();
+
+    display.statusMessage()
     try {
         const answers = await inquirer.prompt([
             {
@@ -119,19 +109,19 @@ export async function storedContactType() {
                 message: chalk.bold.yellow('Select contact source:'),
                 choices: [
                     {
-                        name: 'Calls',
+                        name: `Calls`,
                         value: 'Calls',
-                        disabled: !callsAvailable ? chalk.bold.red('⬤') : false
+                        // disabled: !callsAvailable ? chalk.bold.red('⬤') : false
                     },
                     {
-                        name: 'Tickets',
+                        name: `Tickets`,
                         value: 'Tickets',
-                        disabled: !ticketsAvailable ? chalk.bold.red('⬤') : false
+                        // disabled: !ticketsAvailable ? chalk.bold.red('⬤') : false
                     },
                     {
                         name: 'Combination',
                         value: 'Combination',
-                        disabled: !bothAvailable ? chalk.bold.red('⬤') : false
+                        // disabled: !bothAvailable ? chalk.bold.red('⬤') : false
                     },
                     {
                         name: chalk.green('Exit'),
@@ -142,19 +132,63 @@ export async function storedContactType() {
         ]);
 
         const selectedType = answers.contactType;
-        console.log(selectedType);
         if (selectedType === 'Exit') {
             console.clear();
             process.exit(0);
         }
         return selectedType;
     } catch (error) {
-        display.showError(error);
+        display.error(error);
+    }
+}
+
+// Function to prompt for stored contact type
+async function importContactType() {
+    number.ticketsToImport = await importer.getImportFileList(dirs.ticket_import)
+    //validation required
+
+    display.statusMessage()
+    try {
+        const answers = await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'importContactType',
+                message: chalk.bold.yellow('Select import source:'),
+                choices: [
+                    {
+                        name: `Calls`,
+                        value: 'Calls',
+                        // disabled: !callsAvailable ? chalk.bold.red('⬤') : false
+                    },
+                    {
+                        name: `Tickets`,
+                        value: 'Tickets',
+                        // disabled: !ticketsAvailable ? chalk.bold.red('⬤') : false
+                    },
+                    {
+                        name: chalk.green('Exit'),
+                        value: 'Exit'
+                    }
+                ]
+            }
+        ]);
+
+        const selectedImportType = answers.importContactType;
+        if (selectedImportType === 'Tickets' && number.ticketsToImport.length === 0) {
+            display.error('No tickets found in /ticket_import')
+        }  
+        if (selectedImportType === 'Exit') {
+            console.clear();
+            process.exit(0);
+        }
+        return selectedImportType;
+    } catch (error) {
+        display.error(error);
     }
 }
 
 // Function to prompt the user for the number of contacts to create
-export async function numberOfContactsToCreate() {
+async function numberOfContactsToCreate() {
     console.clear();
     display.statusMessage();
     try {
@@ -179,7 +213,7 @@ export async function numberOfContactsToCreate() {
 }
 
 // Function to prompt for the time interval between contacts
-export async function delayBetweenContacts() {
+async function delayBetweenContacts() {
     console.clear();
     display.statusMessage();
     try {
@@ -199,12 +233,66 @@ export async function delayBetweenContacts() {
         const timeInterval = answers.timeInterval;
         return timeInterval;
     } catch (error) {
-        display.showError(error)
+        display.error(error)
+    }
+}
+
+// This function prompts for the audio file type
+async function audioFileExtension() {
+    try {
+        const answer = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'extension',
+                message: chalk.bold.yellow('Please enter the audio file extension (ie mp3/wav etc):'),
+                validate: function (input) {
+                    // Basic validation to ensure the input is not empty
+                    if (input.trim() === '') {
+                        return 'Extension cannot be empty.';
+                    }
+                    return true;
+                }
+            }
+        ]);
+
+        // Extract the extension from the answer
+        const { extension } = answer;
+        return extension;
+
+    } catch (error) {
+        display.error('Error asking for audio file extension:', error);
+    }
+}
+
+async function languageForConversation() {
+    try {
+        const answer = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'language',
+                message: chalk.bold.yellow('Please enter the conversation language:'),
+                default: 'English', // Default language
+                validate: function (input) {
+                    // Basic validation to ensure the input is not empty
+                    if (input.trim() === '') {
+                        return 'Invalid';
+                    }
+                    return true;
+                }
+            }
+        ]);
+
+        // Extract the language from the answer
+        const { language } = answer;
+        return language;
+
+    } catch (error) {
+        display.error(error);
     }
 }
 
 // Function to prompt the user for a Yes or No response
-export async function yesOrNo(question) {
+async function yesOrNo(question) {
     console.log('') 
     try {
         const answers = await inquirer.prompt([
@@ -222,32 +310,39 @@ export async function yesOrNo(question) {
         } else {
             return}
     } catch (error) {
-        display.showError(error)
+        display.error(error)
     }
 }
 
-// Prompt for import type
-export async function importFolder(numberOfTicketUploads, numberOfCallUploads) {
-    const callsAvailable = () => numberOfCallUploads !== 0;
-    const ticketsAvailable = () => numberOfTicketUploads !== 0;
+// Function to prompt for stored contact type
+async function promptGptModel() {
+    //validation required
     console.clear()
     display.statusMessage()
     try {
         const answers = await inquirer.prompt([
             {
                 type: 'list',
-                name: 'importType',
-                message: chalk.bold.yellow('Select import folder:'),
+                name: 'modelType',
+                message: chalk.bold.yellow('Select GPT model:'),
                 choices: [
                     {
-                        name: `Calls (${numberOfCallUploads})`,
-                        value: 'Calls',
-                        disabled: !callsAvailable() ? chalk.bold.red('Import folder empty') : false
+                        name: `gpt-4o`,
+                        value: 'gpt-4o',
                     },
                     {
-                        name: `Tickets (${numberOfTicketUploads})`,
-                        value: 'Tickets',
-                        disabled: !ticketsAvailable() ? chalk.bold.red('Import folder empty') : false
+                        name: `gpt-4-turbo`,
+                        value: 'gpt-4-turbo',
+                    },
+                    {
+                        name: 'gpt-4',
+                        value: 'gpt-4',
+
+                    },
+                    {
+                        name: 'gpt-3.5-turbo',
+                        value: 'gpt-3.5-turbo',
+
                     },
                     {
                         name: chalk.green('Exit'),
@@ -257,80 +352,37 @@ export async function importFolder(numberOfTicketUploads, numberOfCallUploads) {
             }
         ]);
 
-        const importType = answers.importType;
-        if (importType === 'Exit') {
-            console.clear('')
-            process.exit(0)
-        } else if (importType === 'Calls') {
-            return "import_calls"
-        } else if (importType === 'Tickets') {
-            return "import_tickets"
-        } 
-    } catch (error) {
-        display.showError(error)
-    }
-}
-
-// Prompt the user for new contact type
-export async function newContactSelection() {
-    console.clear()
-    display.statusMessage()
-    try {
-        const answers = await inquirer.prompt([
-            {
-                type: 'list',
-                name: 'newContactType',
-                message: chalk.bold.yellow('Select Contact Type:'),
-                choices: [
-                    {
-                        name: chalk.bold.cyan('New Calls 🤖'),
-                        value: 'newCalls',
-                    },
-                    {
-                        name: chalk.bold.cyan('New Tickets 🤖'),
-                        value: 'newTickets',
-                    },
-                    {
-                        name: chalk.green('Exit'),
-                        value: 'Exit'
-                    }
-                ]
-            }
-        ]);
-
-        const newContactType = answers.newContactType;
-        if (newContactType === 'Exit') {
-            console.clear('')
-            process.exit(0)
-        } else if (newContactType === 'newCalls') {
-            return 
-        } else if (newContactType === 'newTickets') {
-            return 
+        const selectedModel = answers.modelType;
+        if (selectedModel === 'Exit') {
+            console.clear();
+            process.exit(0);
         }
-
+        return selectedModel;
     } catch (error) {
-        display.showError(error)
+        display.error(error);
     }
 }
 
-// Prompt the user for new contact type
-export async function languageSelection() {
+// Function to prompt for ai contact type
+async function promptAiContactType() {
     console.clear()
+    //validation required
+
     display.statusMessage()
     try {
         const answers = await inquirer.prompt([
             {
                 type: 'list',
-                name: 'languageSelection',
-                message: chalk.bold.yellow('Select Language for contact:'),
+                name: 'contactType',
+                message: chalk.bold.yellow('Select contact type:'),
                 choices: [
                     {
-                        name: chalk.bold.cyan('English 🇬🇧'),
-                        value: 'english',
+                        name: `Calls`,
+                        value: 'New Calls',
                     },
                     {
-                        name: chalk.bold.cyan('French 🇫🇷'),
-                        value: 'french',
+                        name: `Tickets`,
+                        value: 'New Tickets',
                     },
                     {
                         name: chalk.green('Exit'),
@@ -340,18 +392,14 @@ export async function languageSelection() {
             }
         ]);
 
-        const languageSelection = answers.languageSelection;
-        if (languageSelection === 'Exit') {
-            console.clear('')
-            process.exit(0)
-        } else if (languageSelection === 'english') {
-            return 'English'
-        } else if (languageSelection === 'french') {
-            return 'French'
+        const selectedContactType = answers.contactType;
+        if (selectedContactType === 'Exit') {
+            console.clear();
+            process.exit(0);
         }
-
+        return selectedContactType;
     } catch (error) {
-        display.showError(error)
+        display.error(error);
     }
 }
 
@@ -362,7 +410,9 @@ export const menu = {
     numberOfContactsToCreate,
     delayBetweenContacts,
     yesOrNo,
-    importFolder,
-    newContactSelection,
-    languageSelection
+    importContactType,
+    audioFileExtension,
+    promptGptModel,
+    promptAiContactType,
+    languageForConversation
 }

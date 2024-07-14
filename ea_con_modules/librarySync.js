@@ -1,4 +1,4 @@
-import fetch from 'node-fetch'; //
+import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -6,6 +6,9 @@ import AdmZip from 'adm-zip';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { display } from './display.js';
+
+process.removeAllListeners('warning');
+
 
 // Configuration
 const repoOwner = 'DangerMounce';
@@ -21,11 +24,6 @@ const updateChatDir = path.resolve(__dirname, '../tickets/');
 const updateCallDir = path.resolve(__dirname, '../calls/');
 const chatVersionFilePath = path.resolve(updateChatDir, '../ea_con_modules/chatVersion.log');
 const callVersionFilePath = path.resolve(updateCallDir, '../ea_con_modules/callVersion.log');
-
-export const library = {
-    chatVersionFilePath,
-    callVersionFilePath
-}
 
 export let callStatusMessage = '';
 export let statusMessage = '';
@@ -57,6 +55,7 @@ async function getLatestVersion() {
 async function getCurrentVersion() {
     if (fs.existsSync(chatVersionFilePath)) {
         const version = fs.readFileSync(chatVersionFilePath, 'utf-8').trim();
+
         return version;
     }
     return null;
@@ -64,10 +63,9 @@ async function getCurrentVersion() {
 
 function writeCurrentVersion(version) {
     fs.writeFileSync(chatVersionFilePath, version, 'utf-8');
-    console.log(`Current version (${version}) written to chatVersion.log`);
 }
 
-async function checkForChatUpdates() {
+async function chatUpdates() {
     const logFilePath = path.join(__dirname, '../ea_con_modules/chatVersion.log');
 
     // Check if the file exists
@@ -85,9 +83,13 @@ async function checkForChatUpdates() {
         console.log('');
         const updateAgreed = await promptUserToUpdateChats();
         if (updateAgreed) {
+            display.syncingLibrary()
             await updateRepository();
             writeCurrentVersion(latestVersion);
+            display.stopAnimation()
+            statusMessage = 'Chat repository updated successfully.';
         }
+    
         return;
     } else {
     }
@@ -102,7 +104,7 @@ async function updateRepository() {
             fs.unlinkSync(zipPath); // Clean up the zip file
         }
     } catch (error) {
-        display.showError(error)
+        console.error('Error updating the repository.', error);
     }
 }
 
@@ -137,26 +139,29 @@ async function extractZip(zipPath, dest) {
     fs.rmSync(tempDir, { recursive: true, force: true });
 }
 
-async function checkForCallUpdates() {
+async function callUpdates() {
     const logFilePath = path.join(__dirname, '../ea_con_modules/callVersion.log');
 
     // Check if the file exists
     if (!fs.existsSync(logFilePath)) {
-        // Create the file
         fs.writeFileSync(logFilePath, '', 'utf8');
     } else {
     }
     const currentVersion = await getCurrentCallVersion();
     const latestVersion = await getLatestCallVersion();
     if (currentVersion !== latestVersion) {
+        // writelog('==>Call Library up to date')
         console.clear('');
         console.log('');
         console.log(chalk.bold.green('There are new calls available.'));
         console.log('');
         const updateAgreed = await promptUserToUpdateCalls();
         if (updateAgreed) {
+            display.syncingLibrary()
             await updateCallRepository();
             writeCurrentCallVersion(latestVersion);
+            display.stopAnimation()
+            callStatusMessage = 'Call repository updated successfully.';
         }
         return;
     } else {
@@ -190,7 +195,8 @@ async function promptUserToUpdateCalls() {
 
         return readyToUpdate.confirmation;
     } catch (error) {
-        display.showError(error)
+        console.error(chalk.bold.red(`Error: ${error.message}`));
+        process.exit(1);
     }
 }
 
@@ -203,14 +209,12 @@ async function updateCallRepository() {
             fs.unlinkSync(zipPath); // Clean up the zip file
         }
     } catch (error) {
-        writeLog(error);
         console.error('Error updating the repository.', error);
     }
 }
 
 function writeCurrentCallVersion(version) {
     fs.writeFileSync(callVersionFilePath, version, 'utf-8');
-    console.log(`Current version (${version}) written to callVersion.log`);
 }
 
 async function extractCallZip(zipPath, dest) {
@@ -224,7 +228,6 @@ async function extractCallZip(zipPath, dest) {
     for (const file of files) {
         const srcPath = path.resolve(extractedDir, file);
         const destPath = path.resolve(dest, file);
-        console.log(`Adding ${destPath}...`); // Add logging for debugging
         if (fs.existsSync(destPath)) {
             fs.rmSync(destPath, { recursive: true, force: true }); // Remove existing file/folder
         }
@@ -238,11 +241,11 @@ async function extractCallZip(zipPath, dest) {
     if (fs.existsSync(zipPath)) {
         fs.unlinkSync(zipPath);
     } else {
-        console.log(chalk.red('Zip file not found:', zipPath));
+
     }
 }
 
-export const sync = {
-    checkForChatUpdates,
-    checkForCallUpdates
-}
+export const librarySync = { 
+    chatUpdates, 
+    callUpdates 
+};
