@@ -11,6 +11,7 @@ import { evaluagent } from './ea_con_modules/eaApi.js';
 import { importer, number } from './ea_con_modules/import.js';
 import { ai } from './ea_con_modules/AiContacts.js';
 import { librarySync } from './ea_con_modules/librarySync.js';
+import { update } from './ea_con_modules/autoUpdate.js';
 
 process.removeAllListeners('warning');
 
@@ -34,7 +35,8 @@ if (user.isDev) {
     });
     display.message = chalk.bold.green('*DEV*')
 } else {
-
+    await update.checkForUpdates()
+    await update.handleFirstRun()
 }
 
 

@@ -40,6 +40,15 @@ const connectingToEndPoint = () => {
     }, 80);
 };
 
+const updatingApp = () => {
+    intervalId = setInterval(() => {
+        const frame = frames[index = ++index % frames.length];
+
+        logUpdate(chalk.bold.yellow(`Updating ${frame}`)
+        );
+    }, 80);
+};
+
 const generatingChat = () => {
     intervalId = setInterval(() => {
         const frame = frame1[index = ++index % frames.length];
@@ -133,5 +142,5 @@ async function statusMessage() {
 
 
 export const display = {
-    error, statusMessage, message, connectingToEndPoint, stopAnimation, summary, generatingChat, generatingCall, syncingLibrary
+    error, statusMessage, message, connectingToEndPoint, stopAnimation, summary, generatingChat, generatingCall, syncingLibrary, updatingApp
 }
