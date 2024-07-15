@@ -142,5 +142,5 @@ async function statusMessage() {
 
 
 export const display = {
-    error, statusMessage, message, connectingToEndPoint, stopAnimation, summary, generatingChat, generatingCall, syncingLibrary, updatingApp
+    error, statusMessage, message, connectingToEndPoint, stopAnimation, summary, generatingChat, generatingCall, syncingLibrary, updatingApp, figletText
 }
