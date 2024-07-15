@@ -139,12 +139,39 @@ async function countFilesInDirectory(directoryPath) {
     }
 }
 
+function isCallsFolderEmpty() {
+    const callsFolderPath = path.join('.', 'calls');
+
+    try {
+        const files = fs.readdirSync(callsFolderPath);
+        return files.length === 0;
+    } catch (error) {
+        console.error(`Error checking if folder is empty: ${error.message}`);
+        return false;
+    }
+}
+
+function isTicketsFolderEmpty() {
+    const ticketsFolderPath = path.join('.', 'tickets'); // Fixed the variable name
+
+    try {
+        const files = fs.readdirSync(ticketsFolderPath);
+        return files.length === 0;
+    } catch (error) {
+        console.error(`Error checking if folder is empty: ${error.message}`);
+        return false;
+    }
+}
+
+
 export const init = {
     checkAndCreateFile,
     checkAndCreateDirectory,
     getArrayOn,
     fileExists,
-    countFilesInDirectory
+    countFilesInDirectory,
+    isCallsFolderEmpty,
+    isTicketsFolderEmpty
 };
 
 export const dirs = {

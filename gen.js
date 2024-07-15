@@ -34,9 +34,6 @@ if (user.isDev) {
         console.log(display.message)
     });
     display.message = chalk.bold.green('*DEV*')
-} else {
-    await update.checkForUpdates()
-    await update.handleFirstRun()
 }
 
 
@@ -66,6 +63,10 @@ switch (instruction.main) {
         }
         break;
     case "contacts": // Sending Contacts from the Libaries
+        if (!user.isDev) {
+            await update.checkForUpdates()
+            await update.handleFirstRun()
+        }
         await librarySync.chatUpdates()
         await librarySync.callUpdates()
         // Validate the arguments
@@ -91,6 +92,10 @@ switch (instruction.main) {
         }
         break;
     case "import": // Import Contacts from the import folders
+        if (!user.isDev) {
+            await update.checkForUpdates()
+            await update.handleFirstRun()
+        }
         // Validate the arguments
         if (args.length === 1) {
             api.eaUrl = await menu.clusterSelection()
@@ -119,6 +124,10 @@ switch (instruction.main) {
         }
         break;
     case "new":
+        if (!user.isDev) {
+            await update.checkForUpdates()
+            await update.handleFirstRun()
+        }
         api.eaUrl = await menu.clusterSelection()
         apiKey.ea = await menu.contractSelection()
         console.clear()

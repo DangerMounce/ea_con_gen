@@ -62,7 +62,15 @@ async function getCurrentVersion() {
 }
 
 function writeCurrentVersion(version) {
-    fs.writeFileSync(chatVersionFilePath, version, 'utf-8');
+    try {
+        if (typeof version !== 'string' || !version) {
+            throw new Error('Invalid version provided to writeCurrentCallVersion');
+        }
+        fs.writeFileSync(chatVersionFilePath, version, 'utf-8');
+    } catch (error) {
+        console.error(`Error writing current call version: ${error.message}`);
+        throw error;
+    }
 }
 
 async function chatUpdates() {
@@ -214,7 +222,15 @@ async function updateCallRepository() {
 }
 
 function writeCurrentCallVersion(version) {
-    fs.writeFileSync(callVersionFilePath, version, 'utf-8');
+    try {
+        if (typeof version !== 'string' || !version) {
+            throw new Error('Invalid version provided to writeCurrentCallVersion');
+        }
+        fs.writeFileSync(callVersionFilePath, version, 'utf-8');
+    } catch (error) {
+        console.error(`Error writing current call version: ${error.message}`);
+        throw error;
+    }
 }
 
 async function extractCallZip(zipPath, dest) {

@@ -71,12 +71,12 @@ async function contractSelection() {
         const data = fs.readFileSync(keyFilePath, 'utf8');
         keyFileData = data.trim() ? JSON.parse(data) : {};
     } catch (err) {
-        display.showError(err.message)
+        display.error(err.message)
     }
     // List all keys in a numbered menu format
     const keys = Object.keys(keyFileData);
     if (keys.length === 0) {
-        display.showError(`There's no contracts found in the keyFile.`)
+        display.error(`There's no contracts found in the keyFile.`)
     } else {
         const answers = await inquirer.prompt([
             {
@@ -97,10 +97,13 @@ async function contractSelection() {
 
 // Function to prompt for stored contact type
 async function storedContactType() {
-    //validation required
+    // Validation required
+    const callsAvailable = !await init.isCallsFolderEmpty(); // true if there are files
+    const ticketsAvailable = !await init.isTicketsFolderEmpty(); // true if there are files
+    const bothAvailable = callsAvailable && ticketsAvailable; // true if both folders have files
 
-
-    display.statusMessage()
+    console.log(callsAvailable, ticketsAvailable, bothAvailable)
+    display.statusMessage();
     try {
         const answers = await inquirer.prompt([
             {
@@ -109,19 +112,19 @@ async function storedContactType() {
                 message: chalk.bold.yellow('Select contact source:'),
                 choices: [
                     {
-                        name: `Calls`,
+                        name: 'Calls',
                         value: 'Calls',
-                        // disabled: !callsAvailable ? chalk.bold.red('⬤') : false
+                        disabled: !callsAvailable ? chalk.bold.red('X') : false
                     },
                     {
-                        name: `Tickets`,
+                        name: 'Tickets',
                         value: 'Tickets',
-                        // disabled: !ticketsAvailable ? chalk.bold.red('⬤') : false
+                        disabled: !ticketsAvailable ? chalk.bold.red('X') : false
                     },
                     {
                         name: 'Combination',
                         value: 'Combination',
-                        // disabled: !bothAvailable ? chalk.bold.red('⬤') : false
+                        disabled: !bothAvailable ? chalk.bold.red('X') : false
                     },
                     {
                         name: chalk.green('Exit'),
@@ -131,12 +134,15 @@ async function storedContactType() {
             }
         ]);
 
-        const selectedType = answers.contactType;
-        if (selectedType === 'Exit') {
+
+        const { contactType } = answers;
+
+        if (contactType === 'Exit') {
             console.clear();
             process.exit(0);
         }
-        return selectedType;
+        return contactType;
+
     } catch (error) {
         display.error(error);
     }
@@ -145,8 +151,6 @@ async function storedContactType() {
 // Function to prompt for stored contact type
 async function importContactType() {
     number.ticketsToImport = await importer.getImportFileList(dirs.ticket_import)
-    //validation required
-
     display.statusMessage()
     try {
         const answers = await inquirer.prompt([
@@ -158,12 +162,12 @@ async function importContactType() {
                     {
                         name: `Calls`,
                         value: 'Calls',
-                        // disabled: !callsAvailable ? chalk.bold.red('⬤') : false
+                        disabled: !importedCallsAvailable ? chalk.bold.red('X') : false
                     },
                     {
                         name: `Tickets`,
                         value: 'Tickets',
-                        // disabled: !ticketsAvailable ? chalk.bold.red('⬤') : false
+                        disabled: !importedTicketsAvailable ? chalk.bold.red('X') : false
                     },
                     {
                         name: chalk.green('Exit'),
@@ -208,7 +212,7 @@ async function numberOfContactsToCreate() {
         const numberOfContacts = answers.numberOfContacts;
         return numberOfContacts;
     } catch (error) {
-        display.showError(error)
+        display.error(error)
     }
 }
 
