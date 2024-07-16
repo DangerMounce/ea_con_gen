@@ -22,10 +22,11 @@ const __dirname = path.dirname(__filename);
 let openAIClient;
 let model = null;
 let contactType = null;
+let save = false;
 
 export async function ensureEnvExistsWithOpenAiApiKey() {
-    const envPath = path.join(__dirname, 'ea_con_modules', '.env');
-    const placeholderKey = 'OPENAI_API_KEY=placeholder-for-api-key\n';
+    const envPath = path.join(__dirname,'.env');
+    const placeholderKey = 'OPENAI_API_KEY= "placeholder-for-api-key"\n';
 
     try {
         // Check if .env exists
@@ -87,11 +88,34 @@ async function writeChatDataToFile(data) {
     }
 }
 
+async function updateOpenAIKeyInEnv(openAiKey) {
+    const envPath = path.join(__dirname, '../ea_con_modules/.env'); 
+
+    try {
+        // Read the contents of the .env file
+        let content = await fs.promises.readFile(envPath, 'utf8');
+
+        // Replace the existing OPENAI_API_KEY with the new key
+        const updatedContent = content.replace(/(OPENAI_API_KEY\s*=\s*)".*"/, `$1"${openAiKey}"`);
+
+        // Write the updated contents back to the .env file
+        await fs.promises.writeFile(envPath, updatedContent, 'utf8');
+        console.clear('')
+        console.log(chalk.bold.yellow('Your OpenAI API Key has been added.'));
+        console.log('')
+    } catch (error) {
+        display.error('Failed to add your OpenAI Key:', error);
+    }
+}
+
+
 export const ai = {
     ensureEnvExistsWithOpenAiApiKey,
     model,
     contactType,
     generateChatTranscript,
     writeChatDataToFile,
-    openAIClient
+    openAIClient,
+    updateOpenAIKeyInEnv,
+    save
 }

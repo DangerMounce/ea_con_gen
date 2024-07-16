@@ -93,7 +93,9 @@ async function summary() {
     console.clear()
     await figletText('ea_con_gen');
     display.statusMessage()
+    if (!ai.save) {
     console.log(`${chalk.bold.yellow('Contract:')} ${instruction.contractName}`)
+    }
     if (instruction.main === "contacts") {
         console.log(`${chalk.bold.yellow('Contact Type:')} ${instruction.contactType}`)
         console.log(`${chalk.bold.yellow('Number of Contacts:')} ${instruction.numberOfContacts}`)

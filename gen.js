@@ -128,14 +128,20 @@ switch (instruction.main) {
             await update.checkForUpdates()
             await update.handleFirstRun()
         }
-        api.eaUrl = await menu.clusterSelection()
-        apiKey.ea = await menu.contractSelection()
-        console.clear()
-        display.connectingToEndPoint()
-        let filteredAgentList = await evaluagent.getAgents()
-        evaluagent.agentList = filteredAgentList
-        display.stopAnimation()
         await ai.ensureEnvExistsWithOpenAiApiKey()
+
+        // Validate if "save" is in the arguments
+        if (args[1] === "save") {
+            ai.save = true
+        } else {
+            api.eaUrl = await menu.clusterSelection()
+            apiKey.ea = await menu.contractSelection()
+            console.clear()
+            display.connectingToEndPoint()
+            let filteredAgentList = await evaluagent.getAgents()
+            evaluagent.agentList = filteredAgentList
+            display.stopAnimation()
+        }
         // Define __dirname and __filename
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = path.dirname(__filename);
@@ -165,6 +171,10 @@ switch (instruction.main) {
         await display.summary()
         await menu.yesOrNo('Ready to begin?')
         evaluagent.sendContacts(instruction.numberOfContacts)
+        break;
+    case "openai":
+        await ai.ensureEnvExistsWithOpenAiApiKey()
+        ai.updateOpenAIKeyInEnv(args[1])
         break;
     default:
         display.error(`Invalid arguments.`)

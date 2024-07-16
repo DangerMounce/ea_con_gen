@@ -177,7 +177,7 @@ export async function callContactTemplate() {
     } catch (err) {
         console.log('Error reading directory:', err)
     }
-    
+
     let callFile = callFiles[Math.floor(Math.random() * callFiles.length)]
     callTemplate.data.metadata.Filename = await fileNameOnly(callFile)
     callTemplate.data.audio_file_path = await evaluagent.uploadAudio(callFile)
@@ -241,11 +241,11 @@ async function csvContactTemplate(agents, data, mData) {
     if (mData.length > 0) {
         const metadata = mData[0]; //
         for (const key in metadata) {
-          if (metadata.hasOwnProperty(key)) {
-            chatTemplate.data.metadata[key] = metadata[key];
-          }
+            if (metadata.hasOwnProperty(key)) {
+                chatTemplate.data.metadata[key] = metadata[key];
+            }
         }
-      }
+    }
 
     // Gives the Agent Responses in the meta data
     const agentResponsesCount = chatTemplate.data.responses.filter(response => !response.speaker_is_customer).length;
@@ -270,13 +270,13 @@ async function callFromImport(callFile, metaData) {
     callTemplate.data.audio_file_path = await evaluagent.uploadAudio(callFile)
     callTemplate.data.handling_time = await getMP3Duration(callFile)
     if (metaData.length > 0) {
-        const metadataForCall = metaData[0]; 
+        const metadataForCall = metaData[0];
         for (const key in metadataForCall) {
-          if (metadataForCall.hasOwnProperty(key)) {
-            callTemplate.data.metadata[key] = metadataForCall[key];
-          }
+            if (metadataForCall.hasOwnProperty(key)) {
+                callTemplate.data.metadata[key] = metadataForCall[key];
+            }
         }
-      }
+    }
     return callTemplate
 }
 
@@ -286,8 +286,10 @@ async function newChat() {
     const fsPromises = fs.promises;
     const agentNumber = Math.floor(Math.random() * agents.length)
     chatTemplate.data.reference = await generateUuid()
-    chatTemplate.data.agent_id = agents[agentNumber].agent_id
-    chatTemplate.data.agent_email = agents[agentNumber].email
+    if (!ai.save) {
+        chatTemplate.data.agent_id = agents[agentNumber].agent_id
+        chatTemplate.data.agent_email = agents[agentNumber].email
+    }
     chatTemplate.data.contact_date = getDate()
     chatTemplate.data.channel = "Chat"
     chatTemplate.data.assigned_at = getDate()
@@ -312,25 +314,32 @@ async function newCall() {
     const audioToBeUploaded = await aiCall.generateAudio(conversation);
     const agentNumber = Math.floor(Math.random() * agents.length);
     callTemplate.data.reference = await generateUuid();
-    callTemplate.data.agent_id = agents[agentNumber].agent_id;
-    callTemplate.data.agent_email = agents[agentNumber].email;
+    if (!ai.save) {
+        callTemplate.data.agent_id = agents[agentNumber].agent_id;
+        callTemplate.data.agent_email = agents[agentNumber].email;
+    }
     callTemplate.data.contact_date = getDate();
     callTemplate.data.channel = "Call";
     callTemplate.data.assigned_at = getDate();
     callTemplate.data.solved_at = getDate();
     callTemplate.data.channel = "Telephony";
 
+    if (!ai.save) {
+        const callFile = `./calls/${audioToBeUploaded}`;
+        const duration = await getMP3Duration(callFile);
 
-    const callFile = `./calls/${audioToBeUploaded}`;
-    const duration = await getMP3Duration(callFile);
-    if (duration) {
-        let logEntry = {
-            "audio length": duration
-        };
+        if (duration) {
+            let logEntry = {
+                "audio length": duration
+            };
+        }
     }
     callTemplate.data.metadata.Filename = "Auto Gen";
-    callTemplate.data.audio_file_path = await evaluagent.uploadAudio(callFile);
+    if (!ai.save) {
+        callTemplate.data.audio_file_path = await evaluagent.uploadAudio(callFile);
+    
     callTemplate.data.handling_time = await getMP3Duration(callFile)  // Math.floor(Math.random() * (200 - 100 + 1)) + 100;
+    }
     return callTemplate;
 }
 
