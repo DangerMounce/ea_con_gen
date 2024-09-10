@@ -103,7 +103,7 @@ switch (instruction.main) {
             console.clear()
             display.connectingToEndPoint()
             let filteredAgentList = await evaluagent.getAgents()
-            evaluagent.agentList = filteredAgentList
+            evaluagent.agentList = filteredAgentList 
             display.stopAnimation()
             instruction.importSource = await menu.importContactType()
             if (instruction.importSource === 'Calls') {

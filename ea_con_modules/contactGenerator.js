@@ -181,7 +181,7 @@ export async function callContactTemplate() {
     let callFile = callFiles[Math.floor(Math.random() * callFiles.length)]
     callTemplate.data.metadata.Filename = await fileNameOnly(callFile)
     callTemplate.data.audio_file_path = await evaluagent.uploadAudio(callFile)
-    callTemplate.data.handling_time = await getMP3Duration(callFile)
+    callTemplate.data.handling_time = Math.floor(Math.random() * (200 - 100 + 1)) + 100; // await getMP3Duration(callFile) 
     return callTemplate
 }
 
@@ -268,7 +268,7 @@ async function callFromImport(callFile, metaData) {
     callTemplate.data.channel = "Telephony"
     callTemplate.data.metadata.Filename = await fileNameOnly(callFile)
     callTemplate.data.audio_file_path = await evaluagent.uploadAudio(callFile)
-    callTemplate.data.handling_time = await getMP3Duration(callFile)
+    callTemplate.data.handling_time = Math.floor(Math.random() * (200 - 100 + 1)) + 100; // await getMP3Duration(callFile) 
     if (metaData.length > 0) {
         const metadataForCall = metaData[0];
         for (const key in metadataForCall) {
@@ -338,7 +338,7 @@ async function newCall() {
     if (!ai.save) {
         callTemplate.data.audio_file_path = await evaluagent.uploadAudio(callFile);
     
-    callTemplate.data.handling_time = await getMP3Duration(callFile)  // Math.floor(Math.random() * (200 - 100 + 1)) + 100;
+    callTemplate.data.handling_time = Math.floor(Math.random() * (200 - 100 + 1)) + 100; // await getMP3Duration(callFile) 
     }
     return callTemplate;
 }

@@ -152,6 +152,7 @@ async function sendContacts(number) {
         } catch (error) {
             console.error(`There was a problem with the audio upload for `, chalk.bold.white(audioSelection), ' : ', chalk.bold.red(error.message))
             console.log(chalk.bold.red('Aborting job to prevent blank call uploads'))
+            console.log(error)
             process.exit()
         }
     }
@@ -220,10 +221,11 @@ async function sendContacts(number) {
                 // Append server response on the same line
                 console.log(chalk.bold.green(serverResponse));
             } else {
-                await debug.writeToLog(result)
+                // await debug.writeToLog(result)
                 let serverResponse = result.errors[0].title;
                 // Append error response on the same line
                 console.log(chalk.bold.red(serverResponse));
+                console.log(result.errors)
             }
             console.log('\n' + chalk.bold.green(`Job complete.`));
         } catch (error) {

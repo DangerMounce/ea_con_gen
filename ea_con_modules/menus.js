@@ -162,12 +162,12 @@ async function importContactType() {
                     {
                         name: `Calls`,
                         value: 'Calls',
-                        disabled: !importedCallsAvailable ? chalk.bold.red('X') : false
+                        // disabled: !importedCallsAvailable ? chalk.bold.red('X') : false
                     },
                     {
                         name: `Tickets`,
                         value: 'Tickets',
-                        disabled: !importedTicketsAvailable ? chalk.bold.red('X') : false
+                        // disabled: !importedTicketsAvailable ? chalk.bold.red('X') : false
                     },
                     {
                         name: chalk.green('Exit'),
