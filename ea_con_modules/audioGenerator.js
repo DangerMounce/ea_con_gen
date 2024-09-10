@@ -1,47 +1,24 @@
 import fs from "fs";
 import path from "path";
-import OpenAI from "openai";
-import dotenv from "dotenv";
+import { ai } from "./AiContacts.js";
 import { fileURLToPath } from 'url';
 import ffmpeg from 'fluent-ffmpeg';
 import chalk from 'chalk'
 import ffmpegPath from 'ffmpeg-static';
 import ffprobePath from 'ffprobe-static';
-import { generateUuid } from './utils.js';
-import { writeLog, clearLog } from "./generate_log.js";
+import { generateUuid } from "./contactGenerator.js";
+import { display } from "./display.js";
 
+process.removeAllListeners('warning');
 // Get the current file's directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectDir = path.join(__dirname, '..'); // Move up to the project root
 const callsDir = path.join(projectDir, 'calls');
-const repoRoot = path.resolve(__dirname, '..', '..');
 
 
 
 
-function talkingChatting () {
-  const talkingChatting = ["chatting", "talking", "yapping", "blah-blahing"]
-  let rand = Math.floor(Math.random() * 2)
-  return talkingChatting[rand]
-}
-
-function agentCustomer () {
-  const agentCustomer = ["AGENT", "CUSTOMER"]
-  let rand = Math.floor(Math.random() * 2)
-  return agentCustomer[rand]
-}
-
-// Log the path of the .env file being loaded
-// console.log(`Loading .env from: ${path.join('.env')}`);
-
-// Load environment variables from the .env file in the repo root
-dotenv.config({ path: path.join('.env') });
-
-// Initialize OpenAI client
-const openAIClient = new OpenAI({
-  apiKey: process.env['OPENAI_API_KEY'] // Ensure this is the correct key in your .env file
-});
 
 const audioFileOutput = await generateAudioFilename()
 const outputDir = path.join(__dirname, 'audio_output'); // audio_output directory in ea_con_gen/modules/
@@ -62,15 +39,13 @@ async function generateAudioFilename() {
 
 async function generateSpeech(message, voice, speaker, index) {
   const speechFile = path.join(outputDir, `${index}_${speaker}.mp3`);
-  const mp3 = await openAIClient.audio.speech.create({
+  const mp3 = await ai.openAIClient.audio.speech.create({
     model: "tts-1",
     voice: voice,
     input: message,
   });
   const buffer = Buffer.from(await mp3.arrayBuffer());
   await fs.promises.writeFile(speechFile, buffer);
-  console.log(chalk.bold.yellow('💬'), agentCustomer(), talkingChatting())
-  writeLog([`Generated speech for message ${index}: ${speechFile}`]);
 }
 
 async function processMessages(data) {
@@ -101,12 +76,11 @@ async function concatenateAudioFiles(fileList, outputFile) {
       .outputOptions('-c', 'copy')
       .on('end', () => {
         fs.unlinkSync(inputListFile);
-        console.log(chalk.bold.yellow('Call generated.'))
+        display.stopAnimation()
         resolve();
       })
       .on('error', (err) => {
         fs.unlinkSync(inputListFile);
-        writeLog({"concatenate" : err})
         reject(err);
       })
       .save(outputFile);
@@ -137,7 +111,7 @@ async function processAndConcatenateAudio(audioFileOutput) {
   // Get all mp3 files from the input directory
   const audioFiles = fs.readdirSync(inputDir).filter(file => file.endsWith('.mp3'));
 
-  // Process and categorize files
+  // Process and categorize files  
   const processedFiles = [];
   let filesProcessed = 0;
 
@@ -172,7 +146,6 @@ async function processAndConcatenateAudio(audioFileOutput) {
     processedFiles.sort((a, b) => a.order - b.order);
     const sortedFilePaths = processedFiles.map(item => item.file);
     await concatenateAudioFiles(sortedFilePaths, finalOutputFilePath);
-
     await deleteFilesInDirectory(inputDir);
     await deleteFilesInDirectory(outputDir);
   }
@@ -190,12 +163,10 @@ function audioToLeftChannel(inputFile, outputFile, callback) {
     ])
     .outputOptions('-map', '[a]')
     .on('end', () => {
-      console.log(chalk.bold.yellow('💬'), agentCustomer(), talkingChatting())
       callback();
     })
     .on('error', (err) => {
       console.error('Error:', err.message);
-      writeLog({"audioLeftChannel" : err})
       callback(err);
     })
     .save(outputFile);
@@ -213,31 +184,29 @@ function audioToRightChannel(inputFile, outputFile, callback) {
     ])
     .outputOptions('-map', '[a]')
     .on('end', () => {
-      console.log(chalk.bold.yellow('💬'), agentCustomer(), talkingChatting())
       callback();
     })
     .on('error', (err) => {
       console.error('An error occurred: ' + err.message);
-      writeLog({"audioRightChannel" : err})
       callback(err);
     })
     .save(outputFile);
 }
 
 // Generate audio files based on conversation data
-export async function generateAudio(data) {
-  writeLog("==> Data for audio generation:")
-  writeLog(data)
+async function generateAudio(data) {
   try {
     await processMessages(data);
     const audioFileOutput = await generateAudioFilename();
     await processAndConcatenateAudio(audioFileOutput);
     console.log(chalk.bold.yellow(audioFileOutput))
-    writeLog(`==> Audio file generated: ${audioFileOutput}`)
     return audioFileOutput;
   } catch (error) {
     console.error('Error during audio generation process:', error);
-    writeLog({"genereateAudio" : error})
     throw error;
   }
+}
+
+export const aiCall = {
+    generateAudio
 }
